@@ -1,0 +1,77 @@
+{
+  "id": "claude-book-bed",
+  "name": "Clawd 书页床",
+  "version": 1,
+  "order": 24,
+  "size": [
+    360,
+    300
+  ],
+  "anchor": "bottom-right",
+  "defaultEnabled": false,
+  "floorY": 288,
+  "stand": {
+    "left": -42,
+    "right": 402
+  },
+  "idle": "empty",
+  "states": {
+    "empty": {
+      "frames": [
+        "sprites/empty_00.png"
+      ],
+      "durationsMs": [
+        1000
+      ]
+    },
+    "occupied": {
+      "frames": [
+        "sprites/occupied_00.png",
+        "sprites/occupied_01.png"
+      ],
+      "durationsMs": [
+        900,
+        700
+      ]
+    }
+  },
+  "interactions": [
+    {
+      "verb": "sleep",
+      "say": "去书页床睡觉",
+      "hint": "用户说困了、晚安或去书页床睡觉时用",
+      "mode": "inside",
+      "state": "occupied",
+      "occupant": {
+        "pose": "curl-sleep",
+        "fallback": [
+          "lie"
+        ],
+        "anchor": [
+          146,
+          238
+        ],
+        "area": [
+          42,
+          100,
+          250,
+          238
+        ],
+        "clipY": 236,
+        "drawnFor": [
+          "orange-book-girl",
+          "claude-girl"
+        ]
+      },
+      "enterPose": "jumping",
+      "done": "{name}抱着书睡下了。"
+    },
+    {
+      "verb": "wake",
+      "say": "起床",
+      "hint": "用户叫{name}醒来或从床上起来时用",
+      "mode": "exit",
+      "done": "{name}从书页床上起来了。"
+    }
+  ]
+}

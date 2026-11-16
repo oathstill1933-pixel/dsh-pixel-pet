@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pet-listen-card</title>
+<link rel="stylesheet" href="card.css">
+</head>
+<body>
+<button class="mini" id="mini" aria-label="展开"><span class="rec"><img id="miniLabel" alt=""></span></button>
+
+<main class="card" id="card">
+  <button class="x" id="bClose" aria-label="关闭"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7 7 17"/></svg></button>
+  <div class="glow" id="glow"></div>
+  <section class="stage">
+    <div class="disc" id="disc"><img id="discLabel" alt=""></div>
+    <img class="cover" id="cover" alt="">
+    <div class="meta"><b id="title"></b><span id="artist"></span></div>
+  </section>
+
+  <section class="ctl">
+    <div class="main">
+      <button id="bPrev" aria-label="上一首"><svg viewBox="0 0 24 24"><path class="f" d="M18 6v12l-8.5-6z"/><path d="M7 6v12"/></svg></button>
+      <button class="play" id="bToggle" aria-label="播放/暂停"><svg viewBox="0 0 24 24"><path class="f i-pause" d="M8 6h2.8v12H8zM13.2 6H16v12h-2.8z"/><path class="f i-play" d="M9 6.2v11.6L18 12z"/></svg></button>
+      <button id="bNext" aria-label="下一首"><svg viewBox="0 0 24 24"><path class="f" d="M6 6v12l8.5-6z"/><path d="M17 6v12"/></svg></button>
+    </div>
+    <div class="side">
+      <button id="bVol" aria-label="音量"><svg viewBox="0 0 24 24"><path class="f" d="M4 9.5h3.2L11.5 6v12l-4.3-3.5H4z"/><path d="M15 9.2a4 4 0 0 1 0 5.6M17.6 6.8a7.4 7.4 0 0 1 0 10.4"/></svg></button>
+      <button id="bList" aria-label="播放列表"><svg viewBox="0 0 24 24"><path d="M4 7h11M4 12h11M4 17h7"/><circle class="f" cx="17.5" cy="17" r="2"/><path d="M19.5 17V9l1.8.7"/></svg></button>
+      <button id="bMode" aria-label="循环模式"><svg viewBox="0 0 24 24"><g class="m-list"><path d="M5 10V9a2 2 0 0 1 2-2h11M15.5 4.5 18 7l-2.5 2.5M19 14v1a2 2 0 0 1-2 2H6M8.5 19.5 6 17l2.5-2.5"/></g><g class="m-one"><path d="M5 10V9a2 2 0 0 1 2-2h11M15.5 4.5 18 7l-2.5 2.5M19 14v1a2 2 0 0 1-2 2H6M8.5 19.5 6 17l2.5-2.5"/><path d="M11.2 10.6 12.4 10v4.2"/></g><g class="m-shuffle"><path d="M4 7h3.5c4.5 0 4.5 10 9 10H20M17.5 14.5 20 17l-2.5 2.5M4 17h3.5c1.4 0 2.3-1 3-2.3M13.5 9.3c.7-1.3 1.6-2.3 3-2.3H20M17.5 4.5 20 7l-2.5 2.5"/></g></svg></button>
+    </div>
+    <div class="pop vol" id="volPop" hidden><input type="range" id="vol" min="0" max="100" step="1" aria-label="音量"></div>
+    <div class="pop list" id="listPop" hidden><ol id="queue"></ol></div>
+  </section>
+
+  <section class="wave" id="wave"></section>
+  <div class="times"><span id="tPos">0:00</span><span id="tDur"></span></div>
+
+  <section class="lyrics" id="lyrics"><div class="track" id="track"></div></section>
+</main>
+<script src="card.js"></script>
+</body>
+</html>

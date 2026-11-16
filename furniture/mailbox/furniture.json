@@ -1,0 +1,31 @@
+{
+  "id": "mailbox",
+  "name": "邮筒",
+  "version": 1,
+  "order": 20,
+  "size": [144, 168],
+  "anchor": "bottom-left",
+  "defaultEnabled": true,
+  "floorY": 164,
+  "stand": { "left": -34, "right": 172 },
+  "idle": "idle",
+  "feature": "mailbox",
+  "mailbox": { "flagState": "flag", "openState": "open", "verb": "check", "autoWave": true },
+  "states": {
+    "idle": { "frames": ["sprites/idle_00.png"], "durationsMs": [1000] },
+    "flag": { "frames": ["sprites/flag_00.png", "sprites/flag_01.png"], "durationsMs": [1400, 260] },
+    "open": { "frames": ["sprites/open_00.png", "sprites/open_01.png"], "durationsMs": [420, 420] }
+  },
+  "interactions": [
+    {
+      "verb": "check",
+      "mode": "beside",
+      "pose": "waving",
+      "holdMs": 3000,
+      "furnitureState": "open",
+      "done": "到邮筒旁边招了招手。",
+      "say": "去看看信箱",
+      "hint": "用户问有没有新信、让桌宠去看看邮筒时用；有新信时桌宠也会自己跑过去"
+    }
+  ]
+}

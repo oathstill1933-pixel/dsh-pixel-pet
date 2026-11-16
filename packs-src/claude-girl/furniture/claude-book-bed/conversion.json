@@ -1,0 +1,32 @@
+{
+  "canvas": [
+    360,
+    300
+  ],
+  "logicalGrid": [
+    180,
+    150
+  ],
+  "floorY": 288,
+  "alphaValues": [
+    0,
+    255
+  ],
+  "frames": [
+    "sprites/empty_00.png",
+    "sprites/occupied_00.png",
+    "sprites/occupied_01.png"
+  ],
+  "sourceCrop": [
+    18,
+    165,
+    1356,
+    1024
+  ],
+  "sleepCrop": [
+    181,
+    722,
+    1355,
+    1488
+  ]
+}

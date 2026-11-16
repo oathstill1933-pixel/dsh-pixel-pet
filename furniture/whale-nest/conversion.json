@@ -1,0 +1,37 @@
+{
+  "canvas": [
+    360,
+    300
+  ],
+  "logicalScale": 2,
+  "alpha": "binary 0/255",
+  "paletteReduced": false,
+  "sourceCrop": [
+    22,
+    172,
+    1171,
+    1181
+  ],
+  "logicalArtSize": [
+    157,
+    138
+  ],
+  "logicalOffset": [
+    11,
+    6
+  ],
+  "states": [
+    "empty",
+    "occupied"
+  ],
+  "sourceCanvases": {
+    "empty": [
+      1254,
+      1254
+    ],
+    "occupied": [
+      1254,
+      1254
+    ]
+  }
+}

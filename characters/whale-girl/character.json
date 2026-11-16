@@ -1,0 +1,594 @@
+{
+  "id": "whale-girl",
+  "name": "鲸鱼娘",
+  "demo": false,
+  "canvas": [
+    192,
+    208
+  ],
+  "logicalScale": 2,
+  "displayScale": 1.2,
+  "states": {
+    "idle": {
+      "label": "待机",
+      "frames": [
+        "sprites/idle_00.png",
+        "sprites/idle_01.png",
+        "sprites/idle_02.png",
+        "sprites/idle_03.png",
+        "sprites/idle_04.png",
+        "sprites/idle_05.png"
+      ],
+      "durationsMs": [
+        420,
+        300,
+        300,
+        380,
+        110,
+        380
+      ],
+      "loop": true
+    },
+    "walk-left": {
+      "label": "向左走",
+      "frames": [
+        "sprites/walk-left_00.png",
+        "sprites/walk-left_01.png",
+        "sprites/walk-left_02.png",
+        "sprites/walk-left_03.png"
+      ],
+      "durationsMs": [
+        160,
+        160,
+        160,
+        160
+      ],
+      "loop": true
+    },
+    "walk-right": {
+      "label": "向右走",
+      "frames": [
+        "sprites/walk-right_00.png",
+        "sprites/walk-right_01.png",
+        "sprites/walk-right_02.png",
+        "sprites/walk-right_03.png"
+      ],
+      "durationsMs": [
+        160,
+        160,
+        160,
+        160
+      ],
+      "loop": true
+    },
+    "waving": {
+      "label": "挥手",
+      "frames": [
+        "sprites/waving_00.png",
+        "sprites/waving_01.png",
+        "sprites/waving_02.png",
+        "sprites/waving_03.png"
+      ],
+      "durationsMs": [
+        150,
+        150,
+        150,
+        260
+      ],
+      "loop": true
+    },
+    "jumping": {
+      "label": "跳跃",
+      "frames": [
+        "sprites/jumping_00.png",
+        "sprites/jumping_01.png",
+        "sprites/jumping_02.png",
+        "sprites/jumping_03.png",
+        "sprites/jumping_04.png",
+        "sprites/jumping_05.png"
+      ],
+      "durationsMs": [
+        120,
+        110,
+        200,
+        110,
+        160,
+        500
+      ],
+      "loop": false
+    },
+    "failed": {
+      "label": "服务器繁忙",
+      "frames": [
+        "sprites/failed_00.png",
+        "sprites/failed_01.png",
+        "sprites/failed_02.png",
+        "sprites/failed_03.png"
+      ],
+      "durationsMs": [
+        330,
+        330,
+        330,
+        330
+      ],
+      "loop": true
+    },
+    "waiting": {
+      "label": "等待",
+      "frames": [
+        "sprites/waiting_00.png",
+        "sprites/waiting_01.png",
+        "sprites/waiting_02.png",
+        "sprites/waiting_03.png"
+      ],
+      "durationsMs": [
+        250,
+        250,
+        250,
+        250
+      ],
+      "loop": true
+    },
+    "running": {
+      "label": "工作中",
+      "frames": [
+        "sprites/running_00.png",
+        "sprites/running_01.png",
+        "sprites/running_02.png",
+        "sprites/running_03.png",
+        "sprites/running_04.png",
+        "sprites/running_05.png"
+      ],
+      "durationsMs": [
+        170,
+        170,
+        170,
+        170,
+        170,
+        260
+      ],
+      "loop": true
+    },
+    "review": {
+      "label": "审阅",
+      "frames": [
+        "sprites/review_00.png",
+        "sprites/review_01.png",
+        "sprites/review_02.png",
+        "sprites/review_03.png",
+        "sprites/review_04.png",
+        "sprites/review_05.png",
+        "sprites/review_06.png",
+        "sprites/review_07.png"
+      ],
+      "durationsMs": [
+        170,
+        170,
+        170,
+        170,
+        170,
+        170,
+        170,
+        600
+      ],
+      "loop": false
+    },
+    "lie": {
+      "label": "趴下",
+      "frames": [
+        "sprites/lie_00.png",
+        "sprites/lie_01.png",
+        "sprites/lie_02.png",
+        "sprites/lie_03.png"
+      ],
+      "durationsMs": [
+        500,
+        500,
+        500,
+        500
+      ],
+      "loop": true
+    },
+    "listening": {
+      "label": "倾听说话",
+      "frames": [
+        "sprites/listening_00.png",
+        "sprites/listening_01.png",
+        "sprites/listening_02.png",
+        "sprites/listening_03.png"
+      ],
+      "durationsMs": [
+        220,
+        220,
+        220,
+        220
+      ],
+      "loop": true
+    },
+    "attentive": {
+      "label": "注意",
+      "frames": [
+        "sprites/attentive_00.png",
+        "sprites/attentive_01.png"
+      ],
+      "durationsMs": [
+        800,
+        500
+      ],
+      "loop": true
+    },
+    "curl-sleep": {
+      "label": "卷尾睡觉",
+      "frames": [
+        "sprites/curl-sleep_00.png",
+        "sprites/curl-sleep_01.png"
+      ],
+      "durationsMs": [
+        700,
+        600
+      ],
+      "loop": true
+    },
+    "mood-happy": {
+      "label": "开心",
+      "frames": [
+        "sprites/mood-happy_00.png",
+        "sprites/mood-happy_01.png",
+        "sprites/mood-happy_02.png",
+        "sprites/mood-happy_03.png"
+      ],
+      "durationsMs": [
+        170,
+        170,
+        170,
+        260
+      ],
+      "loop": true
+    },
+    "mood-surprised": {
+      "label": "惊讶",
+      "frames": [
+        "sprites/mood-surprised_00.png",
+        "sprites/mood-surprised_01.png",
+        "sprites/mood-surprised_02.png",
+        "sprites/mood-surprised_03.png"
+      ],
+      "durationsMs": [
+        120,
+        160,
+        160,
+        400
+      ],
+      "loop": true
+    },
+    "mood-confused": {
+      "label": "疑惑",
+      "frames": [
+        "sprites/mood-confused_00.png",
+        "sprites/mood-confused_01.png",
+        "sprites/mood-confused_02.png",
+        "sprites/mood-confused_03.png"
+      ],
+      "durationsMs": [
+        260,
+        200,
+        200,
+        260
+      ],
+      "loop": true
+    },
+    "mood-thinking": {
+      "label": "思考",
+      "frames": [
+        "sprites/mood-thinking_00.png",
+        "sprites/mood-thinking_01.png",
+        "sprites/mood-thinking_02.png",
+        "sprites/mood-thinking_03.png"
+      ],
+      "durationsMs": [
+        360,
+        360,
+        360,
+        600
+      ],
+      "loop": true
+    },
+    "mood-sleepy": {
+      "label": "困",
+      "frames": [
+        "sprites/mood-sleepy_00.png",
+        "sprites/mood-sleepy_01.png",
+        "sprites/mood-sleepy_02.png",
+        "sprites/mood-sleepy_03.png"
+      ],
+      "durationsMs": [
+        420,
+        300,
+        520,
+        420
+      ],
+      "loop": true
+    },
+    "mood-sad": {
+      "label": "委屈",
+      "frames": [
+        "sprites/mood-sad_00.png",
+        "sprites/mood-sad_01.png",
+        "sprites/mood-sad_02.png",
+        "sprites/mood-sad_03.png"
+      ],
+      "durationsMs": [
+        300,
+        240,
+        240,
+        420
+      ],
+      "loop": true
+    },
+    "speaking": {
+      "label": "说话",
+      "frames": [
+        "sprites/speaking_00.png",
+        "sprites/speaking_01.png",
+        "sprites/speaking_02.png",
+        "sprites/speaking_03.png"
+      ],
+      "durationsMs": [
+        110,
+        100,
+        140,
+        100
+      ],
+      "loop": true
+    },
+    "drag-left": {
+      "label": "向左拖拽",
+      "frames": [
+        "sprites/drag-left_00.png",
+        "sprites/drag-left_01.png",
+        "sprites/drag-left_02.png",
+        "sprites/drag-left_03.png"
+      ],
+      "durationsMs": [
+        130,
+        130,
+        130,
+        130
+      ],
+      "loop": true
+    },
+    "drag-right": {
+      "label": "向右拖拽",
+      "frames": [
+        "sprites/drag-right_00.png",
+        "sprites/drag-right_01.png",
+        "sprites/drag-right_02.png",
+        "sprites/drag-right_03.png"
+      ],
+      "durationsMs": [
+        130,
+        130,
+        130,
+        130
+      ],
+      "loop": true
+    },
+    "mood-oops": {
+      "label": "闯祸了",
+      "frames": [
+        "sprites/mood-oops_00.png",
+        "sprites/mood-oops_01.png",
+        "sprites/mood-oops_02.png",
+        "sprites/mood-oops_03.png"
+      ],
+      "durationsMs": [
+        240,
+        200,
+        240,
+        400
+      ],
+      "loop": true
+    },
+    "headphones-music": {
+      "label": "戴耳机听歌",
+      "frames": [
+        "sprites/headphones-music_00.png",
+        "sprites/headphones-music_01.png",
+        "sprites/headphones-music_02.png",
+        "sprites/headphones-music_03.png",
+        "sprites/headphones-music_04.png",
+        "sprites/headphones-music_05.png",
+        "sprites/headphones-music_06.png",
+        "sprites/headphones-music_07.png",
+        "sprites/headphones-music_08.png",
+        "sprites/headphones-music_09.png",
+        "sprites/headphones-music_10.png",
+        "sprites/headphones-music_11.png",
+        "sprites/headphones-music_12.png",
+        "sprites/headphones-music_13.png",
+        "sprites/headphones-music_14.png",
+        "sprites/headphones-music_15.png",
+        "sprites/headphones-music_16.png",
+        "sprites/headphones-music_17.png",
+        "sprites/headphones-music_18.png",
+        "sprites/headphones-music_19.png",
+        "sprites/headphones-music_20.png",
+        "sprites/headphones-music_21.png",
+        "sprites/headphones-music_22.png",
+        "sprites/headphones-music_23.png"
+      ],
+      "durationsMs": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "loop": true,
+      "role": "music-listening",
+      "requires": {
+        "feature": "listen"
+      }
+    },
+    "headphones-idle": {
+      "label": "戴耳机待机",
+      "frames": [
+        "sprites/headphones-idle_00.png",
+        "sprites/headphones-idle_01.png",
+        "sprites/headphones-idle_02.png",
+        "sprites/headphones-idle_03.png",
+        "sprites/headphones-idle_04.png",
+        "sprites/headphones-idle_05.png",
+        "sprites/headphones-idle_06.png",
+        "sprites/headphones-idle_07.png"
+      ],
+      "durationsMs": [
+        460,
+        240,
+        240,
+        230,
+        320,
+        100,
+        300,
+        220
+      ],
+      "loop": true,
+      "role": "music-idle",
+      "requires": {
+        "feature": "listen"
+      }
+    },
+    "headphones-speaking": {
+      "label": "戴耳机说话",
+      "frames": [
+        "sprites/headphones-speaking_00.png",
+        "sprites/headphones-speaking_01.png",
+        "sprites/headphones-speaking_02.png",
+        "sprites/headphones-speaking_03.png",
+        "sprites/headphones-speaking_04.png",
+        "sprites/headphones-speaking_05.png",
+        "sprites/headphones-speaking_06.png",
+        "sprites/headphones-speaking_07.png"
+      ],
+      "durationsMs": [
+        110,
+        90,
+        120,
+        100,
+        80,
+        150,
+        110,
+        80
+      ],
+      "loop": true,
+      "role": "music-speaking",
+      "requires": {
+        "feature": "listen"
+      }
+    }
+  },
+  "aliases": {
+    "working": "running",
+    "done": "review",
+    "alert": "failed",
+    "poke": "jumping"
+  },
+  "moods": {
+    "开心": "mood-happy",
+    "惊讶": "mood-surprised",
+    "疑惑": "mood-confused",
+    "思考": "mood-thinking",
+    "困": "mood-sleepy",
+    "委屈": "mood-sad",
+    "闯祸": "mood-oops"
+  },
+  "lookDirections": [
+    {
+      "frame": "sprites/look_00.png",
+      "degrees": 0.0
+    },
+    {
+      "frame": "sprites/look_01.png",
+      "degrees": 22.5
+    },
+    {
+      "frame": "sprites/look_02.png",
+      "degrees": 45.0
+    },
+    {
+      "frame": "sprites/look_03.png",
+      "degrees": 67.5
+    },
+    {
+      "frame": "sprites/look_04.png",
+      "degrees": 90.0
+    },
+    {
+      "frame": "sprites/look_05.png",
+      "degrees": 112.5
+    },
+    {
+      "frame": "sprites/look_06.png",
+      "degrees": 135.0
+    },
+    {
+      "frame": "sprites/look_07.png",
+      "degrees": 157.5
+    },
+    {
+      "frame": "sprites/look_08.png",
+      "degrees": 180.0
+    },
+    {
+      "frame": "sprites/look_09.png",
+      "degrees": 202.5
+    },
+    {
+      "frame": "sprites/look_10.png",
+      "degrees": 225.0
+    },
+    {
+      "frame": "sprites/look_11.png",
+      "degrees": 247.5
+    },
+    {
+      "frame": "sprites/look_12.png",
+      "degrees": 270.0
+    },
+    {
+      "frame": "sprites/look_13.png",
+      "degrees": 292.5
+    },
+    {
+      "frame": "sprites/look_14.png",
+      "degrees": 315.0
+    },
+    {
+      "frame": "sprites/look_15.png",
+      "degrees": 337.5
+    }
+  ],
+  "art": {
+    "license": "CC-BY-NC-SA-4.0",
+    "credits": "CREDITS.md"
+  }
+}

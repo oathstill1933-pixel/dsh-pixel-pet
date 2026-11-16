@@ -1,0 +1,82 @@
+{
+  "name": "dsh-pixel-pet",
+  "version": "0.1.0",
+  "description": "Pixel desktop pet for DeepSeek Harness: walks on the desktop, takes AI commands, uses furniture, talks through a chosen DSH session. Pluggable character and furniture packs.",
+  "license": "MIT",
+  "author": "dsh-pixel-pet contributors",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oathstill1933-pixel/dsh-pixel-pet.git"
+  },
+  "homepage": "https://github.com/oathstill1933-pixel/dsh-pixel-pet#readme",
+  "bugs": {
+    "url": "https://github.com/oathstill1933-pixel/dsh-pixel-pet/issues"
+  },
+  "type": "module",
+  "main": "lib/host.js",
+  "icon": "./assets/icon.png",
+  "exports": {
+    ".": "./lib/host.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "web",
+    "assets",
+    "prompts",
+    "runtime",
+    "vendor",
+    "characters/whale-girl",
+    "furniture/_template",
+    "furniture/bookshelf",
+    "furniture/desk-calendar",
+    "furniture/mailbox",
+    "furniture/whale-nest",
+    "contracts",
+    "docs",
+    "examples",
+    "cordis.patch.yml",
+    "README.md",
+    "CHANGELOG.md",
+    "THIRD_PARTY_NOTICES.md",
+    "LICENSE",
+    "!**/*.bak",
+    "!**/*.bak-*",
+    "!**/*.bak.*",
+    "!**/bak-*",
+    "!**/*_bak-*",
+    "!**/__pycache__",
+    "!**/*.pyc",
+    "!contracts/fixtures",
+    "!characters/whale-girl/tools/source/**/*.png",
+    "!characters/whale-girl/tools/source/**/*.gif",
+    "!**/voices",
+    "!**/recordings",
+    "!**/voiceprint",
+    "!**/voiceprints"
+  ],
+  "engines": {
+    "dsh": "^0.2.0-rc.1"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh-plugin",
+    "desktop-pet",
+    "pixel-art"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.mjs"
+  }
+}

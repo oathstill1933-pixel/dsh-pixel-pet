@@ -1,0 +1,11 @@
+{
+  "id": "petdev.dshbound",
+  "version": "1.0.0",
+  "name": "越权声明",
+  "manifestVersion": 1,
+  "packApi": 1,
+  "license": "MIT",
+  "requires": {
+    "dsh": "^0.2.0"
+  }
+}

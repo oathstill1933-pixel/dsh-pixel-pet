@@ -1,0 +1,53 @@
+{
+ "id": "desk-calendar",
+ "name": "台历",
+ "version": 1,
+ "order": 31,
+ "size": [
+  96,
+  144
+ ],
+ "anchor": "bottom-right",
+ "defaultEnabled": false,
+ "floorY": 142,
+ "stand": {
+  "left": -36,
+  "right": 108
+ },
+ "idle": "idle",
+ "feature": "calendar",
+ "art": {
+  "license": "plugin-builtin",
+  "credits": "pixel-diary-table-v1（ImageGen，2026-11-15）"
+ },
+ "states": {
+  "idle": {
+   "frames": [
+    "sprites/idle_00.png"
+   ],
+   "durationsMs": [
+    1000
+   ]
+  },
+  "open": {
+   "frames": [
+    "sprites/open_00.png"
+   ],
+   "durationsMs": [
+    600
+   ]
+  }
+ },
+ "interactions": [
+  {
+   "verb": "open",
+   "mode": "beside",
+   "pose": "idle",
+   "holdMs": 4000,
+   "furnitureState": "open",
+   "done": "{name}凑近台历看了看。",
+   "say": "去看看日历",
+   "hint": "用户说想看日历、看日程、今天几号时用；要打开日历窗让用户点台历"
+  }
+ ]
+}

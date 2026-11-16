@@ -1,0 +1,92 @@
+{
+  "groundedFootWorldDriftPixels": {
+    "left": [
+      {
+        "foot": 0,
+        "contactFrameIndices": [
+          0,
+          1,
+          2
+        ],
+        "worldX": [
+          392,
+          392,
+          392
+        ],
+        "drift": 0
+      },
+      {
+        "foot": 1,
+        "contactFrameIndices": [
+          2,
+          3,
+          4
+        ],
+        "worldX": [
+          346,
+          346,
+          346
+        ],
+        "drift": 0
+      }
+    ],
+    "right": [
+      {
+        "foot": 0,
+        "contactFrameIndices": [
+          0,
+          1,
+          2
+        ],
+        "worldX": [
+          668,
+          668,
+          668
+        ],
+        "drift": 0
+      },
+      {
+        "foot": 1,
+        "contactFrameIndices": [
+          2,
+          3,
+          4
+        ],
+        "worldX": [
+          974,
+          974,
+          974
+        ],
+        "drift": 0
+      }
+    ]
+  },
+  "footFloorY": 1488,
+  "frameDurationMs": 160,
+  "rootMotionPerFrameRawPixels": 88,
+  "statesChanged": [
+    "walk-left",
+    "walk-right"
+  ],
+  "changedSourceFiles": [
+    "walk-left_00.png",
+    "walk-left_01.png",
+    "walk-left_02.png",
+    "walk-left_03.png",
+    "walk-right_00.png",
+    "walk-right_01.png",
+    "walk-right_02.png",
+    "walk-right_03.png"
+  ],
+  "unchangedOtherSourceFiles": 106,
+  "upperBodyChangedPixels": {
+    "walk-left_00.png": 0,
+    "walk-left_01.png": 0,
+    "walk-left_02.png": 0,
+    "walk-left_03.png": 0,
+    "walk-right_00.png": 0,
+    "walk-right_01.png": 0,
+    "walk-right_02.png": 0,
+    "walk-right_03.png": 0
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "鲸鱼娘",
+  "ref": "ref.wav",
+  "anchor": "anchor.json",
+  "mode": "icl",
+  "language": "chinese",
+  "text": "唔……你叫我呀？我刚刚在深度思考呢，才、才不是在睡觉。诶，要去干活了吗？可是我还没吃饭……能不能先来一碗米饭，就一碗！好啦好啦，交给我吧。还有，谁说我胖的？我这是圆润，是可爱！哼。啊……服务器有点繁忙，你等我一下下哦。",
+  "source": "由 Qwen3-TTS VoiceDesign（1.7B，Apache-2.0）按文字描述生成；参考台词与音色描述由维护者编写",
+  "license": "CC BY-NC-SA 4.0（见 ../LICENSE）"
+}

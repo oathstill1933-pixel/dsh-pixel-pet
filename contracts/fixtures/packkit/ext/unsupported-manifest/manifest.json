@@ -1,0 +1,8 @@
+{
+  "id": "petdev.future",
+  "version": "1.0.0",
+  "name": "未来格式",
+  "manifestVersion": 2,
+  "packApi": 1,
+  "license": "MIT"
+}

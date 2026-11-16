@@ -1,0 +1,125 @@
+{
+  "base": {
+    "name": "合成测试预设",
+    "mode": "icl",
+    "language": "chinese",
+    "text": "测试。",
+    "ref": "ref.wav",
+    "anchor": "anchor.json"
+  },
+  "cases": [
+    {
+      "label": "valid icl",
+      "code": null
+    },
+    {
+      "label": "valid zero shot",
+      "patch": {
+        "mode": "zero_shot",
+        "text": ""
+      },
+      "code": null
+    },
+    {
+      "label": "ref traversal",
+      "patch": {
+        "ref": "../a.mp3"
+      },
+      "code": "E_FIELD_INVALID"
+    },
+    {
+      "label": "ref subdirectory",
+      "patch": {
+        "ref": "a/b.mp3"
+      },
+      "code": "E_FIELD_INVALID"
+    },
+    {
+      "label": "ref backslash",
+      "patch": {
+        "ref": "a\\b.wav"
+      },
+      "code": "E_FIELD_INVALID"
+    },
+    {
+      "label": "ref filename newline",
+      "patch": {
+        "ref": "ref.wav\n"
+      },
+      "code": "E_FIELD_INVALID"
+    },
+    {
+      "label": "anchor traversal",
+      "patch": {
+        "anchor": "../anchor.json"
+      },
+      "code": "E_FIELD_INVALID"
+    },
+    {
+      "label": "missing ref",
+      "missing": "ref.wav",
+      "code": "E_FIELD_INVALID"
+    },
+    {
+      "label": "missing anchor",
+      "missing": "anchor.json",
+      "code": "E_FIELD_INVALID"
+    },
+    {
+      "label": "oversized ref",
+      "large": {
+        "file": "ref.wav",
+        "bytes": 8388609
+      },
+      "code": "E_FIELD_INVALID"
+    },
+    {
+      "label": "oversized anchor",
+      "large": {
+        "file": "anchor.json",
+        "bytes": 2097153
+      },
+      "code": "E_FIELD_INVALID"
+    },
+    {
+      "label": "empty icl text",
+      "patch": {
+        "text": ""
+      },
+      "code": "E_FIELD_INVALID"
+    },
+    {
+      "label": "unsupported mode",
+      "patch": {
+        "mode": "other"
+      },
+      "code": "E_FIELD_INVALID"
+    },
+    {
+      "label": "name too long",
+      "patch": {
+        "name": "声声声声声声声声声声声声声声声声声声声声声声声声声声声声声声声声声声声声声声声声声"
+      },
+      "code": "E_FIELD_INVALID"
+    },
+    {
+      "label": "text too long",
+      "patch": {
+        "text": "字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字"
+      },
+      "code": "E_FIELD_INVALID"
+    },
+    {
+      "label": "language type",
+      "patch": {
+        "language": 12
+      },
+      "code": "E_FIELD_INVALID"
+    },
+    {
+      "label": "invalid JSON",
+      "json": "{\"name\":NaN}",
+      "code": "E_FIELD_INVALID"
+    }
+  ]
+}

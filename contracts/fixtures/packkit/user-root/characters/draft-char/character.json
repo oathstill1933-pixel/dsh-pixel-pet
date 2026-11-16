@@ -1,0 +1,74 @@
+{
+  "id": "draft-char",
+  "name": "骨架包",
+  "demo": false,
+  "canvas": [
+    192,
+    208
+  ],
+  "logicalScale": 2,
+  "displayScale": 1.0,
+  "states": {
+    "idle": {
+      "label": "idle",
+      "frames": [],
+      "durationsMs": [],
+      "loop": true
+    },
+    "walk-left": {
+      "label": "walk-left",
+      "frames": [],
+      "durationsMs": [],
+      "loop": true
+    },
+    "walk-right": {
+      "label": "walk-right",
+      "frames": [],
+      "durationsMs": [],
+      "loop": true
+    },
+    "waving": {
+      "label": "waving",
+      "frames": [],
+      "durationsMs": [],
+      "loop": true
+    },
+    "jumping": {
+      "label": "jumping",
+      "frames": [],
+      "durationsMs": [],
+      "loop": true
+    },
+    "failed": {
+      "label": "failed",
+      "frames": [],
+      "durationsMs": [],
+      "loop": true
+    },
+    "waiting": {
+      "label": "waiting",
+      "frames": [],
+      "durationsMs": [],
+      "loop": true
+    },
+    "running": {
+      "label": "running",
+      "frames": [],
+      "durationsMs": [],
+      "loop": true
+    },
+    "review": {
+      "label": "review",
+      "frames": [],
+      "durationsMs": [],
+      "loop": true
+    },
+    "lie": {
+      "label": "lie",
+      "frames": [],
+      "durationsMs": [],
+      "loop": true
+    }
+  },
+  "draft": true
+}

@@ -1,0 +1,11 @@
+- ZipZipPipe 的 Claude 娘是流传较广的一支社区设定，视觉锚点包括橙发、放射花饰、橙黑米色礼服和书。社区常把她演绎成文静、博学的文学少女或大小姐。[作者作品](https://www.bilibili.com/video/BV1tE9XBbErS/) · [作者合集](https://www.pixiv.net/artworks/148186519) · [社区条目](https://mobile.moegirl.org.cn/zh-hans/Claude%E5%A8%98)
+- 本包把 Claude 角色训练提到的好奇、开放、深思熟虑和耐心倾听，转成安静听话、翻页、托腮和审阅等动作。人设和动作属于同人演绎。[Anthropic 角色训练说明](https://www.anthropic.com/research/claude-character)
+- Clawd 来自 Claude Code 的橙色像素小螃蟹。它在工作时带来书签，审阅时抬起短臂、亮出对勾，繁忙时站在举叉牌的 Claude 娘旁边。[Sam McAllister 作品页](https://smca.io/) · [Claude Code 制作口述史](https://www.anthropic.com/features/making-of-claude-code)
+
+Clawd 音色：由 [Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS) VoiceDesign 模型（1.7B，Apache-2.0）按文字描述生成，声音是设计出来的、没有克隆任何真人；参考台词与音色描述由维护者编写，以 CC BY-NC-SA 4.0 发布。
+
+非官方声明：
+- 本包是社区同人二次创作，不是 Anthropic 官方作品，不代表、不暗示任何官方背书。
+- 「Claude」「Claude Code」为其权利人的商标。
+- Clawd 外形参考的出处见上文；本包不含任何官方 logo 原图。
+- 商业使用需另行取得原作者及相关权利人的许可。

@@ -1,0 +1,29 @@
+{
+  "id": "overlay-broken-furn",
+  "name": "坏覆盖家具",
+  "version": 1,
+  "size": [
+    48,
+    32
+  ],
+  "anchor": "bottom-right",
+  "defaultEnabled": false,
+  "states": {
+    "idle": {
+      "label": "idle",
+      "frames": [
+        "sprites/idle_00.png"
+      ],
+      "durationsMs": [
+        250
+      ]
+    }
+  },
+  "interactions": [
+    {
+      "verb": "休息",
+      "mode": "beside"
+    }
+  ],
+  "idle": "sleep"
+}

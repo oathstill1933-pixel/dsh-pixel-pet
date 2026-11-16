@@ -1,0 +1,34 @@
+{
+  "id": "bed",
+  "name": "小床",
+  "version": 1,
+  "draft": true,
+  "order": 10,
+  "size": [360, 300],
+  "anchor": "bottom-right",
+  "defaultEnabled": false,
+  "floorY": 274,
+  "stand": { "left": 18, "right": 346 },
+  "idle": "empty",
+  "states": {
+    "empty": { "frames": [], "durationsMs": [] }
+  },
+  "interactions": [
+    {
+      "verb": "sleep",
+      "mode": "inside",
+      "occupant": { "pose": "curl-sleep", "fallback": ["lie"], "anchor": [180, 230] },
+      "enterPose": "jumping",
+      "done": "{name}睡下了。",
+      "say": "去床上睡觉",
+      "hint": "用户说去睡觉、困了、晚安时用"
+    },
+    {
+      "verb": "wake",
+      "mode": "exit",
+      "done": "{name}起床了。",
+      "say": "起床",
+      "hint": "用户叫它起床时用"
+    }
+  ]
+}

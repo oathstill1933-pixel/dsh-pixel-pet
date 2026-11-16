@@ -1,0 +1,146 @@
+{
+  "contractVersion": 1,
+  "manifestVersion": 1,
+  "packApi": 1,
+  "_说明": "桌宠拓展包冻结契约 v1（M0）。lib/packkit.js 与 runtime/pixelpet/packkit.py 同读本文件；两边错误码、状态、常量必须与本文件一致，由 scripts/pack-conformance.test.mjs 与 tests/test_pack_conformance.py 钉死。改任何值 = 契约变更，必须升 contractVersion 并同步两份实现与 docs/ 五份规范。",
+
+  "versionDomains": {
+    "pack": "拓展包自身语义化版本，写在拓展包 manifest 的 version 字段。与主插件版号、DSH 版号互不混用。",
+    "plugin": "主插件 dsh-pixel-pet 的版号（package.json 的 version）。拓展包 requires.core 引用域。",
+    "dsh": "DSH 宿主版号。拓展包 manifest 禁止声明（requires.dsh 是协议错误）；M0 只进 docs/COMPAT_MATRIX.md 记录，没有任何运行时检查。"
+  },
+
+  "rangeGrammar": {
+    "supported": ["1.2.3（精确）", "^1.2.3", "~1.2.3", ">=1.2.3", ">1.2.3", "<=1.2.3", "<1.2.3", "=1.2.3", "空格分隔的 AND 组合", "^ ~ 与比较器允许缺段补零（^1.2、>=1.2）"],
+    "unsupported": ["||", "x-range / *（1.x、*）", "连字符区间（1.2.3 - 2.0.0）", "裸写或 '=' 加部分版本（1.2、=1.2）"],
+    "prereleaseRule": "SemVer 标准：带预发布号的候选版本只落在显式写了预发布号且 (major,minor,patch) 三元组相同的比较器里。^0.2.0-rc.1 接纳 0.2.0-rc.1 / 0.2.0-rc.2 / 0.2.0，不接纳 0.3.0-rc.1（即使它数值上 < 0.3.0）。预发布段里的数字标识符不能有前导零。"
+  },
+
+  "packId": {
+    "re": "^[a-z0-9][a-z0-9-]{0,39}$",
+    "note": "现有角色/家具包 id 规则（= 目录名）。拓展包 manifest 用带命名空间的 id，见 packManifest.id.re。"
+  },
+  "character": {
+    "canvas": [192, 208],
+    "logicalScale": 2,
+    "displayScale": { "min": 0.25, "max": 4, "default": 1.0 },
+    "durationMs": { "min": 40, "max": 5000 },
+    "requiredStates": ["idle", "walk-left", "walk-right", "waving", "jumping", "failed", "waiting", "running", "review", "lie"],
+    "stateIdRe": "^[a-z0-9][a-z0-9-]{0,39}$",
+    "musicRoles": ["music-listening", "music-idle", "music-speaking"],
+    "stateFeatures": ["listen"]
+  },
+  "voicePreset": {
+    "nameMax": 40,
+    "textMax": 600,
+    "modes": ["zero_shot", "icl"],
+    "refRe": "^[A-Za-z0-9_-]+\\.(wav|mp3)$",
+    "anchorRe": "^[A-Za-z0-9_-]+\\.json$",
+    "refMaxBytes": 8388608,
+    "anchorMaxBytes": 2097152
+  },
+  "furniture": {
+    "sizeMin": 8,
+    "sizeMax": 1200,
+    "anchors": ["bottom-right", "bottom-left", "top-right", "top-left", "taskbar"],
+    "modes": ["inside", "exit", "beside"],
+    "holdMs": { "min": 0, "max": 60000 }
+  },
+
+  "permissions": [
+    { "id": "docs.read", "summary": "读取用户明确选定的本地文档与选中文段", "runtimeNetwork": false, "needsConfirm": true },
+    { "id": "model.ask", "summary": "把用户确认范围的内容发给模型会话并取回复", "runtimeNetwork": true, "needsConfirm": true },
+    { "id": "playback.status", "summary": "读取本地播放状态（曲目/播放暂停）", "runtimeNetwork": false, "needsConfirm": false },
+    { "id": "playback.control", "summary": "控制本地播放（播放/暂停/切曲/队列）", "runtimeNetwork": false, "needsConfirm": true },
+    { "id": "voice.capture", "summary": "麦克风收音", "runtimeNetwork": false, "needsConfirm": true },
+    { "id": "screen.capture", "summary": "屏幕截图", "runtimeNetwork": false, "needsConfirm": true },
+    { "id": "proactive.schedule", "summary": "定时或主动发起动作", "runtimeNetwork": false, "needsConfirm": true }
+  ],
+
+  "capabilities": [
+    { "id": "docs.select", "summary": "请求用户选定本地文档/文段" },
+    { "id": "session.ask", "summary": "经宿主中转向目标会话提问并取回复" },
+    { "id": "playback.status", "summary": "读取播放状态" },
+    { "id": "playback.control", "summary": "控制播放" },
+    { "id": "pet.motion", "summary": "驱动桌宠动作/表情/气泡" },
+    { "id": "voice.speak", "summary": "走桌宠语音出口合成并念出" }
+  ],
+
+  "installStates": [
+    "not-downloaded",
+    "downloading",
+    "waiting-dependency",
+    "waiting-authorization",
+    "waiting-adaptation",
+    "installed-disabled",
+    "enabled",
+    "incompatible",
+    "load-failed"
+  ],
+  "installEvents": [
+    "download-start", "download-done", "download-failed", "cancel",
+    "dependency-resolved", "engine-missing", "core-incompatible", "core-resolved",
+    "authorization-granted", "authorization-denied",
+    "adaptation-resolved",
+    "enable-request", "disable-request",
+    "load-receipt-ok", "load-receipt-fail", "rollback-ok",
+    "update-install", "uninstall"
+  ],
+  "stateTransitions": {
+    "not-downloaded": { "download-start": "downloading" },
+    "downloading": { "download-done": "waiting-dependency", "download-failed": "not-downloaded", "cancel": "not-downloaded" },
+    "waiting-dependency": { "dependency-resolved": "waiting-authorization", "core-incompatible": "incompatible", "engine-missing": "incompatible", "uninstall": "not-downloaded" },
+    "waiting-authorization": { "authorization-granted": "waiting-adaptation", "authorization-denied": "installed-disabled", "core-incompatible": "incompatible", "uninstall": "not-downloaded" },
+    "waiting-adaptation": { "adaptation-resolved": "installed-disabled", "core-incompatible": "incompatible", "uninstall": "not-downloaded" },
+    "installed-disabled": { "enable-request": "installed-disabled", "load-receipt-ok": "enabled", "load-receipt-fail": "load-failed", "update-install": "downloading", "uninstall": "not-downloaded" },
+    "enabled": { "load-receipt-ok": "enabled", "load-receipt-fail": "load-failed", "disable-request": "installed-disabled", "update-install": "downloading", "uninstall": "not-downloaded" },
+    "load-failed": { "load-receipt-ok": "enabled", "rollback-ok": "installed-disabled", "uninstall": "not-downloaded" },
+    "incompatible": { "core-resolved": "waiting-dependency", "uninstall": "not-downloaded" }
+  },
+  "enableRequestNote": "enable-request 是意图事件，不改变状态：状态停留在 installed-disabled，等 load-receipt-ok / load-receipt-fail 才迁移（安装与启用成功一律以运行时回执为准，不以写完目录为准）。",
+
+  "errorCodes": {
+    "E_CONTRACT_MISSING": "契约文件缺失或不可读（安装损坏）",
+    "E_CONTRACT_INVALID": "契约文件内容不合法（缺字段 / contractVersion 未知）",
+    "E_ID_INVALID": "包 id 或拓展包命名空间 id 不合法",
+    "E_MANIFEST_MISSING": "清单文件不存在",
+    "E_MANIFEST_JSON_INVALID": "清单不是严格合法的 UTF-8 JSON 对象",
+    "E_MANIFEST_VERSION_UNSUPPORTED": "manifestVersion 高于本插件支持的版本",
+    "E_PACK_API_UNSUPPORTED": "packApi 高于本插件支持的版本",
+    "E_REQUIRED_MISSING": "必需字段缺失或为空",
+    "E_FIELD_INVALID": "字段类型 / 取值 / 引用不合法，或协议载体对象里出现未知键",
+    "E_VERSION_MALFORMED": "版本号不是合法的 SemVer",
+    "E_RANGE_UNSUPPORTED": "版本范围语法不在支持的最小集内",
+    "E_RANGE_NOT_SATISFIED": "版本不满足范围",
+    "E_PERMISSION_UNKNOWN": "引用了未知的权限 id",
+    "E_CAPABILITY_UNKNOWN": "引用了未知的能力 id",
+    "E_ENGINE_UNKNOWN": "引用了未注册的引擎 id",
+    "E_ENGINE_VERSION_UNSUPPORTED": "引擎已注册但没有满足版本范围的实例",
+    "E_STATE_INVALID": "安装状态机不接受该 (状态, 事件) 组合",
+    "E_PACK_NOT_FOUND": "两个层级都找不到该 id 的包",
+    "E_ZIP_INVALID": "petpack 容器损坏：不是 ZIP、成员名穿越/绝对路径/盘符、符号链接或硬链接成员、重名或大小写碰撞",
+    "E_ZIP_LIMIT": "petpack 超出解包硬上限（成员数 / 单文件 / 总解压量 / 图片像素预算）",
+    "E_HASH_MISMATCH": "下载/导入内容与目录声明的 SHA-256 不符",
+    "E_SIZE_MISMATCH": "下载/导入内容大小与目录声明不符",
+    "E_ID_CONFLICT": "资源 id 冲突：家具 id 与内置/用户/其他已装包撞名，或同版本不同哈希",
+    "E_CATALOG_INVALID": "随版本目录（catalog.json）条目不合法",
+    "E_RECEIPT_FAILED": "运行时回执否定：桌宠重载失败或激活代次不一致",
+    "E_REGISTRY_INVALID": "注册表文件损坏且无法安全恢复"
+  },
+  "errorCodesPolicy": "errorCodes / permissions / capabilities 在同一 contractVersion 内只做增量追加（新码不改旧码语义）；改既有值或删码 = 破坏性契约变更，必须升 contractVersion。",
+
+  "packManifest": {
+    "requiredFields": ["id", "version", "name", "manifestVersion", "packApi", "license"],
+    "requiresAllowedKeys": ["core", "engines", "capabilities"],
+    "requiresForbiddenKeys": ["dsh"],
+    "enginesEntry": "requires.engines 是 {引擎id: 版本范围} 对象；引擎 id 规则 ^[a-z][a-z0-9-]{0,31}$",
+    "id": {
+      "re": "^[a-z0-9][a-z0-9-]{0,31}\\.[a-z0-9][a-z0-9-]{0,39}$",
+      "note": "作者命名空间.包名，恰好一个点。存储目录由注册表映射（点替换安全化），命名空间不得直接当路径。"
+    },
+    "charactersAllowedKeys": ["id", "dir"],
+    "characterDirectory": "缺省 characters/<id>；可在 characters/ 下再分目录，末段必须是 id。",
+    "reservedTopFields": ["id", "version", "name", "manifestVersion", "packApi", "requires", "platforms", "permissions", "entryFurniture", "resources", "characterAdapters", "characters", "dependencies", "license", "credits", "publisher"],
+    "unknownTopFields": "容忍并原样保留（与 character.json 行为一致）；requires / packApi 这类协议载体内部的未知键一律 E_FIELD_INVALID。"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "petdev.time",
+  "version": "1.0.0",
+  "name": "未知能力",
+  "manifestVersion": 1,
+  "packApi": 1,
+  "license": "MIT",
+  "requires": {
+    "capabilities": [
+      "docs.select",
+      "time.travel"
+    ]
+  }
+}

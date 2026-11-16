@@ -1,0 +1,59 @@
+/* "动作" grid + AI section (web/extras.js) */
+.moves { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 8px; }
+.move { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 6px 8px;
+  border: 1.5px solid transparent; border-radius: 10px; background: var(--card); cursor: pointer; user-select: none; outline: none; }
+.move img { height: 64px; width: auto; image-rendering: pixelated; }
+.move span { font-size: 12px; color: var(--muted); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.move:hover, .move:focus-visible { border-color: var(--line); }
+.move[data-playing] { border-color: var(--accent); background: var(--accent-soft); }
+.move[data-playing] span { color: var(--fg); }
+.move .act { position: absolute; top: 4px; right: 4px; display: grid; place-items: center; width: 24px; height: 24px; padding: 0;
+  border: 0; border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer; opacity: 0; transition: opacity .12s; }
+.move:hover .act, .move:focus-within .act, .move[data-playing] .act { opacity: 1; }
+.move .act:hover { background: var(--bg); color: var(--accent); }
+.move .act:disabled { opacity: .4; cursor: default; }
+@media (hover: none) { .move .act { opacity: 1; } }
+
+.row > span.hint { width: auto; color: var(--muted); font-size: 12px; }
+.prompt { margin-left: 62px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); overflow: hidden; }
+.prompt:focus-within { border-color: var(--accent); }
+.prompt textarea { display: block; width: 100%; min-height: 220px; padding: 12px 14px; border: 0; outline: none; resize: vertical;
+  background: transparent; color: var(--fg); font: 12.5px/1.65 system-ui, "Microsoft YaHei UI", sans-serif; }
+.prompt-foot { display: flex; align-items: center; gap: 10px; padding: 6px 8px 6px 14px; border-top: 1px solid var(--line); background: var(--card); }
+.prompt-foot output { flex: 1; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.prompt-foot .ghost { padding: 4px 12px; background: transparent; }
+.prompt-foot .ghost:disabled { opacity: .4; cursor: default; }
+@media (max-width: 480px) { .prompt { margin-left: 0; } }
+/* 主动一点 */
+.fold { padding: 2px 6px; background: transparent; border-color: transparent; color: var(--muted); margin-left: -10px; }
+.fold svg { transition: transform .15s; }
+.fold[aria-expanded="true"] svg { transform: rotate(180deg); }
+.auto { display: flex; flex-direction: column; gap: 10px; margin-left: 62px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; }
+.auto .row { min-height: 0; }
+.auto .row > span:first-child { width: auto; }
+.auto-rules { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px 14px; font-size: 13px; }
+.auto input.time { flex: 0 0 auto; width: auto; padding: 4px 8px; border: 1px solid var(--line); border-radius: 7px; background: var(--bg); color: inherit; font: inherit; font-variant-numeric: tabular-nums; }
+.auto .dash { color: var(--muted); width: auto; }
+.auto .aware { flex-wrap: wrap; gap: 10px; font-size: 13px; }
+/* .row > span is a fixed 52px label column and .row select may shrink to 0 — neither applies here */
+.row > .aware-now { width: auto; flex: 1 0 100%; min-width: 0; display: inline-flex; align-items: center; gap: 8px; color: var(--muted); white-space: nowrap; }
+.row .aware-now select { flex: none; width: auto; min-width: 64px; padding: 2px 22px 2px 8px; border: 1px solid var(--line); border-radius: 7px; background-color: var(--bg); color: var(--fg); font: inherit; }
+.auto .aware #awareLog { margin-left: auto; }
+.aware-now output { flex: 0 1 auto; width: auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+.auto .aware .icon { padding: 2px 6px; background: transparent; border-color: transparent; color: var(--muted); }
+.auto .aware .icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.auto .aware .icon[aria-expanded="true"] { color: var(--accent); }
+.aware-log { margin: 0; padding: 0; list-style: none; max-height: 220px; overflow: auto; font-size: 12px; font-variant-numeric: tabular-nums; }
+.aware-log li { display: grid; grid-template-columns: 82px 5em minmax(0, 1fr); gap: 8px; padding: 3px 0; border-top: 1px solid var(--line); }
+.aware-log li > * { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.aware-log li:first-child { border-top: 0; }
+.aware-log time, .aware-log span { color: var(--muted); }
+.aware-log b { font-weight: 500; }
+/* 主动关心：开关 + 熔断小黄点 + 频率三档（感知没开时整行置灰） */
+.auto .care { flex-wrap: wrap; align-items: center; gap: 10px; font-size: 13px; }
+.auto .care .seg { margin-left: auto; }
+.auto .care .seg button { padding: 3px 12px; font-size: 12.5px; }
+.seg button:disabled { opacity: .4; cursor: default; }
+.care-dot { width: 8px; height: 8px; border-radius: 50%; background: #d9a514; flex: none; }
+.prompt textarea.part { min-height: 120px; border-top: 1px dashed var(--line); }
+@media (max-width: 480px) { .auto { margin-left: 0; } }

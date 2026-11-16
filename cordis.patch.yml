@@ -1,0 +1,8 @@
+# dsh-pixel-pet bundle patch. `config` replaces as a whole: keep every field when editing.
+- insert:
+    - id: dsh-pixel-pet
+      name: dsh-pixel-pet
+      config:
+        enabled: true
+        # empty = %LOCALAPPDATA%/dsh-pixel-pet
+        dataDir: ''

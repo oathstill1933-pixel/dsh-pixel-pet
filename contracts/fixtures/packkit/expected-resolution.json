@@ -1,0 +1,103 @@
+{
+  "_说明": "跨语言一致性期望值：两边对同一批夹具的解析结果必须逐字段等于这里。字段与 runtime/pixelpet/packkit.py resolve_one 的返回键一致。",
+  "characters": [
+    {
+      "id": "good-char",
+      "base": "user",
+      "overlay": true,
+      "valid": true,
+      "draft": false,
+      "has_errors": false,
+      "user_has_errors": false,
+      "user_draft": false,
+      "user": true,
+      "builtin": true
+    },
+    {
+      "id": "overlay-broken",
+      "base": "builtin",
+      "overlay": false,
+      "valid": true,
+      "draft": false,
+      "has_errors": false,
+      "user_has_errors": true,
+      "user_draft": false,
+      "user": false,
+      "builtin": true
+    },
+    {
+      "id": "broken-char",
+      "base": "user",
+      "overlay": false,
+      "valid": false,
+      "draft": false,
+      "has_errors": true,
+      "user_has_errors": false,
+      "user_draft": false,
+      "user": true,
+      "builtin": false
+    },
+    {
+      "id": "broken-json",
+      "base": "user",
+      "overlay": false,
+      "valid": false,
+      "draft": false,
+      "has_errors": true,
+      "user_has_errors": false,
+      "user_draft": false,
+      "user": true,
+      "builtin": false
+    },
+    {
+      "id": "draft-char",
+      "base": "user",
+      "overlay": false,
+      "valid": false,
+      "draft": true,
+      "has_errors": false,
+      "user_has_errors": false,
+      "user_draft": true,
+      "user": true,
+      "builtin": false
+    }
+  ],
+  "furniture": [
+    {
+      "id": "builtin-furn",
+      "base": "builtin",
+      "overlay": false,
+      "valid": true,
+      "draft": false,
+      "has_errors": false,
+      "user_has_errors": false,
+      "user_draft": false,
+      "user": false,
+      "builtin": true
+    },
+    {
+      "id": "overlay-broken-furn",
+      "base": "builtin",
+      "overlay": false,
+      "valid": true,
+      "draft": false,
+      "has_errors": false,
+      "user_has_errors": true,
+      "user_draft": false,
+      "user": false,
+      "builtin": true
+    },
+    {
+      "id": "user-furn",
+      "base": "user",
+      "overlay": false,
+      "valid": true,
+      "draft": false,
+      "has_errors": false,
+      "user_has_errors": false,
+      "user_draft": false,
+      "user": true,
+      "builtin": false
+    }
+  ]
+}

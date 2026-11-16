@@ -1,0 +1,22 @@
+{
+  "id": "broken-char",
+  "name": "缺必需状态",
+  "demo": false,
+  "canvas": [
+    192,
+    208
+  ],
+  "logicalScale": 2,
+  "displayScale": 1.0,
+  "states": {
+    "idle": {
+      "label": "待机",
+      "frames": [
+        "sprites/idle_00.png"
+      ],
+      "durationsMs": [
+        250
+      ]
+    }
+  }
+}

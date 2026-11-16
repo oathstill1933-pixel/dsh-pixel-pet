@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "note": "CLAP 是英文训练的：en 是给文本端的提示句；zh 是给 AI 的显示名。每组 10-15 个，不堆。",
+  "groups": {
+    "mood": [
+      { "zh": "欢快", "en": "cheerful upbeat happy music" },
+      { "zh": "温柔", "en": "gentle soft warm music" },
+      { "zh": "伤感", "en": "sad melancholic sorrowful music" },
+      { "zh": "激昂", "en": "intense powerful energetic music" },
+      { "zh": "平静", "en": "calm peaceful relaxing music" },
+      { "zh": "紧张", "en": "tense suspenseful dramatic music" },
+      { "zh": "慵懒", "en": "lazy laid-back chill music" },
+      { "zh": "梦幻", "en": "dreamy ethereal ambient music" },
+      { "zh": "浪漫", "en": "romantic tender love music" },
+      { "zh": "孤独", "en": "lonely melancholic introspective music" }
+    ],
+    "genre": [
+      { "zh": "流行", "en": "pop music" },
+      { "zh": "摇滚", "en": "rock music with electric guitars and drums" },
+      { "zh": "民谣", "en": "acoustic folk music" },
+      { "zh": "电子", "en": "electronic synthesizer music" },
+      { "zh": "说唱", "en": "rap hip-hop music with rhythm" },
+      { "zh": "古典", "en": "classical orchestra music" },
+      { "zh": "爵士", "en": "jazz music with saxophone and swing" },
+      { "zh": "国风", "en": "traditional chinese guzheng and flute music" },
+      { "zh": "R&B", "en": "rhythm and blues soul music" },
+      { "zh": "轻音乐", "en": "light instrumental easy listening music" },
+      { "zh": "动漫游戏配乐", "en": "anime or video game soundtrack music" }
+    ],
+    "inst": [
+      { "zh": "钢琴", "en": "piano as the lead instrument" },
+      { "zh": "吉他", "en": "guitar as the lead instrument" },
+      { "zh": "弦乐", "en": "strings violin orchestra arrangement" },
+      { "zh": "鼓", "en": "drums and percussion beat" },
+      { "zh": "合成器", "en": "synthesizer electronic sound" },
+      { "zh": "二胡古筝", "en": "erhu or guzheng chinese traditional instrument" },
+      { "zh": "笛子", "en": "flute bamboo flute melody" },
+      { "zh": "男声", "en": "male vocal singing" },
+      { "zh": "女声", "en": "female vocal singing" },
+      { "zh": "合唱", "en": "choir group vocals" },
+      { "zh": "纯音乐", "en": "instrumental music without vocals" }
+    ],
+    "kind": [
+      { "zh": "说话", "en": "a person talking or speaking without singing" },
+      { "zh": "唱歌", "en": "a human voice singing a melody" },
+      { "zh": "纯音乐", "en": "instrumental music without any voices" },
+      { "zh": "环境声", "en": "ambient sounds from an indoor or outdoor environment" },
+      { "zh": "音效", "en": "a short sound effect, not music or speech" }
+    ]
+  }
+}

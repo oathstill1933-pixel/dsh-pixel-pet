@@ -1,0 +1,9 @@
+# Bytes in the repo are the bytes on disk: no end-of-line conversion on any platform.
+# The Claude pack is built reproducibly from packs-src and its sha256 is pinned in contracts/catalog.json,
+# so a checkout with CRLF conversion would change the hash.
+* -text
+*.png binary
+*.gif binary
+*.mp3 binary
+*.petpack binary
+*.zip binary

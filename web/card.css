@@ -1,0 +1,145 @@
+:root {
+  --tint: #9aa3b5;          /* cover colour, set from the artwork */
+  --ink: #15161a;
+  --ink2: #6b707b;
+  --ink3: #a9adb6;
+  --line: rgba(18, 20, 28, .07);
+  --hover: rgba(18, 20, 28, .055);
+  --wave-on: #1d1f25;
+  --wave-off: #dcdee3;
+  --ease: cubic-bezier(.25, .8, .25, 1);
+  color-scheme: light;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: transparent; }
+body {
+  color: var(--ink);
+  font: 12.5px/1.4 "Segoe UI Variable Text", "Segoe UI", "PingFang SC", "Microsoft YaHei UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  user-select: none;
+}
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+svg .f { fill: currentColor; stroke: none; }
+
+/* ---------- full card */
+.card {
+  position: absolute; inset: 14px; border-radius: 18px; padding: 16px 16px 12px; display: flex; flex-direction: column; overflow: hidden;
+  background:
+    radial-gradient(120% 70% at 0% 0%, color-mix(in srgb, var(--tint) 16%, transparent), transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
+  box-shadow: inset 0 0 0 1px rgba(18, 20, 28, .06), inset 0 1px 0 #fff, 0 6px 18px -6px rgba(18, 20, 28, .28), 0 1px 3px rgba(18, 20, 28, .12);
+  transition: opacity .25s var(--ease);
+}
+.card::before { /* faint sheen across the top */
+  content: ""; position: absolute; inset: 0 0 auto; height: 46%; pointer-events: none;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, .7) 46%, transparent 60%);
+  opacity: .55; z-index: 0;
+}
+.card > section { position: relative; z-index: 1; }
+.card > .ctl { z-index: 3; }
+.glow { position: absolute; left: 6px; top: 10px; width: 150px; height: 120px; border-radius: 50%; pointer-events: none;
+  background: var(--tint); filter: blur(34px); opacity: .22; transition: background .8s; }
+
+.stage { position: relative; height: 96px; flex: none; }
+.cover { position: absolute; left: 0; top: 0; width: 96px; height: 96px; border-radius: 10px; object-fit: cover; z-index: 2;
+  background: #eef0f3; box-shadow: 0 1px 2px rgba(0, 0, 0, .08), 0 8px 20px -6px color-mix(in srgb, var(--tint) 70%, #000 30%); }
+.disc { position: absolute; left: 50px; top: 5px; width: 86px; height: 86px; border-radius: 50%; z-index: 1;
+  background:
+    repeating-radial-gradient(circle, rgba(255, 255, 255, .06) 0 .6px, transparent .6px 2.6px),
+    radial-gradient(circle, #24252b 0 33%, #111216 34% 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .22), inset 0 0 0 1px rgba(255, 255, 255, .06);
+  transition: left .6s var(--ease);
+  animation: spin 10s linear infinite; animation-play-state: paused; }
+.disc::after, .rec::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+  background: conic-gradient(from 30deg, transparent 0 12%, rgba(255, 255, 255, .13) 18%, transparent 25% 60%, rgba(255, 255, 255, .08) 66%, transparent 73%); }
+.disc img, .rec img { position: absolute; inset: 30%; width: 40%; height: 40%; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1.5px #0c0c0f; }
+.meta { position: absolute; right: 0; bottom: 2px; max-width: 84px; text-align: right; z-index: 3; }
+.meta b, .meta span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.meta b { font-size: 13px; font-weight: 650; letter-spacing: .01em; }
+.meta span { font-size: 11px; color: var(--ink2); margin-top: 1px; }
+.playing .disc { left: 58px; animation-play-state: running; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- controls */
+.ctl { position: relative; display: flex; align-items: center; justify-content: space-between; margin-top: 14px; flex: none; }
+.ctl .main, .ctl .side { display: flex; align-items: center; gap: 4px; }
+.ctl button { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; transition: background .15s, transform .15s; }
+.ctl button:hover { background: var(--hover); }
+.ctl button:active { transform: scale(.92); }
+.ctl .main svg { width: 17px; height: 17px; }
+.ctl .play { width: 38px; height: 38px; background: var(--ink); color: #fff; margin: 0 2px;
+  box-shadow: 0 4px 12px -3px color-mix(in srgb, var(--tint) 60%, #000 40%); }
+.ctl .play:hover { background: #2a2c33; }
+.ctl .play svg { width: 18px; height: 18px; }
+.ctl .side button { width: 26px; height: 26px; color: var(--ink2); }
+.ctl .side button:hover, .ctl .side button.on { color: var(--ink); }
+.ctl .side svg { width: 16px; height: 16px; }
+.ctl button:disabled { opacity: .3; pointer-events: none; }
+.i-play { display: none; }
+.paused .i-play { display: inline; }
+.paused .i-pause { display: none; }
+#bMode g { display: none; }
+#bMode[data-mode="list"] .m-list, #bMode[data-mode="one"] .m-one, #bMode[data-mode="shuffle"] .m-shuffle { display: inline; }
+
+.pop { position: absolute; right: -4px; top: 34px; z-index: 5; background: rgba(255, 255, 255, .96); border-radius: 12px;
+  box-shadow: 0 0 0 1px var(--line), 0 10px 28px -8px rgba(18, 20, 28, .25); animation: pop .18s var(--ease) both; }
+@keyframes pop { from { opacity: 0; transform: translateY(-4px) scale(.98); } }
+.pop.vol { padding: 10px 12px; }
+.pop.list { width: 200px; max-height: 168px; overflow: auto; padding: 4px; scrollbar-width: thin; }
+#vol { width: 120px; accent-color: var(--ink); height: 4px; display: block; }
+#queue { list-style: none; }
+#queue li { display: flex; gap: 8px; align-items: baseline; padding: 6px 8px; border-radius: 8px; cursor: pointer; white-space: nowrap; overflow: hidden; }
+#queue li:hover { background: var(--hover); }
+#queue li b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; }
+#queue li span { color: var(--ink3); font-size: 11px; overflow: hidden; text-overflow: ellipsis; }
+#queue li.cur b { font-weight: 650; }
+#queue li.cur::before { content: ""; flex: none; width: 4px; height: 4px; border-radius: 50%; background: var(--ink); align-self: center; }
+
+/* ---------- waveform */
+/* calliper ruler, drawn on a canvas by card.js */
+.wave { position: relative; height: 16px; margin-top: 14px; flex: none; }
+.wave canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.seekable .wave:not(.tape) { cursor: pointer; }
+.times { display: flex; justify-content: space-between; margin-top: 3px; flex: none;
+  font: 10px/1 "Segoe UI Variable Text", "Segoe UI", sans-serif; color: var(--ink3); font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+/* tape mode (length unknown): elapsed time sits under the centred playhead */
+.wave.tape + .times { justify-content: center; color: var(--ink2); }
+
+/* ---------- lyrics: five rows, the column glides up on each new line */
+.lyrics { position: relative; flex: 1; margin-top: 10px; overflow: hidden; min-height: 0;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%); }
+.track { position: absolute; inset: 0; }
+.track p { position: absolute; left: 0; right: 0; top: 50%; height: 21px; margin-top: -10.5px; line-height: 21px; text-align: center;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 4px; transform-origin: 50% 50%;
+  transition: transform .45s ease, opacity .45s ease, color .45s ease, font-weight .45s; will-change: transform, opacity; }
+.track p[data-d="-2"] { color: #b9bcc4; }
+.track p[data-d="-1"] { color: #7d828d; }
+.track p[data-d="0"]  { color: var(--ink); font-weight: 650; }
+.track p[data-d="1"]  { color: color-mix(in srgb, var(--tint) 22%, #4b4f59); }
+.track p[data-d="2"]  { color: color-mix(in srgb, var(--tint) 14%, #a3a7b0); }
+.track p.none { color: var(--ink3); font-weight: 400; }
+
+/* ---------- mini: only the record, inside a round window region */
+.mini { display: none; position: fixed; left: 6px; top: 6px; z-index: 20; transform-origin: 0 0; will-change: transform; box-shadow: 0 2px 6px rgba(0, 0, 0, .35); width: 64px; height: 64px; border-radius: 50%; padding: 0; }
+.rec { position: absolute; inset: 0; border-radius: 50%;
+  background: repeating-radial-gradient(circle, rgba(255, 255, 255, .07) 0 .6px, transparent .6px 2.4px), radial-gradient(circle, #24252b 0 33%, #111216 34% 100%);
+  animation: spin 10s linear infinite; animation-play-state: paused; }
+.playing .rec { animation-play-state: running; }
+body.is-mini .mini, body.flying .mini { display: block; }
+body.morph-in :is(.meta, .ctl, .wave, .times, .lyrics, .x, .cover) { opacity: 0; }
+body.is-mini .card { visibility: hidden; }   /* stays laid out: the first expand frame is not a cold layout */
+
+@media (prefers-reduced-motion: reduce) {
+  .disc, .rec, .playing .disc, .playing .rec { animation: none; transition: none; }
+  .track p, .wave i, .pop { transition: none; animation: none; }
+}
+
+/* close: barely there until hovered */
+.x { position: absolute; right: 8px; top: 8px; z-index: 6; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center;
+  color: var(--ink3); opacity: .35; transition: opacity .15s, background .15s; }
+.x svg { width: 12px; height: 12px; stroke-width: 2; }
+.card:hover .x { opacity: .7; }
+.x:hover { opacity: 1; background: var(--hover); color: var(--ink); }

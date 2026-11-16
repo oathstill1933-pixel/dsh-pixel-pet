@@ -1,0 +1,424 @@
+{
+ "version": 1,
+ "components": [
+  {
+   "id": "speaker-model",
+   "kind": "files",
+   "title": "CAM++ 声纹模型（手动启用）",
+   "auto": false,
+   "license": "Apache-2.0 (iic/speech_campplus_sv_zh-cn_16k-common; 3D-Speaker)",
+   "home": "https://modelscope.cn/models/iic/speech_campplus_sv_zh-cn_16k-common",
+   "files": [
+    {
+     "path": "3dspeaker_speech_campplus_sv_zh-cn_16k-common.onnx",
+     "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/3dspeaker_speech_campplus_sv_zh-cn_16k-common.onnx",
+     "sha256": "f682b514c05d947ee3fa91cd6ec6c5c7543479a128373fa29b1faedccd21fd11",
+     "size": 28281138
+    }
+   ]
+  },
+  {
+   "id": "py-deps",
+   "kind": "pip",
+   "title": "Python 依赖",
+   "auto": true,
+   "conflicts": [
+    "onnxruntime",
+    "onnxruntime-directml",
+    "onnxruntime-gpu"
+   ],
+   "packages": [
+    "numpy>=1.24",
+    "onnxruntime>=1.17",
+    "gguf>=0.10",
+    "tokenizers>=0.19",
+    "scipy>=1.11",
+    "soundfile>=0.12",
+    "sounddevice>=0.4.6"
+   ],
+   "modules": [
+    "numpy",
+    "onnxruntime",
+    "gguf",
+    "tokenizers",
+    "scipy",
+    "soundfile",
+    "sounddevice"
+   ],
+   "platforms": {
+    "win32": {
+     "packages": [
+      "numpy>=1.24",
+      "onnxruntime-directml>=1.24",
+      "gguf>=0.10",
+      "tokenizers>=0.19",
+      "scipy>=1.11",
+      "soundfile>=0.12",
+      "sounddevice>=0.4.6"
+     ],
+     "modules": [
+      "numpy",
+      "onnxruntime",
+      "gguf",
+      "tokenizers",
+      "scipy",
+      "soundfile",
+      "sounddevice"
+     ],
+     "want_ep": "DmlExecutionProvider"
+    }
+   }
+  },
+  {
+   "id": "qwen3-tts-engine",
+   "kind": "files",
+   "title": "Qwen3-TTS 推理",
+   "auto": true,
+   "license": "MIT (HaujetZhao/Qwen3-TTS-GGUF @0eb32e2) + MIT (llama.cpp b9333)",
+   "home": "https://github.com/HaujetZhao/Qwen3-TTS-GGUF",
+   "files": [
+    {
+     "path": "qwen3_tts_gguf/__init__.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/__init__.py",
+     "sha256": "2feb92359828046295d46cd184852e5dea6577c16dc6bce93175ddb9ae1cee62",
+     "size": 1362
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/__init__.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/__init__.py",
+     "sha256": "9cc799ac33fb146e3d6a6aa3984a5255f9efcc0ef03aa5d591f1c51d7963d99a",
+     "size": 120
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/assets.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/assets.py",
+     "sha256": "1f6f7e048b75225ec306d7c74128d5a383e6f6803fab8268a7558a329e24c739",
+     "size": 3429
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/config.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/config.py",
+     "sha256": "4b833621b2548c5e72433006e445b8c24466c324474f1902fbfb8db5d9c05b44",
+     "size": 2188
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/decoder.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/decoder.py",
+     "sha256": "128ef25e2e0c36171f8c33e1d08c4a6a1f066f0d553df2467f96b7b4248a3e45",
+     "size": 11318
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/encoder.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/encoder.py",
+     "sha256": "373d58039ddd7ccc7fcc0a97e654def5d4ed4867280277eb82e7f740d28b4cbf",
+     "size": 3924
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/engine.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/engine.py",
+     "sha256": "48b9de1d99434b17c5fa0c56a9a8cc917adbd28217f87ab5d7c64bc50f250281",
+     "size": 6708
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/llama.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/llama.py",
+     "sha256": "73f4bd4b1ff9538eca54382d500a5d0ecac09a44383bae91fffb3d1b067e52f1",
+     "size": 36068
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/predictor.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/predictor.py",
+     "sha256": "feb22b2b974ab2e0a21a5e4ccfc6dc28089fc2386462bbb123496ea8e348a9c7",
+     "size": 3338
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/prompt_builder.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/prompt_builder.py",
+     "sha256": "b6bae89f3564d06ec32461f3d1d27bc91c8827b531ab15f4ebaa90d58c50701b",
+     "size": 9569
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/proxy.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/proxy.py",
+     "sha256": "10bbef4ff3c6b196ce0fa94c1c87d134c7aad14d8860ac609b022d00183c454c",
+     "size": 13303
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/schema/__init__.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/schema/__init__.py",
+     "sha256": "a7eca2f46a1be688e659b1e38515b494ed0e2119400a630b6fb67718a3b1ed45",
+     "size": 21
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/schema/constants.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/schema/constants.py",
+     "sha256": "96702ba10051fdd3f6d3b25cb0cb33130600804eeaf55d7527657125304870f8",
+     "size": 1844
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/schema/protocol.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/schema/protocol.py",
+     "sha256": "2a007f3eeeda71cb947875fbe9e514938c215131c764ffece3da753d07af9865",
+     "size": 1904
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/schema/result.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/schema/result.py",
+     "sha256": "d0f076f21799ad1c369ada94f27f4b0501a7e2e65b95c654d72598bd4db80e55",
+     "size": 14629
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/stream.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/stream.py",
+     "sha256": "59a289a1540245fe017a154a1e7c7d3978fc3bcd142109204f0bf6173268e96d",
+     "size": 20922
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/talker.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/talker.py",
+     "sha256": "17dfe0d1921530f922a6738e44b3fc551b51ff875e8fd2f67633435f5ad36a69",
+     "size": 4047
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/utils/__init__.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/utils/__init__.py",
+     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "size": 0
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/utils/audio.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/utils/audio.py",
+     "sha256": "c1b2c46b40727a59e8775600f9c55217fe1c912028f6318f9639fe1979f1df2f",
+     "size": 4311
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/utils/mel.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/utils/mel.py",
+     "sha256": "644c68af8a5da77df083745452a82bd8dfe947272ff7909045c808997855729a",
+     "size": 4146
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/workers/__init__.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/workers/__init__.py",
+     "sha256": "b379f1cc62b7ac7d20f4960fdd85c248673a5aab18b98c5bc4ffc79196fbe963",
+     "size": 140
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/workers/decoder.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/workers/decoder.py",
+     "sha256": "9e08e7d3cddced185308eae2d46eb3dc58c184a7efa71619d403b06a4376a0ca",
+     "size": 3683
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/workers/recorder.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/workers/recorder.py",
+     "sha256": "e3617e0e4a1e6a8c1d91fae5c036bdd8fcc57e7c1a8677220ba9237165df46ce",
+     "size": 910
+    },
+    {
+     "path": "qwen3_tts_gguf/inference/workers/speaker.py",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/0eb32e283ee46b86820c67843abb04cf12bc58d7/qwen3_tts_gguf/inference/workers/speaker.py",
+     "sha256": "b4a6d1c6749cec55ee07a3f87ee20bbf18b8b3fb76914fa4dcdd8817f5fc2329",
+     "size": 4144
+    },
+    {
+     "path": "qwen3_tts_gguf/LICENSE",
+     "url": "https://raw.githubusercontent.com/HaujetZhao/Qwen3-TTS-GGUF/74feb581bc8cefb835fc608107e857036d7580a1/LICENSE",
+     "sha256": "65959dcac5c2748705a2c38159797ab79193eb657bf2395a5be9b107362e1058",
+     "size": 1067
+    },
+    {
+     "path": "llama-b9333-bin-win-vulkan-x64.zip",
+     "platform": "win32",
+     "url": "https://github.com/ggml-org/llama.cpp/releases/download/b9333/llama-b9333-bin-win-vulkan-x64.zip",
+     "sha256": "0971a54893feafcc043b18d839dba9a42cb1038a5005030c18990e35fdc209d4",
+     "size": 32836469,
+     "extract": {
+      "to": "qwen3_tts_gguf/inference/bin",
+      "include": [
+       "*.dll",
+       "LICENSE*"
+      ]
+     }
+    }
+   ],
+   "size": 32989564
+  },
+  {
+   "id": "qwen3-tts-model",
+   "kind": "files",
+   "title": "Qwen3-TTS 0.6B",
+   "auto": true,
+   "license": "Apache-2.0 (Qwen/Qwen3-TTS-12Hz-0.6B)",
+   "home": "https://huggingface.co/mysanit/qwen3-tts-gguf",
+   "files": [
+    {
+     "path": "qwen3_tts_talker.q5_k.gguf",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/qwen3_tts_talker.q5_k.gguf",
+     "sha256": "1ee7d870bf3530067f1b63952ba44b83fbd2fee1bd4c831e32e881429a142156",
+     "size": 315663616
+    },
+    {
+     "path": "qwen3_tts_predictor.q8_0.gguf",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/qwen3_tts_predictor.q8_0.gguf",
+     "sha256": "735e1bc348c3b05438e1cbb6656110a381e29d4c9040b3b6411455b7bb70cb4b",
+     "size": 151124320
+    },
+    {
+     "path": "qwen3_tts_decoder.fp16.onnx",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/qwen3_tts_decoder.fp16.onnx",
+     "sha256": "d64dc53d6f25403d12ada58978c347a98eda3e43775062e7dff3320137127340",
+     "size": 229970372
+    },
+    {
+     "path": "qwen3_tts_codec_encoder.fp16.onnx",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/qwen3_tts_codec_encoder.fp16.onnx",
+     "sha256": "4b8bfa15921c8bf948a99e48bb8349d3a7e9f4cb2b1cb87728990c3021940504",
+     "size": 114044678
+    },
+    {
+     "path": "tokenizer.json",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/tokenizer.json",
+     "sha256": "09267689b8362020b9763b65dd5be7e086b31e28d72e02837a9e781de9a91bc7",
+     "size": 11423986
+    },
+    {
+     "path": "embeddings/text_embedding_projected.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/text_embedding_projected.npy",
+     "sha256": "99614821c680f6002c08da97949aeefd6a8b54c2bde9ef8ec4020b2a4954c604",
+     "size": 311165056
+    },
+    {
+     "path": "embeddings/codec_embedding_0.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_0.npy",
+     "sha256": "65a94ed3c86cb17e40504a581c746b274a4e56ba200c6f99f383a1bb6274cfbd",
+     "size": 12583040
+    },
+    {
+     "path": "embeddings/codec_embedding_1.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_1.npy",
+     "sha256": "9b1bd89a06be7fc6eb07e6b03d6d3fdc4762b5d0e0db124d74c608c0638082e3",
+     "size": 8388736
+    },
+    {
+     "path": "embeddings/codec_embedding_2.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_2.npy",
+     "sha256": "f0d6e187dec6f037980e38911b27016c0531bb34718bb96ccb954366fc495d21",
+     "size": 8388736
+    },
+    {
+     "path": "embeddings/codec_embedding_3.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_3.npy",
+     "sha256": "5ae15feb83dc7f97e6f939fe98c9dda91c08749c2a69384d71a8414166792825",
+     "size": 8388736
+    },
+    {
+     "path": "embeddings/codec_embedding_4.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_4.npy",
+     "sha256": "2d740ecfaa6591dcf014570a322192dd022f169bcca80849c41801ff496a866a",
+     "size": 8388736
+    },
+    {
+     "path": "embeddings/codec_embedding_5.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_5.npy",
+     "sha256": "3b466f7d3213b7a8b29381ee47338a9ac4de30460ac3d2defdaceaa0bab657e2",
+     "size": 8388736
+    },
+    {
+     "path": "embeddings/codec_embedding_6.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_6.npy",
+     "sha256": "494fde5327423a7462d5e3063dcd8f2ad87de411fe5093c587cf8e56b3ae53df",
+     "size": 8388736
+    },
+    {
+     "path": "embeddings/codec_embedding_7.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_7.npy",
+     "sha256": "e6d6780db3685caee084edbce3b2517e5fa52b6a077890dff9c14b6638bfb564",
+     "size": 8388736
+    },
+    {
+     "path": "embeddings/codec_embedding_8.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_8.npy",
+     "sha256": "4d10c51b112e7188062a712e0d664a22dd448cea52ed102e094943c871ec3577",
+     "size": 8388736
+    },
+    {
+     "path": "embeddings/codec_embedding_9.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_9.npy",
+     "sha256": "3bc9ba51d40d91be04f478d9330363af3d1ac1218144e7bf0c8b920bd4d1832a",
+     "size": 8388736
+    },
+    {
+     "path": "embeddings/codec_embedding_10.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_10.npy",
+     "sha256": "41add7203fe62f322fa66ad353d5a91f265413a5c711681769d5979e526ced51",
+     "size": 8388736
+    },
+    {
+     "path": "embeddings/codec_embedding_11.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_11.npy",
+     "sha256": "0e6d1bd968d39d53064bf430a0117cd83d452ee3ecf78dbe2648ad4b783d9091",
+     "size": 8388736
+    },
+    {
+     "path": "embeddings/codec_embedding_12.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_12.npy",
+     "sha256": "c9a1cb9ed2749c9f94fc29a939afdbb8ec341ba3f734c10b507f82a441a7c20e",
+     "size": 8388736
+    },
+    {
+     "path": "embeddings/codec_embedding_13.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_13.npy",
+     "sha256": "4cc774bda9a3b868461a36d08cd92370b71e162589598d1796b66fd1bb0520d1",
+     "size": 8388736
+    },
+    {
+     "path": "embeddings/codec_embedding_14.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_14.npy",
+     "sha256": "bf0454c373ff115501d1642675125146e92d91703442ffdf87a35a7b4fe94919",
+     "size": 8388736
+    },
+    {
+     "path": "embeddings/codec_embedding_15.npy",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-custom-small/embeddings/codec_embedding_15.npy",
+     "sha256": "57cb0ce39de77611a7be8f3932debe3a2fa9eba9189e7b3fac890c482ce9a8ba",
+     "size": 8388736
+    },
+    {
+     "path": "qwen3_tts_speaker_encoder.fp16.onnx",
+     "url": "https://huggingface.co/mysanit/qwen3-tts-gguf/resolve/6926962a5bae3661f17278d25c1e49f039ebcfe4/model-base-small/qwen3_tts_speaker_encoder.fp16.onnx",
+     "sha256": "6e2d458ca7039209ca88a54846a7a0aa0ec112585618c2588b669c28af372c83",
+     "size": 18143514
+    }
+   ],
+   "size": 1289949622
+  },
+  {
+   "id": "python-runtime",
+   "kind": "files",
+   "title": "Python 运行时",
+   "auto": true,
+   "dest": "runtime/python",
+   "license": "PSF-2.0 (astral-sh/python-build-standalone 20261009, CPython 3.10.22, x86_64-pc-windows-msvc)",
+   "home": "https://github.com/astral-sh/python-build-standalone",
+   "files": [
+    {
+     "path": "cpython-3.10.22-install_only.tar.gz",
+     "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20261009/cpython-3.10.22%2B20261009-x86_64-pc-windows-msvc-install_only.tar.gz",
+     "sha256": "cb023e83e42d8937ba77c7cf83641083c3b81e88e1226e1c694a347ae1924d54",
+     "size": 39573204,
+     "platform": "win32",
+     "extract": {
+      "archive": "tar.gz",
+      "to": "",
+      "strip": 1,
+      "include": [
+       "*"
+      ]
+     }
+    }
+   ],
+   "size": 39573204
+  }
+ ]
+}

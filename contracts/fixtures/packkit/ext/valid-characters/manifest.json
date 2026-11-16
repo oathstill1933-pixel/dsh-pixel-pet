@@ -1,0 +1,50 @@
+{
+  "id": "petdev.reading-demo",
+  "version": "1.0.0",
+  "name": "一起看书（示例）",
+  "manifestVersion": 1,
+  "packApi": 1,
+  "license": "CC-BY-NC-SA-4.0",
+  "publisher": "petdev",
+  "credits": "合成夹具",
+  "requires": {
+    "core": "^0.1.0",
+    "capabilities": [
+      "docs.select",
+      "session.ask"
+    ]
+  },
+  "permissions": [
+    "docs.read",
+    "model.ask"
+  ],
+  "platforms": [
+    "win32"
+  ],
+  "entryFurniture": {
+    "id": "reading-desk",
+    "dir": "furniture/reading-desk"
+  },
+  "characterAdapters": [
+    {
+      "character": "whale-girl",
+      "required": [
+        "reading",
+        "page-turn"
+      ],
+      "optional": [
+        "ponder"
+      ]
+    }
+  ],
+  "dependencies": [],
+  "characters": [
+    {
+      "id": "a"
+    },
+    {
+      "id": "other",
+      "dir": "characters/nested/other"
+    }
+  ]
+}

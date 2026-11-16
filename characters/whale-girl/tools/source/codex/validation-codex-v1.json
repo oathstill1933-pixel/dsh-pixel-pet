@@ -1,0 +1,946 @@
+{
+  "ok": true,
+  "scope": "raw sources only; runtime conversion not performed",
+  "frames": 114,
+  "canvas": [
+    1536,
+    1536
+  ],
+  "states": 23,
+  "lookDirections": 16,
+  "canonicalChangedPixels": 0,
+  "locks": {
+    "speaking": {
+      "speaking_00.png": {
+        "changedPixels": 0,
+        "outsideAllowedRegion": 0
+      },
+      "speaking_01.png": {
+        "changedPixels": 4484,
+        "outsideAllowedRegion": 0
+      },
+      "speaking_02.png": {
+        "changedPixels": 4594,
+        "outsideAllowedRegion": 0
+      },
+      "speaking_03.png": {
+        "changedPixels": 4484,
+        "outsideAllowedRegion": 0
+      }
+    },
+    "look": {
+      "look_00.png": {
+        "changedPixels": 18611,
+        "outsideAllowedRegion": 0
+      },
+      "look_01.png": {
+        "changedPixels": 19127,
+        "outsideAllowedRegion": 0
+      },
+      "look_02.png": {
+        "changedPixels": 18955,
+        "outsideAllowedRegion": 0
+      },
+      "look_03.png": {
+        "changedPixels": 20087,
+        "outsideAllowedRegion": 0
+      },
+      "look_04.png": {
+        "changedPixels": 20424,
+        "outsideAllowedRegion": 0
+      },
+      "look_05.png": {
+        "changedPixels": 20327,
+        "outsideAllowedRegion": 0
+      },
+      "look_06.png": {
+        "changedPixels": 19203,
+        "outsideAllowedRegion": 0
+      },
+      "look_07.png": {
+        "changedPixels": 19178,
+        "outsideAllowedRegion": 0
+      },
+      "look_08.png": {
+        "changedPixels": 18716,
+        "outsideAllowedRegion": 0
+      },
+      "look_09.png": {
+        "changedPixels": 19229,
+        "outsideAllowedRegion": 0
+      },
+      "look_10.png": {
+        "changedPixels": 19195,
+        "outsideAllowedRegion": 0
+      },
+      "look_11.png": {
+        "changedPixels": 20322,
+        "outsideAllowedRegion": 0
+      },
+      "look_12.png": {
+        "changedPixels": 20409,
+        "outsideAllowedRegion": 0
+      },
+      "look_13.png": {
+        "changedPixels": 20065,
+        "outsideAllowedRegion": 0
+      },
+      "look_14.png": {
+        "changedPixels": 18954,
+        "outsideAllowedRegion": 0
+      },
+      "look_15.png": {
+        "changedPixels": 19069,
+        "outsideAllowedRegion": 0
+      }
+    },
+    "mood-body": {
+      "mood-happy_00.png": {
+        "changedPixels": 39748,
+        "outsideAllowedRegion": 0
+      },
+      "mood-happy_01.png": {
+        "changedPixels": 39858,
+        "outsideAllowedRegion": 0
+      },
+      "mood-happy_02.png": {
+        "changedPixels": 39748,
+        "outsideAllowedRegion": 0
+      },
+      "mood-happy_03.png": {
+        "changedPixels": 39858,
+        "outsideAllowedRegion": 0
+      },
+      "mood-surprised_00.png": {
+        "changedPixels": 5962,
+        "outsideAllowedRegion": 0
+      },
+      "mood-surprised_01.png": {
+        "changedPixels": 25448,
+        "outsideAllowedRegion": 0
+      },
+      "mood-surprised_02.png": {
+        "changedPixels": 5962,
+        "outsideAllowedRegion": 0
+      },
+      "mood-surprised_03.png": {
+        "changedPixels": 25448,
+        "outsideAllowedRegion": 0
+      },
+      "mood-thinking_00.png": {
+        "changedPixels": 20840,
+        "outsideAllowedRegion": 0
+      },
+      "mood-thinking_01.png": {
+        "changedPixels": 21240,
+        "outsideAllowedRegion": 0
+      },
+      "mood-thinking_02.png": {
+        "changedPixels": 21640,
+        "outsideAllowedRegion": 0
+      },
+      "mood-thinking_03.png": {
+        "changedPixels": 20840,
+        "outsideAllowedRegion": 0
+      },
+      "mood-sleepy_00.png": {
+        "changedPixels": 22076,
+        "outsideAllowedRegion": 0
+      },
+      "mood-sleepy_01.png": {
+        "changedPixels": 22234,
+        "outsideAllowedRegion": 0
+      },
+      "mood-sleepy_02.png": {
+        "changedPixels": 22234,
+        "outsideAllowedRegion": 0
+      },
+      "mood-sleepy_03.png": {
+        "changedPixels": 39993,
+        "outsideAllowedRegion": 0
+      },
+      "mood-sad_00.png": {
+        "changedPixels": 5702,
+        "outsideAllowedRegion": 0
+      },
+      "mood-sad_01.png": {
+        "changedPixels": 5702,
+        "outsideAllowedRegion": 0
+      },
+      "mood-sad_02.png": {
+        "changedPixels": 5702,
+        "outsideAllowedRegion": 0
+      },
+      "mood-sad_03.png": {
+        "changedPixels": 5702,
+        "outsideAllowedRegion": 0
+      },
+      "mood-oops_00.png": {
+        "changedPixels": 5725,
+        "outsideAllowedRegion": 0
+      },
+      "mood-oops_01.png": {
+        "changedPixels": 5885,
+        "outsideAllowedRegion": 0
+      },
+      "mood-oops_02.png": {
+        "changedPixels": 5885,
+        "outsideAllowedRegion": 0
+      },
+      "mood-oops_03.png": {
+        "changedPixels": 5725,
+        "outsideAllowedRegion": 0
+      }
+    },
+    "confused-pose": {
+      "mood-confused_00.png": {
+        "changedPixels": 0,
+        "outsideAllowedRegion": 0
+      },
+      "mood-confused_01.png": {
+        "changedPixels": 2184,
+        "outsideAllowedRegion": 0
+      },
+      "mood-confused_02.png": {
+        "changedPixels": 2660,
+        "outsideAllowedRegion": 0
+      },
+      "mood-confused_03.png": {
+        "changedPixels": 1868,
+        "outsideAllowedRegion": 0
+      }
+    }
+  },
+  "uniqueFramesPerState": {
+    "idle": 6,
+    "walk-left": 4,
+    "walk-right": 4,
+    "waving": 3,
+    "jumping": 5,
+    "failed": 4,
+    "waiting": 3,
+    "running": 5,
+    "review": 7,
+    "lie": 4,
+    "listening": 4,
+    "attentive": 2,
+    "curl-sleep": 2,
+    "speaking": 3,
+    "drag-left": 3,
+    "drag-right": 3,
+    "mood-happy": 4,
+    "mood-surprised": 2,
+    "mood-confused": 4,
+    "mood-thinking": 3,
+    "mood-sleepy": 4,
+    "mood-sad": 2,
+    "mood-oops": 4,
+    "look": 16
+  },
+  "bounds": {
+    "attentive_00.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "attentive_01.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "curl-sleep_00.png": [
+      200,
+      725,
+      1332,
+      1499
+    ],
+    "curl-sleep_01.png": [
+      200,
+      717,
+      1332,
+      1499
+    ],
+    "drag-left_00.png": [
+      151,
+      207,
+      1286,
+      1369
+    ],
+    "drag-left_01.png": [
+      151,
+      207,
+      1286,
+      1367
+    ],
+    "drag-left_02.png": [
+      151,
+      207,
+      1286,
+      1369
+    ],
+    "drag-left_03.png": [
+      151,
+      207,
+      1286,
+      1367
+    ],
+    "drag-right_00.png": [
+      261,
+      219,
+      1374,
+      1406
+    ],
+    "drag-right_01.png": [
+      261,
+      219,
+      1374,
+      1405
+    ],
+    "drag-right_02.png": [
+      261,
+      219,
+      1374,
+      1406
+    ],
+    "drag-right_03.png": [
+      261,
+      219,
+      1374,
+      1405
+    ],
+    "failed_00.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "failed_01.png": [
+      238,
+      263,
+      1330,
+      1488
+    ],
+    "failed_02.png": [
+      238,
+      263,
+      1330,
+      1488
+    ],
+    "failed_03.png": [
+      238,
+      258,
+      1330,
+      1488
+    ],
+    "idle_00.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "idle_01.png": [
+      240,
+      255,
+      1339,
+      1488
+    ],
+    "idle_02.png": [
+      240,
+      255,
+      1350,
+      1488
+    ],
+    "idle_03.png": [
+      240,
+      266,
+      1339,
+      1488
+    ],
+    "idle_04.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "idle_05.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "jumping_00.png": [
+      240,
+      315,
+      1328,
+      1488
+    ],
+    "jumping_01.png": [
+      240,
+      181,
+      1328,
+      1403
+    ],
+    "jumping_02.png": [
+      240,
+      81,
+      1328,
+      1303
+    ],
+    "jumping_03.png": [
+      240,
+      181,
+      1328,
+      1403
+    ],
+    "jumping_04.png": [
+      240,
+      339,
+      1328,
+      1488
+    ],
+    "jumping_05.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "lie_00.png": [
+      151,
+      769,
+      1375,
+      1498
+    ],
+    "lie_01.png": [
+      151,
+      769,
+      1375,
+      1498
+    ],
+    "lie_02.png": [
+      151,
+      769,
+      1375,
+      1498
+    ],
+    "lie_03.png": [
+      151,
+      769,
+      1375,
+      1498
+    ],
+    "listening_00.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "listening_01.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "listening_02.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "listening_03.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_00.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_01.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_02.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_03.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_04.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_05.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_06.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_07.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_08.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_09.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_10.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_11.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_12.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_13.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_14.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "look_15.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-confused_00.png": [
+      255,
+      273,
+      1331,
+      1488
+    ],
+    "mood-confused_01.png": [
+      255,
+      273,
+      1331,
+      1488
+    ],
+    "mood-confused_02.png": [
+      255,
+      273,
+      1331,
+      1488
+    ],
+    "mood-confused_03.png": [
+      255,
+      273,
+      1331,
+      1488
+    ],
+    "mood-happy_00.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-happy_01.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-happy_02.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-happy_03.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-oops_00.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-oops_01.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-oops_02.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-oops_03.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-sad_00.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-sad_01.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-sad_02.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-sad_03.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-sleepy_00.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-sleepy_01.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-sleepy_02.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-sleepy_03.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-surprised_00.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-surprised_01.png": [
+      240,
+      265,
+      1328,
+      1488
+    ],
+    "mood-surprised_02.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-surprised_03.png": [
+      240,
+      265,
+      1328,
+      1488
+    ],
+    "mood-thinking_00.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-thinking_01.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-thinking_02.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "mood-thinking_03.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "review_00.png": [
+      238,
+      261,
+      1328,
+      1488
+    ],
+    "review_01.png": [
+      238,
+      261,
+      1328,
+      1488
+    ],
+    "review_02.png": [
+      238,
+      261,
+      1328,
+      1488
+    ],
+    "review_03.png": [
+      238,
+      261,
+      1328,
+      1488
+    ],
+    "review_04.png": [
+      238,
+      261,
+      1328,
+      1488
+    ],
+    "review_05.png": [
+      238,
+      261,
+      1328,
+      1488
+    ],
+    "review_06.png": [
+      238,
+      261,
+      1328,
+      1488
+    ],
+    "review_07.png": [
+      238,
+      261,
+      1328,
+      1488
+    ],
+    "running_00.png": [
+      241,
+      264,
+      1328,
+      1490
+    ],
+    "running_01.png": [
+      241,
+      264,
+      1328,
+      1490
+    ],
+    "running_02.png": [
+      241,
+      264,
+      1328,
+      1490
+    ],
+    "running_03.png": [
+      241,
+      264,
+      1328,
+      1490
+    ],
+    "running_04.png": [
+      241,
+      264,
+      1328,
+      1490
+    ],
+    "running_05.png": [
+      241,
+      264,
+      1328,
+      1490
+    ],
+    "speaking_00.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "speaking_01.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "speaking_02.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "speaking_03.png": [
+      240,
+      266,
+      1328,
+      1488
+    ],
+    "waiting_00.png": [
+      240,
+      265,
+      1322,
+      1485
+    ],
+    "waiting_01.png": [
+      240,
+      265,
+      1322,
+      1485
+    ],
+    "waiting_02.png": [
+      240,
+      265,
+      1322,
+      1485
+    ],
+    "waiting_03.png": [
+      240,
+      265,
+      1322,
+      1485
+    ],
+    "walk-left_00.png": [
+      238,
+      262,
+      1317,
+      1488
+    ],
+    "walk-left_01.png": [
+      238,
+      251,
+      1317,
+      1488
+    ],
+    "walk-left_02.png": [
+      238,
+      262,
+      1317,
+      1488
+    ],
+    "walk-left_03.png": [
+      238,
+      251,
+      1317,
+      1488
+    ],
+    "walk-right_00.png": [
+      237,
+      264,
+      1320,
+      1488
+    ],
+    "walk-right_01.png": [
+      237,
+      253,
+      1320,
+      1488
+    ],
+    "walk-right_02.png": [
+      237,
+      264,
+      1320,
+      1488
+    ],
+    "walk-right_03.png": [
+      237,
+      253,
+      1320,
+      1488
+    ],
+    "waving_00.png": [
+      240,
+      265,
+      1315,
+      1489
+    ],
+    "waving_01.png": [
+      240,
+      265,
+      1315,
+      1489
+    ],
+    "waving_02.png": [
+      240,
+      265,
+      1315,
+      1489
+    ],
+    "waving_03.png": [
+      240,
+      265,
+      1315,
+      1489
+    ]
+  },
+  "sourceHashes": {
+    "curl-sleep_00": "524b3813c9171613597dbd6083900879a23cc0442f7ade2223ca439591ce21c7",
+    "drag-left_00": "f172b1e95525f21d41dade6254e37982fb3b15f0cb2cc6e9f581a7d5cd9fe0af",
+    "drag-right_00": "b0d9efad8c2a8b45e49a8242d575ac72179d00d4d25935de9f5309041055bc39",
+    "failed_00": "ce0613c79e534ded14700140bb08f6727f6b3429e56e85cf9d54d0de16b0a724",
+    "failed_00_v2": "04bb4927ed5ca68458b479a0821f86d1c81bcb57e4c66d4e554382bf1a6ec64d",
+    "idle-inhale-test": "c9b7d8d85fd1ef6e89f800e33e8e9fa491637432ce36d3469bd0283c67c279da",
+    "idle_00": "80b88f00af32511ada184896642dc4d7a179fd12a8e746308701316710e92033",
+    "lie_00": "e70e7cc3a325d62c875036fbc98c2d78e246cff3d5fc16ce223bb8bba92c6315",
+    "listening_00": "cafa94a9e1b7f563eefab7b2228fea6f0d02d70df15bcba7bd6f5ae37eff750e",
+    "mood-confused_00_v2": "abff543c1e8d343b8a262c9d50fac89d576d430aa35aa278db7aaa68acffe5bf",
+    "review_00": "aa5ccc9b372b7e75ec25a00862d385b25f98c086a1fe7999e079fd88f8558e48",
+    "review_00_v2": "e57f8789f47e89544402b45e169f6720b64017d3d6c60685d61cc843eb41998c",
+    "running_00": "b167e4e2e9a0466458ad4673a924fad3494e640842169fdbbda5a94b61fbccae",
+    "waiting_00": "2ff64a26a135300f2daefd82b237bda2deaa5d7a8186e815a7af083b144478c1",
+    "walk-left_00": "a7471a0a16ffa7fd69773b6a0198e1bbd6e79deca82219064912241a8820907d",
+    "walk-right_00": "4513b0a55c079f016a255013be159ab61d26593cc07fa87a0eee564b2e5bd1bf",
+    "waving_00": "56ffe4bda17287585fddf578b5aec73ace647f02e84919548cf02703a6b4ceda"
+  },
+  "errors": []
+}

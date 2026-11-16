@@ -1,0 +1,36 @@
+# local-only demo packs (private art) — see PUBLISH-EXCLUDE.md
+characters/demo-*/
+furniture/demo-*/
+*.bak
+*.bak-*
+*.bak.*
+bak-*/
+*_bak-*/
+*_bak-*
+__pycache__/
+*.pyc
+node_modules/
+.tmp/
+dist/
+packs-src/
+# whale-girl source art: Release asset, never part of the npm package (specs / README / .json stay)
+characters/whale-girl/tools/source/**/*.png
+characters/whale-girl/tools/source/**/*.gif
+# the pack that used to be bundled is a Release asset now
+packs-bundled/
+# 跨语言一致性夹具是仓库内测试资产，不随发行包走（contracts 本体要发布，packkit.js/py 运行时读）
+contracts/fixtures/
+# Runtime-only biometric data is never source or a published asset.
+voiceprint/
+**/voiceprints/
+**/recordings/
+**/voices/
+**/templates.bin
+**/ortho.bin
+**/entropy.bin
+**/secret.txt
+**/up-16k.pcm
+.implementation/
+tools/privacy_terms.local.txt
+recordings/
+voices/

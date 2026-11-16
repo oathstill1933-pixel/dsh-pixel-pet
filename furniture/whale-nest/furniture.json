@@ -1,0 +1,110 @@
+{
+  "id": "whale-nest",
+  "name": "鲸鱼小窝",
+  "version": 1,
+  "order": 20,
+  "size": [
+    360,
+    300
+  ],
+  "anchor": "bottom-right",
+  "defaultEnabled": false,
+  "floorY": 286,
+  "stand": {
+    "left": -54,
+    "right": 414
+  },
+  "idle": "empty",
+  "states": {
+    "empty": {
+      "frames": [
+        "sprites/empty_00.png"
+      ],
+      "durationsMs": [
+        1000
+      ]
+    },
+    "occupied": {
+      "frames": [
+        "sprites/occupied_00.png",
+        "sprites/occupied_01.png",
+        "sprites/occupied_02.png",
+        "sprites/occupied_03.png"
+      ],
+      "durationsMs": [
+        900,
+        600,
+        600,
+        900
+      ]
+    }
+  },
+  "interactions": [
+    {
+      "verb": "sleep",
+      "say": "去鲸鱼小窝睡觉",
+      "hint": "用户说困了、晚安、去小窝睡觉时用",
+      "mode": "inside",
+      "state": "occupied",
+      "occupant": {
+        "pose": "curl-sleep",
+        "fallback": [
+          "lie"
+        ],
+        "anchor": [
+          235,
+          215
+        ],
+        "clipY": 190,
+        "drawnFor": [
+          "whale-girl"
+        ],
+        "area": [
+          134,
+          30,
+          260,
+          212
+        ],
+        "clipPath": [
+          [
+            118,
+            172
+          ],
+          [
+            128,
+            186
+          ],
+          [
+            140,
+            199
+          ],
+          [
+            238,
+            200
+          ],
+          [
+            262,
+            188
+          ],
+          [
+            280,
+            175
+          ]
+        ]
+      },
+      "enterPose": "jumping",
+      "done": "{name}钻进小窝睡下了。"
+    },
+    {
+      "verb": "wake",
+      "say": "起床",
+      "hint": "用户叫{name}醒来或从小窝出来时用",
+      "mode": "exit",
+      "done": "{name}从小窝里出来了。"
+    }
+  ],
+  "art": {
+    "license": "CC-BY-NC-SA-4.0",
+    "credits": "CREDITS.md"
+  }
+}

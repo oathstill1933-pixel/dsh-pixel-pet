@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>新建角色</title>
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="create.css">
+</head>
+<body>
+<main class="wide">
+  <header>
+    <img id="hero" alt="" width="48" height="52">
+    <input id="name" class="title" maxlength="24" spellcheck="false" placeholder="给角色起个名字">
+    <select id="jobs" title="草稿" hidden></select>
+    <nav class="steps" id="steps">
+      <button data-step="look"><i>1</i>形象</button>
+      <button data-step="acts"><i>2</i>动作</button>
+      <button data-step="preview"><i>3</i>预览</button>
+    </nav>
+  </header>
+
+  <!-- 1 · look -->
+  <section id="look" class="step">
+    <div class="split">
+      <figure class="ref" id="refBox"><img id="refImg" alt="" hidden><figcaption id="refHint">定稿形象</figcaption></figure>
+      <div class="col">
+        <div class="seg" id="source">
+          <button data-v="text">描述</button>
+          <button data-v="upload">参考图</button>
+          <button data-v="import">导入</button>
+        </div>
+        <label class="drop" id="upDrop" data-src="upload" hidden>
+          <img id="upImg" alt="" hidden><b>＋</b><span>参考图</span>
+          <input type="file" id="upFile" accept="image/png,image/jpeg,image/webp" hidden>
+        </label>
+        <label class="drop" id="impDrop" data-src="import" hidden>
+          <b>＋</b><span>画好的全身图，直接当定稿</span>
+          <input type="file" id="impFile" accept="image/png,image/jpeg,image/webp" hidden>
+        </label>
+        <textarea id="desc" data-src="text upload" rows="5" spellcheck="false" placeholder="圆滚滚的 Q 版小鲸鱼女孩，蓝色双马尾，白围裙……"></textarea>
+        <div class="bar-row" data-src="text upload">
+          <span class="muted">每次</span>
+          <div class="seg small" id="count">
+            <button data-v="1">1</button><button data-v="2">2</button><button data-v="3">3</button><button data-v="4">4</button>
+          </div>
+          <span class="muted">张候选</span>
+          <button id="gen" class="primary">生成</button>
+        </div>
+      </div>
+    </div>
+    <div class="cands" id="cands"></div>
+  </section>
+
+  <!-- 2 · actions -->
+  <section id="acts" class="step" hidden>
+    <div class="states" id="states"></div>
+    <div class="bar-row custom-bar">
+      <button id="addCustom" class="ghost" type="button">＋ 自定义动作 / 表情</button>
+      <span class="muted">自己起个名字，说一句怎么动</span>
+    </div>
+    <div class="dropzone" id="dirDrop" hidden><b>＋</b></div>
+  </section>
+
+  <!-- 3 · preview -->
+  <section id="preview" class="step" hidden>
+    <div class="verdict" id="verdict" hidden>
+      <span class="state" id="vDot"></span><span id="vText"></span>
+      <button id="vMore" class="link" hidden>详情</button>
+    </div>
+    <pre class="issues" id="issues" hidden></pre>
+    <div class="anims" id="anims"></div>
+  </section>
+
+  <footer class="dock" id="dock">
+    <div class="progress" id="prog" hidden><i id="progBar"></i></div>
+    <output id="msg"></output>
+    <span class="spacer"></span>
+    <label class="ghost file" id="dirBtn" hidden>导入文件夹<input type="file" id="dirFile" webkitdirectory multiple hidden></label>
+    <button id="stop" class="ghost" hidden>停止</button>
+    <button id="build" class="ghost" hidden>转换</button>
+    <button id="next" class="primary"></button>
+  </footer>
+
+  <dialog id="confirm">
+    <form method="dialog">
+      <p class="big"><b id="cNum">0</b> 张</p>
+      <p id="cWhat" class="muted"></p>
+      <menu><button value="cancel" class="ghost">取消</button><button value="ok" class="primary" id="cOk">开始</button></menu>
+    </form>
+  </dialog>
+  <dialog id="cdlg">
+    <form method="dialog">
+      <p class="big">自定义动作 / 表情</p>
+      <label class="field"><span>叫什么</span><input id="cLabel" maxlength="12" placeholder="害羞" autocomplete="off"></label>
+      <label class="field"><span>怎么动</span><textarea id="cDesc" rows="2" maxlength="300" placeholder="低着头，脸红，手在背后搓"></textarea></label>
+      <div class="bar-row">
+        <label class="field small"><span>帧数</span><input id="cFrames" type="number" min="1" max="12" value="4"></label>
+        <label class="field small"><span>心情标签（可空）</span><input id="cMood" maxlength="12" placeholder="害羞" autocomplete="off"></label>
+      </div>
+      <menu><button value="cancel" class="ghost">取消</button><button value="ok" class="primary" id="cAdd">加进来</button></menu>
+    </form>
+  </dialog>
+  <div id="toast" role="status" hidden></div>
+</main>
+<script src="create.js"></script>
+</body>
+</html>

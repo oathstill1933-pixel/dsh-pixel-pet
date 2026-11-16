@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日历与日记</title>
+<link rel="stylesheet" href="calendar.css">
+</head>
+<body>
+<main>
+  <header>
+    <nav class="ptabs" id="pageTabs">
+      <button class="ptab on" data-page="cal">日历</button>
+      <button class="ptab" data-page="diary">日记本</button>
+    </nav>
+    <button id="gear" class="ghost" aria-label="日历源"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+  </header>
+
+  <section id="calPage">
+    <div class="cal-grid">
+      <div class="mon-head">
+        <button id="monPrev" class="ghost" aria-label="上一月"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <output id="monTitle"></output>
+        <button id="monNext" class="ghost" aria-label="下一月"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <button id="monToday" class="ghost" hidden>回到本月</button>
+      </div>
+      <div class="wd-row"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div>
+      <div class="grid" id="grid"></div>
+    </div>
+    <div class="cal-day">
+      <div class="day-lunar"><b id="dayTitle"></b><output id="dayLunar"></output></div>
+      <details id="almanacBox" hidden><summary>宜忌</summary><p id="almanac"></p></details>
+      <ol class="ev-list" id="evList"></ol>
+      <form id="addRow">
+        <output id="editingTag" class="mini" hidden></output>
+        <input id="addTitle" type="text" placeholder="记一件事" maxlength="60" autocomplete="off">
+        <div class="add-more">
+          <input id="addDate" type="date"><input id="addTime" type="time">
+          <select id="addRepeat"><option value="none">不重复</option><option value="yearly">每年</option><option value="monthly">每月</option><option value="weekly">每周</option></select>
+          <select id="addRemind"><option value="">不提醒</option><option value="0">当天</option><option value="1">提前 1 天</option><option value="3">提前 3 天</option><option value="7">提前 7 天</option><option value="0,1">当天 + 提前 1 天</option><option value="0,1,3">当天 + 1、3 天</option></select>
+          <label class="sw" id="addDone" hidden><input type="checkbox"><i></i>完成</label>
+          <button id="addCancel" class="pill" type="button" hidden>不改了</button>
+          <button id="addRemove" class="pill" type="button" hidden>删除</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section id="diaryPage" hidden>
+    <div class="diary-bar">
+      <button id="dMonPrev" class="ghost" aria-label="上一月"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+      <output id="dMonTitle"></output>
+      <button id="dMonNext" class="ghost" aria-label="下一月"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+      <input id="dSearch" type="search" placeholder="找一找" autocomplete="off">
+    </div>
+    <ol class="diary-wall" id="diaryList"></ol>
+  </section>
+  <div id="noteZoom" class="note-zoom" hidden></div>
+
+  <div id="sourcesPop" class="pop" hidden>
+    <div class="pop-panel">
+    <div class="pop-head"><b>日历源</b><button id="popClose" class="ghost" aria-label="关闭"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="src-builtin">
+      <label class="sw"><input type="checkbox" id="srcHoliday"><i></i>法定节假日 · 调休<span id="holidayYears" class="mini"></span><button id="holidayUpdate" class="pill" type="button">更新</button></label>
+      <label class="sw"><input type="checkbox" id="srcLunar"><i></i>农历 · 节气 · 传统节日</label>
+      <label class="sw"><input type="checkbox" id="srcIntl"><i></i>常见国际节日</label>
+      <label class="sw"><input type="checkbox" id="srcAlmanac"><i></i>黄历（宜忌冲煞）</label>
+    </div>
+    <ol class="src-subs" id="subList"></ol>
+    <form class="src-add" id="addSubForm">
+      <input id="subName" type="text" placeholder="名称" maxlength="30" autocomplete="off">
+      <input id="subUrl" type="url" placeholder="https://… 的订阅链接" autocomplete="off">
+      <button class="pill" type="submit">添加订阅</button>
+    </form>
+    <div class="src-more">
+      <div class="row"><span>记日记</span><div class="seg" id="diaryCadence"><button data-v="off">关</button><button data-v="few">少</button><button data-v="medium">适中</button><button data-v="much">多</button></div></div>
+      <div class="row"><span>提醒说话时间</span><input id="speakFrom" type="time"></div>
+      <p class="mini">订阅源默认不给 AI 看；想让它看，单独打开那一个。</p>
+    </div>
+    </div>
+  </div>
+  <div id="toast" class="toast" hidden></div>
+</main>
+
+<script src="calendar.js"></script>
+</body>
+</html>

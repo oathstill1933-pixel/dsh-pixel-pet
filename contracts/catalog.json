@@ -1,0 +1,15 @@
+{
+  "v": 1,
+  "entries": [
+    {
+      "id": "builtin.claude-girl",
+      "version": "1.1.2",
+      "name": "Claude娘",
+      "summary": "换成小克来陪你，她的书页床和声音也一起带来。",
+      "url": "https://github.com/oathstill1933-pixel/dsh-pixel-pet/releases/download/v0.1.0/builtin.claude-girl-1.1.2.petpack",
+      "size": 8035558,
+      "sha256": "5f752fcafaebac7e9b4611b04f4537f621733f36042afee9d6a5f465d509e6d6"
+    }
+  ],
+  "_说明": "拓展包目录。条目提供 url（https，GitHub Release 附件）或 bundled（插件内相对路径），同时声明 size 和 sha256。任一条目不合法时拒用整份目录。oathstill1933-pixel/dsh-pixel-pet 在发布前用 scripts/set-repo.mjs 一次性替换。"
+}

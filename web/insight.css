@@ -1,0 +1,45 @@
+/* 「活动与额度」页签 v2（web/insight.js）：桌宠状态带 / 余额曲线 / 今日桌宠做了什么，全部 SVG + 少量 DOM。
+   颜色只从 app.css 的主题变量派生（color-mix），深浅色都可读。 */
+#insight { display: flex; flex-direction: column; gap: 14px; }
+#insight h2 { margin-bottom: 2px; }
+
+.insight-date { display: flex; align-items: center; gap: 8px; }
+.insight-date output { flex: none; min-width: 9.5em; text-align: center; color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.insight-date .ghost { padding: 4px 8px; }
+.insight-date .ghost svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+#insightPrev svg { transform: rotate(90deg); }   /* 下箭头转成左 */
+#insightNext svg { transform: rotate(-90deg); }  /* 下箭头转成右 */
+#insightNext:disabled { opacity: .35; cursor: default; }
+
+/* ---- 桌宠状态带：288 格，5 分钟一格；没记录的时段 = offline ---- */
+.insight-band { display: block; width: 100%; height: 34px; border: 1px solid var(--line); border-radius: 7px;
+  background: color-mix(in srgb, var(--muted) 7%, var(--bg)); }
+.insight-band rect { shape-rendering: crispEdges; }
+.ps-working { fill: var(--accent); }
+.ps-speaking { fill: var(--ok); }
+.ps-thinking { fill: var(--warn); }
+.ps-walk { fill: color-mix(in srgb, var(--accent) 50%, var(--card)); }
+.ps-inside { fill: color-mix(in srgb, var(--muted) 45%, var(--card)); }
+.ps-idle { fill: color-mix(in srgb, var(--muted) 20%, var(--card)); }
+.ps-hidden { fill: color-mix(in srgb, var(--muted) 8%, var(--card)); }
+.ps-offline { fill: transparent; }
+
+/* ---- 余额曲线（整个账户） ---- */
+.insight-quota { display: block; width: 100%; height: 190px; }
+.insight-quota .grid { stroke: var(--line); stroke-width: 1; }
+.insight-quota .axis { fill: var(--muted); font-size: 10px; font-variant-numeric: tabular-nums; }
+.insight-quota .line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.insight-quota .dot { fill: var(--accent); }
+.insight-quota-foot { display: flex; justify-content: flex-end; min-height: 17px; }
+.insight-quota-foot output { color: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+
+/* ---- 今日桌宠做了什么：几个数字并排 ---- */
+.insight-stats { display: flex; flex-wrap: wrap; gap: 10px 40px; padding: 4px 2px 0; }
+.insight-stat { min-width: 64px; }
+.insight-stat b { display: block; font-size: 19px; font-weight: 600; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.insight-stat > span { color: var(--muted); font-size: 11.5px; }
+.insight-stat .sub { display: block; color: var(--muted); font-size: 11px; margin-top: 2px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---- 空态：一句人话，不画 0 / 假数据 ---- */
+.insight-empty { color: var(--muted); font-size: 12px; padding: 18px 12px; text-align: center;
+  border: 1px dashed var(--line); border-radius: 10px; }

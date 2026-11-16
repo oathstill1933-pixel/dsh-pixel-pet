@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>像素桌宠</title>
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="extras.css">
+<link rel="stylesheet" href="insight.css">
+</head>
+<body>
+<main>
+  <div class="top">
+        <header>
+        <img id="hero" alt="" width="64" height="69">
+        <h1 id="heroName">—</h1>
+        <button id="run" class="run" aria-pressed="false"><span class="dot"></span><span id="runText">启动</span></button>
+      </header>
+    <div class="topgrid">
+  <section>
+    <div class="rows">
+      <div class="row">
+        <span class="wide">名字</span>
+        <input id="partnerName" type="text" maxlength="24" aria-label="ta的名字" autocomplete="off" spellcheck="false">
+        <span class="wide">称呼你为</span>
+        <input id="addressAs" type="text" maxlength="24" aria-label="怎么称呼你" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </section>
+  <section class="roles-session">
+    <div class="rows">
+      <div class="row">
+        <span>角色窗口</span>
+        <select id="session"></select>
+        <span class="toolgap" id="toolGap" hidden><button type="button" class="toolgap-dot" aria-label="缺工具" aria-expanded="false"></button><span class="toolgap-pop" role="tooltip" hidden></span></span>
+      </div>
+      <div class="row">
+        <span>会话</span>
+        <div class="seg" id="followMode" role="group" aria-label="桌宠在哪个会话里聊">
+          <button data-v="manual">固定一个会话</button>
+          <button data-v="follow">跟着聊天桥走</button>
+        </div>
+        <select id="followSource" hidden></select>
+        <button id="followGuideBtn" class="pill" type="button" data-tip="可把提示转发给新会话" aria-expanded="false" hidden>链接测试</button>
+      </div>
+      <div class="row frow">
+        <span></span>
+        <span class="fstate" id="followHint"></span>
+      </div>
+      <div class="row frow" id="followStateRow" hidden>
+        <span></span>
+        <span class="fstate" id="followState"></span>
+      </div>
+      <div id="followGuide" class="guide" hidden>
+        <pre id="followGuideText"></pre>
+        <div class="guide-actions"><button id="followGuideCopy" class="ghost" data-icon="copy" data-tip="复制"></button></div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <h2>角色</h2>
+    <div id="chars" class="grid"></div>
+  </section>
+  <details class="fold">
+    <summary>动作</summary>
+    <div id="moves" class="moves"></div>
+  </details>
+  <section>
+    <h2>家具</h2>
+    <div id="furn" class="grid"></div>
+  </section>
+  <section>
+    <h2>信箱</h2>
+    <div class="rows">
+      <div class="row mailrow">
+        <button id="openMail" class="mailbtn" data-tip="打开信箱" aria-label="打开信箱"><img src="api/thumb/furniture/mailbox" alt=""><b id="mailCount" hidden></b></button>
+        <label class="sw"><input type="checkbox" id="agently"><i></i>Agently Mail</label>
+        <span id="agState" class="state" hidden></span>
+        <button id="agReauth" class="pill" type="button" hidden>重新授权</button>
+      </div>
+      <p class="hint" id="agMore" hidden>还有更早的信没补收</p>
+      <div class="row" data-ag hidden><span>收信</span><input id="agTo" type="email" placeholder="you@example" spellcheck="false"></div>
+      <div class="row" data-ag hidden><span>CLI</span><input id="agCmd" placeholder="agently-cli" spellcheck="false"></div>
+      <div class="row"><span></span><button id="agGuide" class="pill" type="button" data-tip="可把提示转发给新会话">链接测试</button></div>
+      <div id="guide" class="guide" hidden>
+        <pre id="guideText"></pre>
+        <div class="guide-actions"><button id="guideCopy" class="ghost" data-icon="copy" data-tip="复制"></button><button id="guideSend" class="ghost" data-icon="send" data-tip="发到会话"></button></div>
+      </div>
+    </div>
+  </section>
+    </div>
+  </div>
+    <div class="tabs">
+    <button class="tab on" data-tab="ai">AI 行为</button>
+    <button class="tab" data-tab="voice">语音</button>
+    <button class="tab" data-tab="image">图片供应方</button>
+    <button class="tab" data-tab="balance">额度感知</button>
+    <button class="tab" data-tab="insight">活动与额度</button>
+    <button class="tab" data-tab="packs">拓展包</button>
+  </div>
+  <div class="panes">
+    <div class="pane on" data-pane="ai">
+      <section>
+          <h2>AI 行为</h2>
+          <div class="rows">
+            <div class="row"><span>大小</span><input id="size" type="range" min="0.3" max="3" step="0.05"><output id="sizeOut"></output></div>
+            <div class="row toggles">
+              <label class="sw"><input type="checkbox" id="topmost"><i></i>置顶</label>
+              <label class="sw"><input type="checkbox" id="follow"><i></i>看鼠标</label>
+              <label class="sw"><input type="checkbox" id="stayPut"><i></i>别乱走</label>
+              <label class="sw"><input type="checkbox" id="aiControl"><i></i>让 AI 指挥桌宠</label>
+              <label class="sw"><input type="checkbox" id="autoStart"><i></i>随 DSH 启动</label>
+            </div>
+            <div class="row"><span>Python</span><input id="python" spellcheck="false" placeholder="留空 = 自动准备"></div>
+            <div class="row sub">
+              <span></span>
+              <output id="pythonPath" class="mono"></output>
+              <button id="pythonPrepare" class="ghost" data-icon="refresh" data-tip="重新准备运行时"></button>
+            </div>
+          </div>
+        </section>
+      <section>
+          <h2>AI 自主性</h2>
+          <div class="rows">
+            <div class="row toggles">
+              <label class="sw"><input type="checkbox" id="screen"><i></i>屏幕感知</label>
+              <span class="hint">有不想给 AI 看的内容时先关闭</span>
+            </div>
+            <div class="row toggles">
+              <label class="sw"><input type="checkbox" id="autoOn"><i></i>主动一点</label>
+              <button id="autoMore" class="ghost fold" data-icon="chevron" data-tip="分项" aria-expanded="false" aria-controls="autoBox"></button>
+            </div>
+            <div id="autoBox" class="auto" hidden>
+              <div class="auto-rules">
+                <label class="sw"><input type="checkbox" data-rule="idleSleep"><i></i>没人时去睡</label>
+                <label class="sw"><input type="checkbox" data-rule="welcomeBack"><i></i>回来打招呼</label>
+                <label class="sw"><input type="checkbox" data-rule="breakReminder"><i></i>提醒休息</label>
+                <label class="sw"><input type="checkbox" data-rule="lateNight"><i></i>深夜犯困</label>
+                <label class="sw"><input type="checkbox" data-rule="morningHello"><i></i>早上问好</label>
+                <label class="sw"><input type="checkbox" data-rule="newMail"><i></i>来信去信箱</label>
+                <label class="sw"><input type="checkbox" data-rule="fullscreenHide"><i></i>全屏时躲开</label>
+                <label class="sw"><input type="checkbox" data-rule="idleFidget"><i></i>闲着小动作</label>
+                <label class="sw"><input type="checkbox" data-rule="gameCalm"><i></i>打游戏时不打扰</label>
+                <label class="sw"><input type="checkbox" data-rule="videoCompany"><i></i>看视频时一起看</label>
+                <label class="sw"><input type="checkbox" data-rule="videoCorner"><i></i>全屏视频缩到角落</label>
+                <label class="sw"><input type="checkbox" data-rule="meetingQuiet"><i></i>开会时安静</label>
+              </div>
+              <div class="row aware">
+                <label class="sw"><input type="checkbox" id="autoAware"><i></i>允许感知在做什么</label>
+                <button id="awareLog" class="ghost icon" data-tip="最近记录" aria-label="最近记录" aria-expanded="false" aria-controls="awareLogBox" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></button>
+                <span id="awareNow" class="aware-now" hidden>当前识别成：<select id="awareFix" aria-label="当前识别成"></select><output id="awareApp"></output></span>
+              </div>
+              <ol id="awareLogBox" class="aware-log" hidden></ol>
+              <div class="row care">
+                <label class="sw"><input type="checkbox" id="autoCare"><i></i>主动关心</label>
+                <span id="carePaused" class="care-dot" hidden></span>
+                <div class="seg" id="careLevel" role="group" aria-label="主动关心频率">
+                  <button data-v="little">少</button>
+                  <button data-v="medium">适中</button>
+                  <button data-v="much">多</button>
+                </div>
+              </div>
+              <div class="row">
+                <span>免打扰</span>
+                <input id="quietStart" type="time" class="time" aria-label="免打扰开始">
+                <span class="dash">–</span>
+                <input id="quietEnd" type="time" class="time" aria-label="免打扰结束">
+                <button id="quietClear" class="ghost" data-icon="x" data-tip="不设免打扰" hidden></button>
+              </div>
+            </div>
+            <div class="prompt">
+              <textarea id="prompt" rows="12" spellcheck="false" aria-label="桌宠提示词"></textarea>
+              <textarea id="promptPart" class="part" rows="6" spellcheck="false" aria-label="主动程度"></textarea>
+              <div class="prompt-foot"><output id="promptCount"></output><button id="promptReset" class="ghost" data-icon="undo" data-tip="恢复默认"></button></div>
+            </div>
+          </div>
+        </section>
+    </div>
+    <div class="pane" data-pane="voice">
+      <section>
+          <h2>语音</h2>
+          <div class="rows">
+            <div class="row">
+              <span>音色</span>
+              <div class="seg" id="voiceMode">
+                <button data-v="preset">鲸鱼娘</button>
+                <button data-v="clone">克隆</button>
+                <button data-v="custom">自定义</button>
+              </div>
+              <button id="test" class="ghost" data-icon="play" data-tip="试听"></button>
+              <audio id="testAudio" hidden></audio>
+            </div>
+            <div class="row sub" data-mode="preset" hidden>
+              <span></span>
+              <select id="presetVoice" aria-label="预设音色"></select>
+            </div>
+            <div class="row sub" data-mode="clone" hidden>
+              <span></span>
+              <select id="cloneVoice"></select>
+              <button id="cloneDel" class="ghost" data-icon="trash" data-tip="删除这个音色"></button>
+            </div>
+            <div class="row sub" data-mode="clone" hidden>
+              <span></span>
+              <label class="ghost file"><span id="cloneFileName">参考音频</span><input id="cloneFile" type="file" accept="audio/*" hidden></label>
+              <input id="cloneText" placeholder="音频里说的话" spellcheck="false">
+              <button id="cloneGo" class="ghost" data-icon="wand" data-tip="克隆音色"></button>
+            </div>
+            <div class="row sub" data-mode="custom" hidden>
+              <span></span>
+              <div class="seg" id="customMode">
+                <button data-v="http">HTTP</button>
+                <button data-v="command">命令</button>
+              </div>
+              <input id="customUrl" placeholder="http://127.0.0.1:端口/tts" spellcheck="false">
+              <input id="customCmd" placeholder="mytts --text {text} --out {out}" spellcheck="false" hidden>
+            </div>
+            <div class="row" id="engineRow">
+              <span>引擎</span>
+              <div class="bar"><i id="engineBar"></i></div>
+              <output id="engineText"></output>
+              <button id="engineRetry" class="ghost" data-icon="download" data-tip="下载" hidden></button>
+              <button id="engineDelete" class="pill ghostly rm" type="button">删除</button>
+            </div>
+            <div class="row">
+              <span>识别</span>
+              <div class="seg" id="stt">
+                <button data-v="dsh">DSH</button>
+                <button data-v="local-http">本机</button>
+                <button data-v="off">关</button>
+              </div>
+              <input id="sttEndpoint" placeholder="http://127.0.0.1:端口/路径" spellcheck="false" hidden>
+            </div>
+            <div class="row">
+              <span>监听开关</span>
+              <select id="hotkey" class="narrow"></select>
+            </div>
+            <div class="row">
+              <span>语音打断</span>
+              <label class="sw"><input id="interruptEnabled" type="checkbox" aria-label="允许语音打断"><i></i></label>
+            </div>
+            <div class="row" id="interruptReplyRow">
+              <label for="interruptReply">打断回应</label>
+              <input id="interruptReply" maxlength="120" value="嗯，你说">
+            </div>
+            <div class="row">
+              <span>会话报错</span>
+              <label class="sw"><input id="failEnabled" type="checkbox" aria-label="角色所指会话报错时念一句" title="仅会话进入失败状态时播放，不含所有识别或合成错误"><i></i></label>
+            </div>
+            <div class="row">
+              <label for="failReply">会话报错台词</label>
+              <input id="failReply" maxlength="120">
+            </div>
+          </div>
+        </section>
+      <section>
+          <h2>声纹<span class="help" tabindex="0" data-icon="help" data-tip="声纹只用来分辨是不是你在说话，好挡掉电视、旁人和桌宠自己的声音。它不是密码，放你的录音也能骗过去。&#10;录音、声纹全程留在这台电脑上：录入窗口由桌宠自己打开，声纹加密保存，不上传，也不会交给 AI 助手看。&#10;太短的一声（比如单个「嗯」）听不出是谁，会被忽略。"></span></h2>
+          <div class="rows">
+            <div class="row toggles">
+              <label class="sw"><input type="checkbox" id="vpEnabled"><i></i>只和录入过的人说话</label>
+              <span id="vpState" class="state" hidden></span>
+            </div>
+            <div class="row">
+              <span>保存方式</span>
+              <div class="seg" id="vpMode"><button data-v="disk">落盘保存</button><button data-v="memory">仅本次运行</button></div>
+            </div>
+            <div class="row">
+              <span>宽严</span>
+              <input id="vpStrict" type="range" min="0" max="1" step="0.05" aria-label="声纹宽严">
+              <output id="vpStrictOut"></output>
+            </div>
+            <div id="vpPeople" class="rows"></div>
+            <div class="row">
+              <span></span>
+              <button id="vpModel" class="ghost" data-icon="download" data-tip="下载声纹模型"></button>
+              <button id="vpModelDelete" class="pill ghostly rm" type="button">删除</button>
+              <button id="vpEnroll" class="ghost" data-icon="mic" data-tip="录入"></button>
+              <button id="vpTest" class="ghost" data-icon="wave" data-tip="试一下"></button>
+              <button id="vpClear" class="ghost" data-icon="trash" data-tip="全部删除" hidden></button>
+            </div>
+            <p class="hint" id="vpNote" hidden></p>
+          </div>
+        </section>
+    </div>
+    <div class="pane" data-pane="image"><section>
+          <h2>出图</h2>
+          <div class="rows">
+            <div class="row">
+              <span>提供方</span>
+              <div class="seg" id="igProvider"><button data-v="openai">OpenAI</button><button data-v="doubao">豆包</button><button data-v="gemini">Gemini</button><button data-v="compatible">兼容接口</button></div>
+              <output id="igFixed" class="mono">gpt-image-2</output>
+            </div>
+            <div class="row" data-ig hidden><span>地址</span><input id="igBase" placeholder="https://…/v1" spellcheck="false"></div>
+            <div class="row" data-ig hidden><span>模型</span><input id="igModel" placeholder="gpt-image-2" spellcheck="false"></div>
+            <div class="row">
+              <span>Key</span>
+              <input id="igKey" type="password" autocomplete="new-password" spellcheck="false" hidden>
+              <input id="igRef" class="mono ref" placeholder="OPENAI_API_KEY" spellcheck="false" title="环境变量名">
+              <span id="igKeyState" class="state"></span>
+              <button id="igKeyDel" class="ghost" data-icon="x" data-tip="移除已保存的 Key" hidden></button>
+            </div>
+            <div class="row"><span></span><button id="igTest" class="ghost" data-icon="zap" data-tip="测试连接"></button><output id="igTestOut" class="msg"></output></div>
+          </div>
+        </section></div>
+    <div class="pane" data-pane="balance"><section id="dsBal">
+          <h2>DeepSeek</h2>
+          <div class="rows">
+            <div class="row">
+              <span>余额</span>
+              <output id="dsAmt" class="mono">—</output>
+              <button id="dsRefresh" class="ghost" data-icon="refresh" data-tip="刷新"></button>
+              <input id="dsThr" class="mono ds-thr" type="number" min="0" step="1" data-tip="低于此值标「偏低」" aria-label="偏低阈值">
+              <label class="sw"><input type="checkbox" id="dsInject"><i></i>告诉 AI</label>
+            </div>
+            <div class="row">
+              <span>Key</span>
+              <input id="dsKey" type="password" autocomplete="new-password" spellcheck="false">
+              <span id="dsState" class="state"></span>
+            </div>
+          </div>
+        </section></div>
+    <div class="pane" data-pane="insight" id="paneInsight">
+      <section class="plain" id="insight">
+        <h2>活动与额度</h2>
+        <div class="insight-date">
+          <button id="insightPrev" class="ghost" data-icon="chevron" data-tip="前一天" aria-label="前一天"></button>
+          <output id="insightDate"></output>
+          <button id="insightNext" class="ghost" data-icon="chevron" data-tip="后一天" aria-label="后一天"></button>
+          <button id="insightToday" class="ghost" hidden>回到今天</button>
+        </div>
+        <svg id="petBand" class="insight-band" viewBox="0 0 288 16" preserveAspectRatio="none" role="img" aria-label="桌宠状态带"></svg>
+        <div id="petBandEmpty" class="insight-empty" hidden></div>
+        <svg id="insightQuota" class="insight-quota" preserveAspectRatio="none" role="img" aria-label="余额曲线"></svg>
+        <div class="insight-quota-foot"><output id="insightSpent"></output></div>
+        <div id="insightQuotaEmpty" class="insight-empty" hidden></div>
+        <div class="insight-stats" id="insightStats"></div>
+        <div id="statsEmpty" class="insight-empty" hidden></div>
+      </section>
+    </div>
+    <div class="pane" data-pane="packs">
+      <section class="plain" id="packsSection">
+          <h2>拓展包</h2>
+          <div class="packs">
+            <article class="pack" id="listenCard">
+              <div class="pack-ava" data-pack="listen"><img src="packs/listen.png" alt="" hidden></div>
+              <div class="pack-body" role="button" tabindex="0" aria-expanded="false" aria-controls="listenDetail">
+                <b>一起听歌</b>
+                <p>陪你听网易云、QQ 音乐或本地的歌，跟得上歌词和律动，每天给你挑一首。</p>
+              </div>
+              <label class="sw pack-act"><input type="checkbox" id="listenOn" aria-label="一起听歌"><i></i></label>
+              <div class="pack-more" id="listenPyRow" hidden>
+                <button id="openListen" class="pill" type="button">打开小卡片</button>
+                <input id="listenPython" type="text" spellcheck="false" autocomplete="off" placeholder="音乐服务 Python" aria-label="音乐服务 Python">
+                <span class="mini">听得更细</span>
+                <label class="sw"><input type="checkbox" id="clapOn"><i></i></label>
+                <output id="clapState" class="mini"></output>
+                <input id="clapMirror" type="url" spellcheck="false" autocomplete="off" placeholder="HF 镜像（可选）" aria-label="HF 镜像" hidden>
+              </div>
+              <div class="pack-more audio-dirs" id="audioDirRow" hidden>
+                <ul id="audioDirs" aria-label="允许读取的文件夹" hidden></ul>
+                <button id="addAudioDir" class="pill" type="button">添加文件夹</button>
+              </div>
+              <div class="pack-more" id="listenClean"><button id="listenDelete" class="pill ghostly rm" type="button">删除</button></div>
+              <div class="pack-detail" id="listenDetail" hidden>
+                <dl>
+                  <dt>能做什么</dt>
+                  <dd>你在网易云、QQ 音乐里放歌，或者用它自己的播放器放本地歌，桌宠旁边会出现一张小卡片：封面、歌名、滚动歌词、进度，收起来是一张转着的唱片。</dd>
+                  <dd>它能「听」出这首歌的速度、调性、段落变化和轻重起伏；打开「听得更细」后，还能猜出情绪、风格和乐器，会明说是猜的。</dd>
+                  <dt>桌宠能帮你</dt>
+                  <dd>说「放一首某某的歌」，它能在网易云里直接放；QQ 音乐只能上一首、下一首、暂停和调音量。</dd>
+                  <dd>想听什么拿不准，可以让它推荐一首；它还有一份自己的歌单。</dd>
+                  <dt>用之前</dt>
+                  <dd>网易云要在它自己的设置里打开「开启 SMTC」，不然认不出在放什么。</dd>
+                  <dd>上面那个路径是音乐服务用的 Python，一般不用动；「听得更细」第一次打开会下载约 600 MB 的模型。</dd>
+                  <dt>隐私</dt>
+                  <dd>声音只在本机分析，不录音、不存音频。点歌时只把歌名和歌手发给网易云去搜。</dd>
+                </dl>
+              </div>
+            </article>
+            <article class="pack" id="readingCard">
+              <div class="pack-ava" data-pack="reading"><img src="packs/reading.png" alt="" hidden></div>
+              <div class="pack-body" role="button" tabindex="0" aria-expanded="false" aria-controls="readingDetail">
+                <b>一起看书</b>
+                <p>打开 PDF 或网页一起读，划一句就能聊这段；想记住的才留存，书只在本机。</p>
+              </div>
+              <label class="sw pack-act"><input type="checkbox" id="readingOn" aria-label="一起看书"><i></i></label>
+              <div class="pack-more" id="readingRow" hidden>
+                <button id="openReading" class="pill" type="button">打开阅读窗</button>
+              </div>
+              <div class="pack-more" id="readingClean"><button id="readingDelete" class="pill ghostly rm" type="button">删除</button></div>
+              <div class="pack-detail" id="readingDetail" hidden>
+                <dl>
+                  <dt>能做什么</dt>
+                  <dd>打开一个 PDF 或网页，在阅读窗里和桌宠一起读。读到哪一句想聊，划一下，点冒出来的小气泡就能就这一段跟它说，打字、说话都行。</dd>
+                  <dt>桌宠能帮你</dt>
+                  <dd>解释这段在说什么、翻译、陪你讨论；它的回答会念出来，也会冒在气泡里。</dd>
+                  <dd>划了一句再用输入条或语音问它，它也知道你说的是这一段。</dd>
+                  <dt>留存</dt>
+                  <dd>想记住的句子和聊的内容，点「留」才会保存，以后翻得到。</dd>
+                  <dt>隐私</dt>
+                  <dd>书只在本机打开，不上传；只有你划的那一段和你的问题会发给桌宠。</dd>
+                </dl>
+              </div>
+            </article>
+            <article class="pack" id="calendarCard">
+              <div class="pack-ava" data-pack="calendar"><img src="packs/calendar.png" alt="" hidden></div>
+              <div class="pack-body" role="button" tabindex="0" aria-expanded="false" aria-controls="calendarDetail">
+                <b>日历与日记</b>
+                <p>帮你记日子、到点提醒；桌宠聊着聊着也会写几句自己的日记。</p>
+              </div>
+              <label class="sw pack-act"><input type="checkbox" id="calendarOn" aria-label="日历与日记"><i></i></label>
+              <div class="pack-more" id="calendarRow" hidden>
+                <button id="openCalendar" class="pill" type="button">打开日历</button>
+              </div>
+              <div class="pack-more" id="calendarClean"><button id="calendarDelete" class="pill ghostly rm" type="button">删除</button></div>
+              <div class="pack-detail" id="calendarDetail" hidden>
+                <dl>
+                  <dt>能做什么</dt>
+                  <dd>一本月历：带农历、节气、法定节假日和调休、常见节日。你可以自己记日程、生日、纪念日，农历生日每年会自动换成公历。</dd>
+                  <dd>还能订阅外部日历（Outlook、Google 这类给的订阅链接），只看不改。</dd>
+                  <dt>桌宠能帮你</dt>
+                  <dd>跟它说「帮我记一下……」它就记上；到点、或者提前几天，它会主动提醒你。</dd>
+                  <dd>节日、生日那天，它可能会用信箱给你送张贺卡——想送才送。</dd>
+                  <dt>日记</dt>
+                  <dd>聊过一阵，桌宠会用第一人称写两三句自己的日记，带时间；你在日记本里能看、能删，它以后也翻得到，算是它的记忆。</dd>
+                  <dt>隐私</dt>
+                  <dd>日程和日记只存在本机。订阅的外部日历默认不给桌宠看，要给就单独打开那一个。桌面上摆一个台历家具，点它也能打开日历。</dd>
+                </dl>
+              </div>
+            </article>
+            <div id="packs" class="packs"></div>
+          </div>
+          <p class="hint" id="packsNote" hidden></p>
+          <div class="pack-import">
+            <label class="pill ghostly file"><span id="packFileName">导入 .petpack</span><input id="packFile" type="file" accept=".petpack,.zip" hidden></label>
+          </div>
+        </section>
+    </div>
+  </div>
+  <section hidden>
+    <h2>输入条</h2>
+    <div class="rows">
+      <div class="row toggles">
+        <label class="sw"><input type="checkbox" id="hubShow"><i></i>显示输入条</label>
+        <label class="sw"><input type="checkbox" id="hubSpeak"><i></i>念出回复</label>
+      </div>
+      <div class="row" data-hub>
+        <span>自动收起</span>
+        <input id="hubAuto" type="number" min="0" max="3600" step="1" class="num"><output>秒</output>
+      </div>
+    </div>
+  </section>
+  <section class="plain purge-zone" id="purgeZone">
+    <button id="purgeAll" class="purge-all" type="button">清除全部数据</button>
+  </section>
+</main>
+<div id="toast" role="status" hidden></div>
+<div id="tip" role="tooltip" hidden></div>
+<script>
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+    var panes = Array.prototype.slice.call(document.querySelectorAll('.pane'));
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        tabs.forEach(function (x) { x.classList.toggle('on', x === t); });
+        panes.forEach(function (p) { p.classList.toggle('on', p.dataset.pane === t.dataset.tab); });
+      });
+    });
+  })();
+</script>
+<script src="app.js"></script>
+<script src="extras.js"></script>
+<script src="balance.js"></script>
+<script src="toolgap.js"></script>
+<script src="insight.js"></script>
+</body>
+</html>
+

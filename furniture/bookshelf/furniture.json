@@ -1,0 +1,87 @@
+{
+  "id": "bookshelf",
+  "name": "书架",
+  "version": 1,
+  "order": 30,
+  "size": [
+    228,
+    172
+  ],
+  "anchor": "bottom-left",
+  "defaultEnabled": false,
+  "floorY": 170,
+  "stand": {
+    "left": -40,
+    "right": 244
+  },
+  "idle": "idle",
+  "feature": "reading",
+  "reading": {
+    "openState": "read"
+  },
+  "states": {
+    "idle": {
+      "frames": [
+        "sprites/idle_00.png"
+      ],
+      "durationsMs": [
+        1000
+      ]
+    },
+    "read": {
+      "frames": [
+        "sprites/read_00.png",
+        "sprites/read_01.png",
+        "sprites/read_02.png",
+        "sprites/read_03.png",
+        "sprites/read_04.png",
+        "sprites/read_05.png",
+        "sprites/read_06.png",
+        "sprites/read_07.png",
+        "sprites/read_08.png",
+        "sprites/read_09.png",
+        "sprites/read_10.png",
+        "sprites/read_11.png",
+        "sprites/read_12.png",
+        "sprites/read_13.png",
+        "sprites/read_14.png",
+        "sprites/read_15.png"
+      ],
+      "durationsMs": [
+        460,
+        90,
+        80,
+        70,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        70,
+        70,
+        70,
+        80,
+        90,
+        620
+      ],
+      "loop": false
+    }
+  },
+  "interactions": [
+    {
+      "verb": "browse",
+      "mode": "beside",
+      "pose": "review",
+      "holdMs": 6000,
+      "furnitureState": "read",
+      "done": "{name}在书架前翻起了书。",
+      "say": "去书架旁翻翻书",
+      "hint": "用户说想看书、一起看书、找本书时用；要打开阅读窗让用户点书架"
+    }
+  ],
+  "art": {
+    "license": "CC-BY-NC-SA-4.0",
+    "credits": "CREDITS.md"
+  }
+}

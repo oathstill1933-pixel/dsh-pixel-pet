@@ -1,0 +1,39 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Read-only: the workflow only checks the code out and runs tests.
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    env:
+      PYTHONUTF8: '1'
+      PIXELPET_NO_AUTO_INSTALL: '1'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Python test dependencies
+        run: python -m pip install --disable-pip-version-check pillow numpy
+
+      # Node tests. The ones that spawn Python pick it up from PIXELPET_TEST_PYTHON / PATH.
+      # Tests that need a real model, a sound card, WebView2 or a desktop skip themselves.
+      - name: Node tests
+        run: node scripts/run-tests.mjs
+
+      - name: Python tests
+        run: python -X utf8 -m unittest discover -s tests

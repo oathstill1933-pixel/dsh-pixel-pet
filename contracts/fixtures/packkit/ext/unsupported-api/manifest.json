@@ -1,0 +1,8 @@
+{
+  "id": "petdev.newapi",
+  "version": "1.0.0",
+  "name": "新协议",
+  "manifestVersion": 1,
+  "packApi": 2,
+  "license": "MIT"
+}

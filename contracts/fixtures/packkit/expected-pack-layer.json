@@ -1,0 +1,19 @@
+{
+  "_说明": "M1 包层加载判定夹具：Node loadPointer+packStoreDir 与 Python load_pointer+pack_furniture_roots 必须一致。dataDir = pack-data。",
+  "cases": [
+    {"id": "ns.ok", "load": true, "entry": {"state": "enabled", "wantEnabled": true, "grantedPermissions": [], "active": {"version": "1.0.0", "dir": "ns/ok/1.0.0", "permissions": []}}},
+    {"id": "ns.disabled-intent", "load": false, "entry": {"state": "installed-disabled", "wantEnabled": false, "grantedPermissions": [], "active": {"version": "1.0.0", "dir": "ns/ok/1.0.0", "permissions": []}}},
+    {"id": "ns.ungranted", "load": false, "entry": {"state": "installed-disabled", "wantEnabled": true, "grantedPermissions": [], "active": {"version": "1.0.0", "dir": "ns/ok/1.0.0", "permissions": ["docs.read"]}}},
+    {"id": "ns.dotdot", "load": false, "entry": {"state": "enabled", "wantEnabled": true, "grantedPermissions": [], "active": {"version": "1.0.0", "dir": "ns/ok/../../../../x", "permissions": []}}},
+    {"id": "ns.dot", "load": false, "entry": {"state": "enabled", "wantEnabled": true, "grantedPermissions": [], "active": {"version": "1.0.0", "dir": "ns/./ok/1.0.0", "permissions": []}}},
+    {"id": "ns.abs-drive", "load": false, "entry": {"state": "enabled", "wantEnabled": true, "grantedPermissions": [], "active": {"version": "1.0.0", "dir": "C:/x", "permissions": []}}},
+    {"id": "ns.abs-root", "load": false, "entry": {"state": "enabled", "wantEnabled": true, "grantedPermissions": [], "active": {"version": "1.0.0", "dir": "/x", "permissions": []}}},
+    {"id": "ns.ads", "load": false, "entry": {"state": "enabled", "wantEnabled": true, "grantedPermissions": [], "active": {"version": "1.0.0", "dir": "ns/ok:x/1.0.0", "permissions": []}}},
+    {"id": "ns.missing-dir", "load": false, "entry": {"state": "enabled", "wantEnabled": true, "grantedPermissions": [], "active": {"version": "1.0.0", "dir": "ns/missing/1.0.0", "permissions": []}}},
+    {"id": "ns.empty-dir", "load": false, "entry": {"state": "enabled", "wantEnabled": true, "grantedPermissions": [], "active": {"version": "1.0.0", "dir": "", "permissions": []}}},
+    {"id": "ns.load-failed", "load": false, "entry": {"state": "load-failed", "wantEnabled": true, "grantedPermissions": [], "active": {"version": "1.0.0", "dir": "ns/ok/1.0.0", "permissions": []}}},
+    {"id": "ns.reauth-keeps-previous", "load": true, "dir": "ns/prev/0.9.0", "entry": {"state": "waiting-authorization", "wantEnabled": true, "grantedPermissions": [], "active": {"version": "1.0.0", "dir": "ns/ok/1.0.0", "permissions": ["screen.capture"]}, "previous": {"version": "0.9.0", "dir": "ns/prev/0.9.0", "permissions": []}}},
+    {"id": "ns.v1-legacy-active", "load": true, "v1": true, "entry": {"active": {"version": "1.0.0", "dir": "ns/ok/1.0.0", "permissions": ["playback.status"], "status": "active"}}},
+    {"id": "ns.v1-legacy-needs-confirm", "load": false, "v1": true, "entry": {"active": {"version": "1.0.0", "dir": "ns/ok/1.0.0", "permissions": ["docs.read"], "status": "active"}}}
+  ]
+}

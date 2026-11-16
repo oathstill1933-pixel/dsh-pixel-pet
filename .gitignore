@@ -1,0 +1,31 @@
+# local-only demo packs (private art) — see PUBLISH-EXCLUDE.md
+characters/demo-*/
+furniture/demo-*/
+# backups: files (*.bak, *.bak-xxx, x.bak.1) and directories (bak-*, sprites_bak-*)
+*.bak
+*.bak-*
+*.bak.*
+bak-*/
+*_bak-*/
+__pycache__/
+*.pyc
+node_modules/
+# local scratch, release assets before upload, build output
+.tmp/
+dist/
+# whale-girl source art (138 MB): shipped as a GitHub Release asset, rebuild scripts and the README/specs stay in git
+characters/whale-girl/tools/source/**/*.png
+characters/whale-girl/tools/source/**/*.gif
+# Runtime-only biometric data is never source or a published asset.
+voiceprint/
+**/voiceprints/
+**/recordings/
+**/voices/
+**/templates.bin
+**/ortho.bin
+**/entropy.bin
+**/secret.txt
+**/up-16k.pcm
+# maintainer-only notes and the private word list for the full privacy scan
+.implementation/
+tools/privacy_terms.local.txt

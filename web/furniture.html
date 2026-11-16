@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>新建家具</title>
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="create.css">
+<link rel="stylesheet" href="furniture.css">
+</head>
+<body>
+<main class="wide">
+  <header>
+    <img id="hero" alt="" width="48" height="40">
+    <input id="name" class="title" maxlength="24" spellcheck="false" placeholder="给家具起个名字">
+    <select id="jobs" title="草稿" hidden></select>
+    <nav class="steps" id="steps">
+      <button data-step="card"><i>1</i>家具卡</button>
+      <button data-step="art"><i>2</i>出图</button>
+      <button data-step="place"><i>3</i>落位</button>
+    </nav>
+  </header>
+
+  <!-- 1 · card -->
+  <section id="card" class="step">
+    <div class="split">
+      <figure class="ref fbox" id="cardFig"><img id="cardImg" alt="" hidden><figcaption id="cardHint">家具空着的样子</figcaption></figure>
+      <div class="col">
+        <div class="seg spec" id="spec"></div>
+        <textarea id="desc" rows="4" spellcheck="false" placeholder="长什么样：形状、材质、颜色……比如 圆圆的藤编猫窝，奶油色软垫，蓝色包边"></textarea>
+        <div class="bar-row">
+          <div class="seg" id="kind">
+            <button data-v="sleep" title="角色钻进去，用它自己的睡姿叠在家具里">躺进去</button>
+            <button data-v="use" title="角色走到旁边，摆个姿势">站旁边</button>
+          </div>
+          <span class="dims" id="dims" title="家具图大小（像素），桌宠约 160×170"><input id="w" type="number" min="32" max="1200" step="2" aria-label="宽"><i>×</i><input id="h" type="number" min="32" max="1200" step="2" aria-label="高"></span>
+          <span class="muted">空着</span>
+          <div class="seg small" id="nframes" title="空着时的帧数，多于 1 张会轻轻循环">
+            <button data-v="1">1</button><button data-v="2">2</button><button data-v="3">3</button><button data-v="4">4</button>
+          </div>
+          <span class="muted">帧</span>
+        </div>
+        <input id="done" class="line" maxlength="80" spellcheck="false">
+      </div>
+    </div>
+
+    <div class="lists">
+      <div class="lhead"><b>动画</b><button class="add" id="addState" data-tip="加一段家具自己的动画，比如开门、亮灯" aria-label="加动画">＋</button></div>
+      <div class="rows-x" id="stateRows"></div>
+      <div class="lhead"><b>互动</b><button class="help" data-tip="旁边：走过去摆个姿势，家具可同时播一段动画&#10;进去：钻进去，角色用自己的帧叠在家具里&#10;「想要的效果」只写进交给会话的说明，会话可以照着改互动" aria-label="说明">?</button>
+        <button class="add" id="addInter" data-tip="加一个互动" aria-label="加互动">＋</button></div>
+      <div class="rows-x" id="interRows"></div>
+      <datalist id="poseList"></datalist>
+    </div>
+  </section>
+
+  <!-- 2 · art -->
+  <section id="art" class="step" hidden>
+    <div class="fgroups" id="frames"></div>
+    <div class="seg" id="route">
+      <button data-v="gen">生成</button>
+      <button data-v="session">交给会话</button>
+      <button data-v="import">导入</button>
+    </div>
+    <div data-route="session" class="handoff">
+      <pre id="brief"></pre>
+      <div class="bar-row"><button id="copy" class="ghost">复制</button><button id="send" class="primary">发到会话</button></div>
+    </div>
+    <label class="drop" data-route="import gen session" id="drop" title="按文件名对号入座：empty_00.png、open_00.png……">
+      <b>＋</b><span>拖进图片</span>
+      <input type="file" id="file" accept="image/png,image/jpeg,image/webp" multiple hidden>
+    </label>
+    <input type="file" id="slotFile" accept="image/png,image/jpeg,image/webp" hidden>
+  </section>
+
+  <!-- 3 · place -->
+  <section id="place" class="step" hidden>
+    <div class="verdict" id="verdict" hidden>
+      <span class="state" id="vDot"></span><span id="vText"></span>
+      <button id="vMore" class="link" hidden>详情</button>
+    </div>
+    <pre class="issues" id="issues" hidden></pre>
+    <div class="stage">
+      <canvas id="stage" class="checker" width="360" height="300"></canvas>
+      <div class="tools" id="tools" role="toolbar">
+        <button data-tool="area" data-tip="拖一个框：角色躺在框里，大了会缩小" aria-label="框">▭</button>
+        <button data-tool="front" data-tip="点出前沿：线下面的家具盖住角色；点已有的点删掉它" aria-label="前沿">⌒</button>
+        <button id="tClear" data-tip="清除" aria-label="清除">✕</button>
+      </div>
+    </div>
+    <div class="bar-row stage-bar">
+      <div class="seg small" id="who"></div>
+      <output id="anchorOut"></output>
+      <label class="dim" title="落地线：桌宠站在旁边时脚踩的位置（离底边多少像素）">落地 <input id="floorPad" type="number" min="0" max="1200" step="1"></label>
+    </div>
+  </section>
+
+  <footer class="dock" id="dock">
+    <div class="progress" id="prog" hidden><i id="progBar"></i></div>
+    <output id="msg"></output>
+    <span class="spacer"></span>
+    <button id="stop" class="ghost" hidden>停止</button>
+    <button id="build" class="ghost" hidden>转换</button>
+    <button id="next" class="primary"></button>
+  </footer>
+
+  <dialog id="confirm">
+    <form method="dialog">
+      <p class="big"><b id="cNum">0</b> 张</p>
+      <menu><button value="cancel" class="ghost">取消</button><button value="ok" class="primary" id="cOk">开始</button></menu>
+    </form>
+  </dialog>
+  <div id="toast" role="status" hidden></div>
+  <div id="tip" role="tooltip" hidden></div>
+</main>
+<script src="furniture.js"></script>
+</body>
+</html>

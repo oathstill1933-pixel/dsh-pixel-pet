@@ -1,0 +1,38 @@
+{
+  "id": "user-furn",
+  "name": "用户新家具",
+  "version": 1,
+  "size": [
+    40,
+    24
+  ],
+  "anchor": "bottom-right",
+  "defaultEnabled": false,
+  "states": {
+    "idle": {
+      "label": "idle",
+      "frames": [
+        "sprites/idle_00.png"
+      ],
+      "durationsMs": [
+        250
+      ]
+    },
+    "sit": {
+      "label": "sit",
+      "frames": [
+        "sprites/sit_00.png"
+      ],
+      "durationsMs": [
+        250
+      ]
+    }
+  },
+  "interactions": [
+    {
+      "verb": "坐",
+      "mode": "beside"
+    }
+  ],
+  "idle": "idle"
+}

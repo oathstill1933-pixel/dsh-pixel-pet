@@ -1,0 +1,12 @@
+{
+  "id": "petdev.magic",
+  "version": "1.0.0",
+  "name": "未知权限",
+  "manifestVersion": 1,
+  "packApi": 1,
+  "license": "MIT",
+  "permissions": [
+    "docs.read",
+    "magic.tab"
+  ]
+}

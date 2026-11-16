@@ -1,0 +1,60 @@
+{
+  "_说明": "拓展包 manifest v1 校验期望值：errorCodes 是去重排序后的错误码列表。",
+  "valid-pack": {
+    "ok": true,
+    "errorCodes": []
+  },
+  "unsupported-manifest": {
+    "ok": false,
+    "errorCodes": [
+      "E_MANIFEST_VERSION_UNSUPPORTED"
+    ]
+  },
+  "unsupported-api": {
+    "ok": false,
+    "errorCodes": [
+      "E_PACK_API_UNSUPPORTED"
+    ]
+  },
+  "bad-range": {
+    "ok": false,
+    "errorCodes": [
+      "E_RANGE_UNSUPPORTED"
+    ]
+  },
+  "unknown-permission": {
+    "ok": false,
+    "errorCodes": [
+      "E_PERMISSION_UNKNOWN"
+    ]
+  },
+  "unknown-capability": {
+    "ok": false,
+    "errorCodes": [
+      "E_CAPABILITY_UNKNOWN"
+    ]
+  },
+  "dsh-forbidden": {
+    "ok": false,
+    "errorCodes": [
+      "E_FIELD_INVALID"
+    ]
+  },
+  "missing-fields": {
+    "ok": false,
+    "errorCodes": [
+      "E_FIELD_INVALID",
+      "E_REQUIRED_MISSING",
+      "E_VERSION_MALFORMED"
+    ]
+  },
+  "valid-characters": { "ok": true, "errorCodes": [] },
+  "invalid-characters": { "ok": false, "errorCodes": ["E_FIELD_INVALID"] },
+  "null-characters": { "ok": false, "errorCodes": ["E_FIELD_INVALID"] },
+  "bad-json": {
+    "ok": false,
+    "errorCodes": [
+      "E_MANIFEST_JSON_INVALID"
+    ]
+  }
+}

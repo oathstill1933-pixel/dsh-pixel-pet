@@ -1,0 +1,113 @@
+{
+  "id": "overlay-broken",
+  "name": "坏覆盖",
+  "demo": false,
+  "canvas": [
+    64,
+    64
+  ],
+  "logicalScale": 2,
+  "displayScale": 1.0,
+  "states": {
+    "idle": {
+      "label": "idle",
+      "frames": [
+        "sprites/idle_00.png"
+      ],
+      "durationsMs": [
+        250
+      ],
+      "loop": true
+    },
+    "walk-left": {
+      "label": "walk-left",
+      "frames": [
+        "sprites/walk-left_00.png"
+      ],
+      "durationsMs": [
+        250
+      ],
+      "loop": true
+    },
+    "walk-right": {
+      "label": "walk-right",
+      "frames": [
+        "sprites/walk-right_00.png"
+      ],
+      "durationsMs": [
+        250
+      ],
+      "loop": true
+    },
+    "waving": {
+      "label": "waving",
+      "frames": [
+        "sprites/waving_00.png"
+      ],
+      "durationsMs": [
+        250
+      ],
+      "loop": true
+    },
+    "jumping": {
+      "label": "jumping",
+      "frames": [
+        "sprites/jumping_00.png"
+      ],
+      "durationsMs": [
+        250
+      ],
+      "loop": true
+    },
+    "failed": {
+      "label": "failed",
+      "frames": [
+        "sprites/failed_00.png"
+      ],
+      "durationsMs": [
+        250
+      ],
+      "loop": true
+    },
+    "waiting": {
+      "label": "waiting",
+      "frames": [
+        "sprites/waiting_00.png"
+      ],
+      "durationsMs": [
+        250
+      ],
+      "loop": true
+    },
+    "running": {
+      "label": "running",
+      "frames": [
+        "sprites/running_00.png"
+      ],
+      "durationsMs": [
+        250
+      ],
+      "loop": true
+    },
+    "review": {
+      "label": "review",
+      "frames": [
+        "sprites/review_00.png"
+      ],
+      "durationsMs": [
+        250
+      ],
+      "loop": true
+    },
+    "lie": {
+      "label": "lie",
+      "frames": [
+        "sprites/lie_00.png"
+      ],
+      "durationsMs": [
+        250
+      ],
+      "loop": true
+    }
+  }
+}

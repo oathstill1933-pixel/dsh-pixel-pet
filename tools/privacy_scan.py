@@ -73,6 +73,8 @@ ALLOW = [
     ("web/reading/vendor/pdfjs/build/*.mjs", "email", None, "third-party minified PDF.js: string constant that looks like an e-mail"),
     ("web/reading/vendor/pdfjs/wasm/*.js", "abs-path", None, "third-party Emscripten glue: virtual path /home/web_user"),
     ("tools/privacy_scan.py", "abs-path", None, "the allowlist entries above quote the paths they excuse"),
+    ("lib/tools.js", "abs-path", "D:\\\\Projects\\\\app\\\\src\\\\main.js）——", "made-up example path in the pixelpet_notice tool description"),
+    ("runtime/pixelpet/app.py", "abs-path", "D:\\\\Projects\\\\app\\\\src\\\\main.js），", "made-up example path in a docstring"),
     ("scripts/mail.test.mjs", "abs-path", "d:\\d\\d:\\d\\d\\.\\d{3}Z$/)", "regex for an ISO timestamp (\\d:\\d\\d) that only looks like a drive path"),
     # private-term matches are case-insensitive substrings: third-party identifiers that merely contain the letters
     ("vendor/ical.js/ical.es5.cjs", "private-term", None, "third-party identifier isLeapYear contains the letters, not a name"),

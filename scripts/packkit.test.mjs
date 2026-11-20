@@ -80,7 +80,7 @@ await t('contract: a wrong contractVersion is E_CONTRACT_INVALID, never silently
 })
 
 await t('plugin version comes from package.json (plugin 域，与 pack/dsh 互不混用)', () => {
-  assert.equal(pluginVersion(), '0.1.0')
+  assert.equal(pluginVersion(), JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version)
 })
 
 // --------------------------------------------------------------------------- 枚举
@@ -198,7 +198,7 @@ await t('snapshot: builtin name order first, user-only appended, settings views 
   assert.equal(snap.furniture[1].enabled, false)  // 用户覆盖胜出后 defaultEnabled 来自用户版（没写 = false）
   assert.equal(snap.furniture[1].base, 'user'); assert.equal(snap.furniture[1].name, '用户覆盖')
   assert.equal(snap.furniture[2].enabled, false)
-  assert.equal(snap.pluginVersion, '0.1.0')
+  assert.equal(snap.pluginVersion, JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version)
   assert.equal(snap.contractVersion, 1)
 })
 
@@ -291,7 +291,8 @@ await t('pack manifest v1: unknown permission / capability / bad id / bad versio
 })
 
 await t('checkRequires: core 对 plugin 域判定，不满足显式报错；dsh 域根本不存在', () => {
-  assert.equal(checkRequires({ requires: { core: '^0.1.0' } }).ok, true)
+  // 用 >=：0.x 的 ^0.1.0 只到 0.1.x，主插件一升 0.2.0 这条就会自己过期
+  assert.equal(checkRequires({ requires: { core: '>=0.1.0' } }).ok, true)
   const bad = checkRequires({ requires: { core: '^9.0.0' } })
   assert.equal(bad.ok, false); assert.equal(bad.errors[0].code, 'E_RANGE_NOT_SATISFIED')
   assert.equal(checkRequires({ requires: { core: '^9.0.0' } }, { pluginVersion: '9.1.0' }).ok, true)

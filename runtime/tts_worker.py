@@ -581,17 +581,36 @@ def main(argv=None):
             v = req.get("voice") or {}
             text = str(req.get("text") or "").strip()
             seed = int(req.get("seed") or 42)
+            instruct = str(req.get("instruct") or "").strip()
             cfg = TTSConfig(temperature=0.6, sub_temperature=0.6, seed=seed, sub_seed=seed + 3, streaming=STREAMING,
                             max_steps=max(120, min(900, 40 + len(text) * 9)))
+
+            def render(voice_spec):
+                """Tone rendering: custom() keeps the cloned speaker but follows the instruct text.
+
+                Without an instruct (or when the loaded voice has no speaker embedding) this is
+                exactly the old clone path, so existing voices keep sounding identical.
+                """
+                lang = voice_spec.get("language") or "chinese"
+                if instruct:
+                    emb = getattr(getattr(stream, "voice", None), "spk_emb", None)
+                    if emb is not None:
+                        try:
+                            tuned = stream.custom(text=text, speaker=emb, language=lang,
+                                                  instruct=instruct, config=cfg)
+                            if tuned is not None and getattr(tuned, "audio", None) is not None and len(tuned.audio):
+                                return tuned
+                        except Exception as exc:  # noqa: BLE001 - a tone must never lose the sentence
+                            emit({"event": "tone-failed", "message": "%s: %s" % (type(exc).__name__, str(exc)[:160])})
+                return stream.clone(text=text, language=lang,
+                                    zero_shot=(voice_spec.get("mode") != "icl"), config=cfg)
 
             def once(voice_spec, use_cache=True):
                 how = "cached"
                 if current != voice_spec.get("key"):
                     how = set_voice(stream, voice_spec, effective, ov, use_cache=use_cache)
-                    return how, stream.clone(text=text, language=voice_spec.get("language") or "chinese",
-                                             zero_shot=(voice_spec.get("mode") != "icl"), config=cfg), True
-                return how, stream.clone(text=text, language=voice_spec.get("language") or "chinese",
-                                         zero_shot=(voice_spec.get("mode") != "icl"), config=cfg), False
+                    return how, render(voice_spec), True
+                return how, render(voice_spec), False
 
             how, res, switched = once(v)
             if switched:

@@ -502,10 +502,10 @@ await t('relay: resume failures come back readable, nothing left pending', async
 })
 
 // ------------------------------------------------------------------ AI tools
-const TOOL_NAMES = ['pixelpet_move', 'pixelpet_pose', 'pixelpet_look', 'pixelpet_mood', 'pixelpet_say', 'pixelpet_furniture', 'pixelpet_stop', 'pixelpet_status', 'pixelpet_mail_send', 'pixelpet_mail_list', 'pixelpet_mail_like'] // pixelpet_screen only while settings.screen is on (next-b.test)
+const TOOL_NAMES = ['pixelpet_move', 'pixelpet_pose', 'pixelpet_look', 'pixelpet_mood', 'pixelpet_say', 'pixelpet_furniture', 'pixelpet_stop', 'pixelpet_status', 'pixelpet_mail_send', 'pixelpet_mail_list', 'pixelpet_mail_like', 'pixelpet_notice'] // pixelpet_screen only while settings.screen is on (next-b.test)
 const runTool = (g, name, args = {}) => g.tools.reg.get(name).execute(args, {})
 
-await t('tools: 11 pixelpet_* registered globally with schema + output', () => {
+await t('tools: every pixelpet_* in TOOL_NAMES registered globally with schema + output', () => {
   assert.deepEqual([...f.tools.reg.keys()].sort(), [...TOOL_NAMES].sort())
   for (const d of f.tools.reg.values()) {
     assert.equal(d.parameters.type, 'object'); assert.equal(typeof d.execute, 'function')
@@ -516,7 +516,7 @@ await t('tools: 11 pixelpet_* registered globally with schema + output', () => {
 await t('tools: second instance on same registry does not throw', () => {
   const g = fakeCtx(f.tools)
   H.apply(g.ctx, { dataDir: data })
-  assert.equal(f.tools.reg.size, 11)
+  assert.equal(f.tools.reg.size, TOOL_NAMES.length)
 })
 await t('tools: a settings save only re-registers tools that changed (no churn for open sessions)', async () => {
   const tools = fakeTools()
@@ -626,7 +626,7 @@ await t('tools: aiControl off unregisters and refuses; on re-registers', async (
   assert.equal(refused.ok, false); assert.match(refused.message, /关闭/)
   const st = await call(f.route, 'GET', '/api/state'); assert.equal(st.json.settings.aiControl, false)
   await call(f.route, 'POST', '/api/settings', { body: { aiControl: true } })
-  assert.equal(f.tools.reg.size, 11)
+  assert.equal(f.tools.reg.size, TOOL_NAMES.length)
   assert.equal(H.mergeSettings({}, {}).aiControl, true)
   assert.equal(H.mergeSettings({}, { aiControl: 'no' }).aiControl, true)
 })
@@ -680,7 +680,7 @@ await t('buildContent: admits images through attachments; text-only fallback cou
   const viaGet = await HUB.buildContent({ get: (n) => (n === 'attachments' ? svc : undefined) }, '', [img])
   assert.equal(viaGet.content[0].text, '（截图）'); assert.equal(viaGet.attached, 1)
   const none = await HUB.buildContent({ get: () => undefined }, 'x', [img])
-  assert.deepEqual(none, { content: [{ type: 'text', text: 'x' }], attached: 0, dropped: 1 })
+  assert.deepEqual(none, { content: [{ type: 'text', text: 'x' }], attached: 0, dropped: 1, reason: 'no-attachments-service' })
   const bad = await HUB.buildContent({ attachments: { admitPromptContent: async () => { throw new Error('nope') } } }, 'x', [img])
   assert.equal(bad.dropped, 1); assert.equal(bad.content.length, 1)
   assert.deepEqual(await HUB.buildContent({}, 'x', []), { content: [{ type: 'text', text: 'x' }], attached: 0, dropped: 0 })

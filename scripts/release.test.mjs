@@ -71,7 +71,17 @@ test('<OWNER>/<REPO> placeholders only appear in the registered files (so set-re
   }
   walk(PLUGIN_ROOT)
   assert.deepEqual(found.filter((f) => !PLACEHOLDER_FILES.includes(f)), [], '占位符出现在没有登记的文件里（加进 scripts/set-repo.mjs 的清单，或改掉）')
-  for (const must of ['package.json', 'contracts/catalog.json']) assert.ok(found.includes(must), must + ' 里应有占位符，发布前由 set-repo.mjs 替换')
+  // 发布前：两处都还是占位符；跑过 set-repo.mjs 以后：两处都换成同一个真仓库地址，不许一半换了一半没换
+  const pkg = JSON.parse(readFileSync(join(PLUGIN_ROOT, 'package.json'), 'utf8'))
+  const repoUrl = String((pkg.repository && pkg.repository.url) || pkg.repository || '')
+  if (repoUrl.includes(PLACEHOLDER)) {
+    for (const must of ['package.json', 'contracts/catalog.json']) assert.ok(found.includes(must), must + ' 里应有占位符，发布前由 set-repo.mjs 替换')
+  } else {
+    const m = /github\.com\/([^/]+\/[^/.]+)/.exec(repoUrl)
+    assert.ok(m, 'package.json 的 repository 应是真实的 GitHub 地址')
+    const cat = readFileSync(join(PLUGIN_ROOT, 'contracts', 'catalog.json'), 'utf8')
+    assert.ok(cat.includes('github.com/' + m[1] + '/releases/download/'), 'catalog 的下载地址应指向同一个仓库')
+  }
 })
 
 // ------------------------------------------------------------------ 迁移：Release 附件

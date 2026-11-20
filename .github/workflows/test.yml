@@ -2,7 +2,7 @@ name: test
 
 on:
   push:
-    branches: [main]
+    branches: [master, main]   # 仓库默认分支是 master：只写 main 时推送从来没触发过测试
   pull_request:
 
 # Read-only: the workflow only checks the code out and runs tests.

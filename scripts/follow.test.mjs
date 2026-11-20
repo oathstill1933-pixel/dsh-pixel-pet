@@ -123,8 +123,9 @@ const makeFollow = (options = {}) => {
 
 await t('读门牌：同来源取最新；超大 / .tmp / 隐藏 / 非 json 都跳过', async () => {
   const dir = tmp()
-  writePointer(dir, 'a.json', { sessionId: 'session-old', updatedAt: '2026-11-15T10:00:00Z', label: '旧' })
-  writePointer(dir, 'b.json', { sessionId: 'session-fresh', updatedAt: '2026-11-15T22:30:00Z', label: '新' })
+  // 时间用相对现在的值：写死日期几天后就会因为「门牌过期」被跳过，测试自己变红
+  writePointer(dir, 'a.json', { sessionId: 'session-old', updatedAt: new Date(Date.now() - 2 * 3600e3).toISOString(), label: '旧' })
+  writePointer(dir, 'b.json', { sessionId: 'session-fresh', updatedAt: new Date(Date.now() - 60e3).toISOString(), label: '新' })
   writePointer(dir, 'c.json', { channel: 'discord', peer: 'cafe-42', scope: 'channel', sessionId: 'session-cafe' })
   writeFileSync(join(dir, 'big.json'), JSON.stringify({ schema: SCHEMA, channel: 'myapp', peer: '9', petHome: true, sessionId: 'session-x', updatedAt: new Date().toISOString(), pad: 'x'.repeat(5000) }), 'utf8')
   writeFileSync(join(dir, 'half.json.tmp'), '{"schema":', 'utf8')

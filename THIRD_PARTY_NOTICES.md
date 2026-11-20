@@ -4,7 +4,7 @@
 
 每一项的名称、版本、许可、上游链接都是 2026-11-16 去上游核实过的，「核实来源」一列写了看的是什么。素材（角色、家具、音色）的许可在各自目录里，优先于这里；见 README 的「许可分层」。
 
-仓库地址占位符 `oathstill1933-pixel/dsh-pixel-pet` 发布前用 `node scripts/set-repo.mjs <owner>/<repo>` 统一替换。
+本插件仓库：`oathstill1933-pixel/dsh-pixel-pet`。
 
 ## 一、随包附带
 

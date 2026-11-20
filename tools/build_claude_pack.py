@@ -5,7 +5,7 @@ so the same sources always give the same bytes and the same sha256. The catalog 
 contracts/catalog.json carries that size/sha256; the file itself is a GitHub Release asset
 (see docs/RELEASE.md), no longer shipped inside the plugin.
 
-    python tools/build_claude_pack.py [--out-dir dist] [--version 1.1.2]
+    python tools/build_claude_pack.py [--out-dir dist] [--version 1.3.0]
 """
 import argparse
 import hashlib
@@ -65,7 +65,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--source-dir", type=Path, default=ROOT / "packs-src/claude-girl")
     ap.add_argument("--out-dir", type=Path, default=ROOT / "dist")
-    ap.add_argument("--version", default="1.1.2")
+    ap.add_argument("--version", default="1.3.0")
     args = ap.parse_args()
     if not re.fullmatch(r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)", args.version):
         ap.error("version must be a stable SemVer")

@@ -7,6 +7,7 @@ from types import SimpleNamespace
 
 from . import RouteUnset,VoiceError
 from ..dialogue import clean_dialogue
+from .. import tone as tone_mod
 from .tts import DEFAULT_VOICE,split_sentences,wav_seconds
 from .playback import Player,slice_wav
 from .interruption import ACK_TAIL,FOLLOWUP_WAIT,continuation_prompt,interrupt_cfg,is_playback_transcript
@@ -83,9 +84,13 @@ class _ProgressSpeech:
 class VoiceBridge:
     def __init__(self,stt,tts,llm,voice=DEFAULT_VOICE,play=None,stop=None,on_state=None,on_reply=None,
                  on_speak=None,on_heard=None,on_caption=None,interruption=None,data_dir=None,
-                 clock=time.monotonic,on_barge_rearm=None,sv=None):
+                 clock=time.monotonic,on_barge_rearm=None,sv=None,character=None,tone=None):
         self.stt,self.tts,self.llm=stt,tts,llm
         self.voice=voice
+        self.tone_enabled=bool((tone or {}).get("enabled", True))
+        # Tone tags belong to the CHARACTER (her table); the voice only picks the timbre.
+        # Accepts a value or a callable so switching characters needs no re-wiring.
+        self.character=character
         self.player=None
         if play is None:
             self.player=Player(data_dir)
@@ -251,6 +256,22 @@ class VoiceBridge:
         out['turn']=turn
         return out
 
+    def announce(self,text):
+        """旁白：不占对话回合。
+
+        speak() 会 _begin() 把 _turn 往前推一格，正在路上的回答因此变成「过期」被静默丢掉——
+        审批/提问的提示语属于旁白，绝不能这么干。所以这里只借当前 _turn 播一句，不递增；
+        桥正忙（在听/在想/在说）时直接跳过，免得把用户的回答截断。
+        """
+        with self._cv:
+            if self._speech is not None or self.state in ('speaking','listening'):
+                return {'skipped':True}
+            turn=self._turn
+            self.stop_play()
+        out=self._speak(str(text or ''),turn)
+        out['turn']=turn
+        return out
+
     def speak_if_current(self,text,expected_turn):
         """An asynchronous notification may speak only while its originating turn still owns the bridge."""
         return self.speak(text,expected_turn=expected_turn)
@@ -290,17 +311,58 @@ class VoiceBridge:
         # A legacy LLM's successful answer also proves submission; speech failure cannot undo it.
         if not facts['accepted'] and (reply or not receipt_route):accepted({})
         remember()
-        if reply:self._emit_for(turn,self.on_reply,clean_dialogue(reply))
-        already_streamed=bool(progress and progress.last_text==clean_dialogue(reply))
+        # A leading tone tag drives the rendering instruction and never reaches the text.
+        tone_key,tone_instruct,spoken=tone_mod.take(reply,self._tone_character(),self._tone_extra())
+        if not self.tone_enabled:
+            tone_instruct=None            # settings page: keep the tag stripped, drop the steering
+        if str(self.voice or "").startswith("clone-"):
+            # Measured 2026-11-19: rendering through the instruction path costs ~18% extra
+            # duration even with a neutral instruction, so a cloned voice would audibly jump
+            # between "with tag" and "without tag". Natural delivery wins: strip the tag,
+            # never steer a cloned voice.
+            tone_instruct=None
+        shown=clean_dialogue(spoken)
+        if reply:self._emit_for(turn,self.on_reply,shown)
+        already_streamed=bool(progress and progress.last_text==shown)
         if not reply or not speak or already_streamed:
-            if reply and not already_streamed:self._emit_for(turn,self.on_caption,clean_dialogue(reply),0.)
+            if reply and not already_streamed:self._emit_for(turn,self.on_caption,shown,0.)
             self.last_error=None;self._set('idle',turn)
-            return {'reply':reply or '',**facts,'streamed':already_streamed}
-        out=self._speak(reply,turn);out.update(reply=reply,**facts)
+            return {'reply':reply or '',**facts,'streamed':already_streamed,'tone':tone_key}
+        out=self._speak(spoken,turn,tone=tone_instruct);out.update(reply=reply,**facts)
         return out
 
-    def _synth(self,text):
-        with self._synth_lock:return self.tts.synthesize(text,self.voice)
+    def configure_tone(self,cfg):
+        """Settings page: turn tone rendering on or off without rebuilding the bridge."""
+        self.tone_enabled=bool((cfg or {}).get("enabled",True))
+
+    def _tone_character(self):
+        """Character id that owns the tone table; the voice is only a fallback."""
+        source=self.character
+        try:
+            value=source() if callable(source) else source
+        except Exception:  # noqa: BLE001 - a tone lookup must never break speaking
+            value=None
+        return str(value or self.voice or "")
+
+    def _tone_extra(self):
+        """Whatever the character pack declares in voice/preset.json; empty for packs without one."""
+        store=getattr(self.tts,"store",None)
+        reader=getattr(store,"emotions",None)
+        if not callable(reader):
+            return {}
+        try:
+            return reader(self._tone_character()) or {}
+        except Exception:  # noqa: BLE001 - a broken table must not silence the pet
+            return {}
+
+    def _synth(self,text,tone=None):
+        with self._synth_lock:
+            if tone:
+                try:
+                    return self.tts.synthesize(text,self.voice,instruct=tone)
+                except TypeError:      # an engine without tone support still has to speak
+                    pass
+            return self.tts.synthesize(text,self.voice)
 
     def _ack_file(self,text):
         key=(self.voice,text)
@@ -332,7 +394,7 @@ class VoiceBridge:
     def _cancelled(self,s,wavs):
         return {'cancelled':True,'interrupted':bool(s.superseded),'wavs':wavs}
 
-    def _speak(self,text,turn,progress=False):
+    def _speak(self,text,turn,progress=False,tone=None):
         resume='thinking' if progress else 'idle'
         def fail(exc,**extra):
             if not progress:return self._fail(exc,turn,**extra)
@@ -364,7 +426,7 @@ class VoiceBridge:
                 with self._cv:
                     while self._owns(s) and s.paused:self._cv.wait(.1)
                     if not self._owns(s):return
-                try:wav=self._synth(part)
+                try:wav=self._synth(part,tone)
                 except Exception as exc:put(('err',exc));return
                 if not put(('wav',i,part,wav)):return
                 # Warm only after first actual speech, and only if the mic is open.

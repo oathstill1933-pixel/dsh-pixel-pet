@@ -49,6 +49,7 @@ def main(argv=None):
     s.add_argument("text")
     s.add_argument("--voice", default=None)
     s.add_argument("--out", default=None)
+    s.add_argument("--instruct", default="", help="语气渲染指令，例如「语气轻快明朗，带笑意」")
     a = ap.parse_args(argv)
     data = a.data_dir or default_data_dir()
     deps = Dependencies(data)
@@ -80,7 +81,8 @@ def main(argv=None):
             tts = make_tts(tcfg, data, deps, pack_root=pack_root, idle_s=0)
             t0 = time.time()
             try:
-                wavs = [tts.synthesize(p, voice) for p in split_sentences(a.text)]
+                tune = (a.instruct or "").strip()
+                wavs = [tts.synthesize(p, voice, instruct=tune or None) for p in split_sentences(a.text)]
             finally:
                 tts.close()
             if not wavs:

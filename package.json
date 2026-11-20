@@ -1,6 +1,6 @@
 {
   "name": "dsh-pixel-pet",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pixel desktop pet for DeepSeek Harness: walks on the desktop, takes AI commands, uses furniture, talks through a chosen DSH session. Pluggable character and furniture packs.",
   "license": "MIT",
   "author": "dsh-pixel-pet contributors",

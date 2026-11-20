@@ -7,6 +7,8 @@ import html
 import json
 import re
 
+from . import tone
+
 # Only a closed fence is a code block; a lone ```  is ordinary text, not "hide everything after".
 _FENCES = re.compile(r'(?P<fence>`{3,}|~{3,}).*?(?P=fence)', re.S)
 # Exception: a cut-off machine card (line-start fence tagged dsh-ui / json) still hides to the end,
@@ -67,6 +69,7 @@ def _drop_payloads(text):
 def clean_dialogue(value):
     """Plain human-facing text; returns empty for machine-only replies."""
     text=html.unescape(str(value or '')).replace('\r\n','\n').replace('\r','\n')
+    text=tone.strip_leading(text)   # a leading tone tag is read by the voice layer, never shown
     text=re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f\u200b\ufeff]','',text)
     text=_FENCES.sub('\n',text)
     text=_CUT_CARD.sub('\n',text)

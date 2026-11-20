@@ -39,7 +39,10 @@ DEFAULT_SETTINGS = {"character": "", "size": 0.65, "topmost": True, "stayPut": F
                                                                   "tts": {"engine": "qwen", "voice": "whale-girl"},
                                                                   "llm": {"sessionId": ""}, "hotkey": "F8",
                                                                   "interruption": {"enabled": True,"reply":"嗯，你说"},
-                                                                  "failure": {"enabled": True,"reply":"糟糕，服务器出现错了，快检查一下配置。"}},
+                                                                  "failure": {"enabled": True,"reply":"糟糕，服务器出现错了，快检查一下配置。"},
+  "approval": {"enabled": True,"reply":"有个审批要你点一下。"},
+  "question": {"enabled": True,"reply":"这里有个问题要问你。"},
+  "tone": {"enabled": True}},
                     "hub": dict(DEFAULT_HUB)}
 MOVE_LIMIT, MOVE_WINDOW = 6, 60.0
 DIRECTIONS = {"up": 0, "up-right": 45, "right": 90, "down-right": 135, "down": 180, "down-left": 225,
@@ -61,6 +64,12 @@ def load_settings(data_dir):
         if not isinstance(raw, dict):
             raise ValueError('settings must be an object')
         s.update(raw)              # keep raw SV settings: malformed values must not become disabled
+        # voice 是浅合并：settings.json 里没有的新分组（如 approval / question）要用默认值补上，
+        # 否则 s.update(raw) 会把整块 voice 覆盖掉，新加的默认台词就丢了。
+        if isinstance(raw.get("voice"), dict):
+            merged_voice = dict(s.get("voice") or {})
+            merged_voice.update(raw["voice"])
+            s["voice"] = merged_voice
     except FileNotFoundError:
         pass                      # normal first install has no settings and SV stays off
     except (OSError, ValueError):
@@ -383,6 +392,12 @@ class PetApp:
 
     def set_activity(self, state):
         """The pointed session's own state (lib/activity.js): working / waiting / failed / done / idle."""
+        # 等待是会话级覆盖层，不是工具级动作。结束/恢复时连同新版举牌一起撤掉，
+        # 不改语音回合，也不误删刚发来的 ack 等其他瞬时动作。
+        if state in ("working", "done", "idle", "failed"):
+            live_transient = getattr(self, "transient", None)   # 测试夹具不一定带这个字段
+            if live_transient and live_transient[0] in ("waiting", "pleading"):
+                self.transient = None
         if state == 'working':self._deferred_done = None
         if state == "done":
             voice=getattr(self,'voice',None)
@@ -396,20 +411,108 @@ class PetApp:
                 self.manual,self._manual_until='idle',None
                 return True
             self.manual, self._manual_until = "idle", None
-            if "review" in self.char.states:
-                self.transient = ("review", time.time() + self.char.total_ms("review") / 1000)
+            # 正在播的瞬时动作（比如刚点完审批的点头）不能被 review 立刻盖掉：
+            # review 只是收工的余韵，丢掉一瞬无妨，截断别的动作更难看。
+            now = time.time()
+            busy = getattr(self, "transient", None)
+            busy = bool(busy) and (busy[1] is None or busy[1] > now)
+            if "review" in self.char.states and not busy:
+                self.transient = ("review", now + self.char.total_ms("review") / 1000)
             return True
         if state == "idle":
             self.manual, self._manual_until = "idle", None
             return True
         sid, hold = self.ACTIVITY_HOLD.get(state, (None, 0))
+        if state == "waiting" and "pleading" in self.char.states:
+            sid = "pleading"  # 审批用新举牌；旧 waiting 端碗帧仍完整保留。
         if not sid or sid not in self.char.states:
             return False
         entering = self.manual != sid or not self._manual_until or self._manual_until < time.time()
         self.manual, self._manual_until = sid, time.time() + hold
+        if state == "waiting":
+            # 举牌/端碗都高于「思考中」，一直等到审批结束；其他角色缺新帧时沿用端碗。
+            self.transient = (sid, time.time() + hold)
+            if entering:
+                self._say_prompt("approval")       # 仍用既有的非回合旁白通道。
         if state == "failed" and entering:
             self._say_failure()
         return True
+
+    # 工具级瞬时动作的计划名 → 现在角色里已有的状态（素材到位后从这里删掉即可）
+    ACTION_ALIAS = {
+        "searching": "attentive", "reading": "attentive", "writing": "attentive",
+        "typing": "attentive", "shooting": "attentive", "noting": "attentive", "painting": "attentive",
+        "pleading": "waiting", "asking": "mood-confused", "ack": "waving", "calling": "waving",
+        "oops": "mood-oops",
+    }
+
+    def _anim_log(self, verdict, plan, state, hold):
+        """动画排查日志：一行一次（只记状态名/时长，不记内容）。"""
+        try:
+            path = os.path.join(self.data_dir, "anim-log.jsonl")
+            row = {"t": time.strftime("%Y-%m-%dT%H:%M:%S"), "side": "pet", "kind": verdict,
+                   "plan": plan, "state": state, "ms": int(hold * 1000)}
+            with open(path, "a", encoding="utf-8") as f:
+                f.write(json.dumps(row, ensure_ascii=False) + "\n")
+        except Exception:  # noqa: BLE001
+            pass
+
+    def play_action(self, state, ms=None, plan=None):
+        """One-shot action from a tool call: overlay 0.3–1.2 s, then fall back to the session state.
+
+        Never touches self.manual: the session's own state (working / waiting) keeps running
+        underneath, so a failed or finished tool still leaves the pet in the right state.
+        """
+        if (plan or state) == "asking":
+            self._say_prompt("question")           # 提问卡到达：和歪头同一拍念一句
+        sid = state if state in self.char.states else self.ACTION_ALIAS.get(state)
+        if not sid or sid not in self.char.states:
+            self._anim_log("unknown", state, "", 0)
+            return False
+        try:
+            want = float(ms) / 1000.0 if ms else 0.0     # ms 是毫秒（宿主传的就是毫秒）
+        except (TypeError, ValueError):
+            want = 0.0
+        if want <= 0:
+            want = self.char.total_ms(sid) / 1000.0
+        hold = max(0.3, min(1.2, want))
+        now = time.time()
+        # a longer, more meaningful lease (drag / pose / mood) must not be cut short by a tool tick
+        if self.transient and self.transient[1] and self.transient[1] - now > hold:
+            self._anim_log("kept-longer", state, sid, hold)
+            return True
+        self.transient = (sid, now + hold)
+        self._anim_log("play", state, sid, hold)
+        return True
+
+    def _say_prompt(self, kind):
+        """审批 / 提问的旁白：照 interruption / failure 的做法（开关 + 台词），不占对话回合。"""
+        voice = getattr(self, "voice", None)
+        if voice is None:
+            return
+        conf = (self.cfg.get("voice") or {}).get(kind) or {}
+        if conf.get("enabled", True) is False:
+            return
+        text = str(conf.get("reply") or "").strip()
+        if not text:                     # 旧 settings.json 里还没这一项时，用内置默认台词
+            text = str(((DEFAULT_SETTINGS.get("voice") or {}).get(kind) or {}).get("reply") or "").strip()
+        if not text:
+            return
+        # 走 announce（不占回合）：用 speak 会把 _turn 推走，正在路上的回答会被静默丢掉
+        talk = getattr(voice, "announce", None) or voice.speak
+
+        def run():
+            try:
+                out = talk(text)
+                skipped = bool(isinstance(out, dict) and out.get("skipped"))
+                self._anim_log("announce-skip" if skipped else "announce-play", kind, "", 0)
+            except Exception:  # noqa: BLE001 — 念不出来不影响桌宠
+                self._anim_log("announce-error", kind, "", 0)
+
+        try:
+            threading.Thread(target=run, daemon=True).start()
+        except Exception:  # noqa: BLE001
+            pass
 
     def _say_failure(self):
         """Session failure only; speech failures get text feedback, never recursive speech."""
@@ -585,6 +688,9 @@ class PetApp:
             threading.Thread(target=old.close, daemon=True).start()
         if hasattr(self.voice,"configure_interrupt"):
             self.voice.configure_interrupt((self.cfg.get("voice") or {}).get("interruption"))
+        _tune = getattr(self.voice, "configure_tone", None)
+        if callable(_tune):
+            _tune((self.cfg.get("voice") or {}).get("tone"))
             self.voice.set_barge_listening(self.listener is not None)
 
     def set_size(self, value, persist=True):
@@ -706,6 +812,229 @@ class PetApp:
         x, y, c = self.clamp(tx - (l + r) / 2, ty - b, self.mon(tx, ty)[1])
         return (x, y, "停在屏幕边缘。" if c else "走到了。", False), None
 
+    NOTICE_HOLD_MS = 2500
+
+    SHELL_CLASSES = ("Progman", "WorkerW", "Shell_TrayWnd", "Shell_SecondaryTrayWnd")
+
+    def _skip_window(self, w):
+        """桌面/任务栏/自己这些不算「可以靠过去的窗口」。"""
+        try:
+            if str(w.get("cls") or "") in self.SHELL_CLASSES:
+                return True
+            if str(w.get("process") or "").lower() in ("explorer.exe",) and not str(w.get("title") or "").strip():
+                return True
+        except Exception:
+            pass
+        return False
+
+    @staticmethod
+    def match_keys(needle):
+        """一个 match 可能是窗口名、文件名，或**完整路径** —— 都拆成候选关键词（长词优先）。
+
+        用户常直接给绝对路径（如 D:\\Projects\\app\\src\\main.js），
+        窗口标题里通常只有文件名或文件夹名，所以要把路径拆开逐个试。
+        """
+        raw = str(needle or "").strip()
+        if not raw:
+            return []
+        keys = [raw.lower()]
+        norm = raw.replace("/", "\\").rstrip("\\")
+        parts = [x for x in norm.split("\\") if x.strip()]
+        if parts:
+            base = parts[-1]
+            keys.append(base.lower())
+            stem = base.rsplit(".", 1)[0] if "." in base else base
+            if stem and stem.lower() != base.lower():
+                keys.append(stem.lower())
+            if len(parts) >= 2:
+                keys.append(parts[-2].lower())
+            else:
+                # 纯文件名（没有目录）：把点后当扩展名丢掉已经在上面做过
+                pass
+        generic = {"lib", "src", "bin", "web", "dist", "test", "tests", "docs", "doc",
+                   "app", "assets", "node_modules", "temp", "tmp", "cache"}
+        out = []
+        for k in keys:
+            k = k.strip()
+            if not k or k in out:
+                continue
+            if len(k) < 3 or k in generic:      # 太短或太通用的目录名会把窗口认错
+                continue
+            out.append(k)
+        out.sort(key=len, reverse=True)
+        return out
+
+    def window_rect_for(self, needle):
+        """按标题或进程名找一扇窗口 → (rect, title, iconic)；找不到 (None, "", False)。
+
+        同一程序常有好几个窗，取面积最大的那扇（主窗通常是它）。
+        最小化的窗口也认：它没地方可站，调用方应当退到任务栏（它就缩在那儿）。
+        """
+        try:
+            from . import screen as S
+            keys = self.match_keys(needle)
+            if not keys:
+                return None, "", False
+            best = None
+            for w in S._raw_windows():
+                if not w.get("visible") or w.get("cloaked") or self._skip_window(w):
+                    continue
+                title = str(w.get("title") or "")
+                if not title.strip():
+                    continue
+                proc = str(w.get("process") or "")
+                hay = (title + " " + proc).lower()
+                if not any(k in hay for k in keys):
+                    continue
+                rect = w.get("rect")
+                if not rect:
+                    continue
+                area = (rect[2] - rect[0]) * (rect[3] - rect[1])
+                if w.get("iconic"):
+                    area = -1                       # 最小化的先占位，只在没有正常窗口时才用
+                elif rect[2] - rect[0] < 60 or rect[3] - rect[1] < 40:
+                    continue
+                if best is None or area > best[0]:
+                    best = (area, rect, title, bool(w.get("iconic")))
+            if best:
+                return best[1], best[2], best[3]
+        except Exception:  # noqa: BLE001 — 找不到就当没有，不打扰
+            pass
+        return None, "", False
+
+    def biggest_window_rect(self):
+        """前台窗口取不到时的兜底：面积最大的那扇可见窗口（排除桌宠自己）。"""
+        try:
+            from . import screen as S
+            own = os.getpid()
+            best = None
+            for w in S._raw_windows():
+                if not w.get("visible") or w.get("iconic") or w.get("cloaked") or self._skip_window(w):
+                    continue
+                if w.get("_pid") == own:
+                    continue
+                title = str(w.get("title") or "")
+                rect = w.get("rect")
+                if not title.strip() or not rect:
+                    continue
+                area = (rect[2] - rect[0]) * (rect[3] - rect[1])
+                if area < 40_000:
+                    continue
+                if best is None or area > best[0]:
+                    best = (area, rect, title)
+            if best:
+                return best[1], best[2]
+        except Exception:  # noqa: BLE001
+            pass
+        return None, ""
+
+    def target_near_rect(self, rect):
+        """站在某扇窗口的右下角外侧，尽量不压内容。"""
+        l, t, r, b = self.body_box()
+        mon, work = self.mon((rect[0] + rect[2]) // 2, (rect[1] + rect[3]) // 2)
+        x, y = rect[2] - l, rect[3] - b
+        if x + r > work[2]:
+            x = rect[0] - r
+        x, y, _ = self.clamp(x, y, work)
+        return (x, y, "到那扇窗口旁边了。", False)
+
+    def _notice_log(self, verdict, anchor="", target=None):
+        """位置行为的小日志（排查用）：只记裁决与坐标，不记用户内容。"""
+        try:
+            path = os.path.join(self.data_dir, "notice-log.jsonl")
+            row = {"t": time.strftime("%Y-%m-%dT%H:%M:%S"), "verdict": verdict,
+                   "anchor": anchor, "target": list(target) if target else None}
+            with open(path, "a", encoding="utf-8") as f:
+                f.write(json.dumps(row, ensure_ascii=False) + "\n")
+        except Exception:  # noqa: BLE001
+            pass
+
+    def notice(self, body):
+        """跑过去看一眼再回来（位置行为）。
+
+        stayPut（别乱走）/ 前台全屏 / 正被拿着 / 一分钟走太多次 —— 一律安静不动，且不算失败：
+        这是「顺路过去看一眼」，不是用户下的指令。
+        """
+        if self.motion:
+            self._notice_log("busy")
+            return True, "还在路上。", None
+        refusal = self.move_guard(time.monotonic())
+        if refusal:
+            self._notice_log("refused:" + refusal[:20])
+            return True, refusal, None
+        if self.inside:
+            self.leave_inside(animate=False)
+        anchor = str(body.get("anchor") or "active-window")
+        if anchor not in ("active-window", "taskbar", "cursor", "edge"):
+            anchor = "active-window"
+        # stay=True：审批这类「要人处理」的场景，到了就待在那儿，别自己跑回去。
+        stay = bool(body.get("stay"))
+        if stay and getattr(self, "_notice_stay", False) and not self.motion:
+            self._notice_log("already-there")
+            return True, "已经在窗口旁边了。", None
+        match = str(body.get("match") or body.get("target") or "").strip()
+        target = None
+        fallback = ""
+        if match:
+            rect, title, iconic = self.window_rect_for(match)
+            if rect and iconic:
+                # 那扇窗缩在任务栏里 → 就去任务栏（它「在」那儿），而不是跑去看不到的位置
+                target, why = self.resolve_target({"cmd": "move_to", "anchor": "taskbar"})
+                fallback = "「%s」缩在任务栏，就去那儿守着。" % match[:16]
+                self._notice_log("matched-taskbar", title[:24],
+                                 (int(target[0]), int(target[1])) if target else None)
+            elif rect:
+                target = self.target_near_rect(rect)
+                self._notice_log("matched", title[:24], (int(target[0]), int(target[1])))
+            else:
+                fallback = "没找到「%s」，先到当前窗口旁边。" % match[:16]
+        if target is None and anchor == "edge":
+            # 屏幕右边缘：用户把文件开在侧栏时，它靠过去比较像在「看那边」
+            l, t, r, b = self.body_box()
+            mon, work = self.mon(self._x, self._y + max(4, b // 2))
+            x, y, _ = self.clamp(work[2] - r - 2, self._y, work)
+            target = (x, y, "靠到屏幕右边了。", False)
+            self._notice_log("edge", "", (int(x), int(y)))
+        if target is None:
+            target, why = self.resolve_target({"cmd": "move_to", "anchor": anchor})
+        if target is None:
+            # 前台窗口取不到（焦点在桌面/任务栏、僵在前台的是别的进程）→ 退到面积最大的可见窗口
+            rect, title = self.biggest_window_rect()
+            if rect:
+                target = self.target_near_rect(rect)
+                self._notice_log("fallback-biggest", title[:24], (int(target[0]), int(target[1])))
+        if target is None:
+            self._notice_log("no-window", anchor)
+            return True, why or "没找到可以靠过去的窗口。", None
+        try:
+            hold = float(body.get("holdMs") or self.NOTICE_HOLD_MS)
+        except (TypeError, ValueError):
+            hold = float(self.NOTICE_HOLD_MS)
+        hold = max(0.6, min(8.0, hold / 1000.0))
+        self._move_times.append(time.monotonic())
+        x, y, done, look = target
+        self._notice_log("walk", anchor, (int(x), int(y)))
+        motion = self.start_motion(x, y, done, None, look)
+
+        def go_home():
+            try:
+                if self._closed or self.drag or self.inside or self.motion:
+                    return
+                if self.cfg.get("stayPut") or self._fullscreen_probe():
+                    return
+                self.command({"cmd": "move_to", "anchor": "home", "wait": False})
+            except Exception:  # noqa: BLE001 — 回程失败不该影响桌宠
+                pass
+
+        try:
+            if stay:
+                self._notice_stay = True      # 等到审批结束（宿主会发 move_to home）再回去
+            else:
+                self.root.after(int(hold * 1000), go_home)
+        except Exception:  # noqa: BLE001
+            pass
+        return True, "过去看一眼。" + fallback, motion
+
     # ------------------------------------------------------------------ commands
     def _dispatch_threadsafe(self, body):
         """HTTP thread -> UI thread, wait for the verdict (and arrival when asked)."""
@@ -756,6 +1085,8 @@ class PetApp:
             target, refusal = self.resolve_target(body)
             if target is None:
                 return False, refusal, None
+            if str(body.get("anchor") or "") == "home":
+                self._notice_stay = False   # 回程：审批那趟「待着」到此结束
             then = body.get("pose")
             names = self.char.pose_names()
             if then and then not in names:
@@ -766,6 +1097,8 @@ class PetApp:
             self._move_times.append(now)
             x, y, done, look = target
             return True, "出发了。", self.start_motion(x, y, done, then_state, look)
+        if cmd == "notice":
+            return self.notice(body)
         if cmd == "pose":
             names = self.char.pose_names()
             name = str(body.get("name") or "")
@@ -822,7 +1155,11 @@ class PetApp:
             self.bubble.show(text, float(body.get("seconds") or 8))
             return True, "说了。", None
         if cmd == "activity":
-            ok = self.set_activity(str(body.get("state") or ""))
+            state = str(body.get("state") or "")
+            if body.get("once") or body.get("ms"):
+                ok = self.play_action(state, body.get("ms"), body.get("plan"))
+            else:
+                ok = self.set_activity(state)
             return (True, "好。", None) if ok else (False, "这个角色没有这个状态。", None)
         if cmd == "screen":                     # pixelpet_screen (screen.py), gated by settings.screen
             from . import screen as SC
@@ -928,6 +1265,8 @@ class PetApp:
                          and (state is None or voice.state==state) else None)
         voice=VoiceBridge(stt, tts, make_llm(v.get("llm")),
                          voice=(v.get("tts") or {}).get("voice") or "whale-girl",
+                         character=lambda: getattr(self.char, "id", ""),
+                         tone=v.get("tone"),
                          interruption=v.get("interruption"),data_dir=self.data_dir, sv=self.voiceprint,
                          on_state=lambda s:ui(lambda:self._on_voice(s),state=s),
                          on_heard=lambda text:ui(lambda:self._on_heard(text)),

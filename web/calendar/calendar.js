@@ -2,7 +2,8 @@
 // 不画假数据；空态一句人话；订阅链接对外只见域名。
 (() => {
   const $ = (id) => document.getElementById(id)
-  const api = (p, body) => fetch('../api/' + p, body === undefined ? {} : {
+  let petLabel = '桌宠'
+const api = (p, body) => fetch('../api/' + p, body === undefined ? {} : {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
   }).then((r) => r.json())
   const del = (p) => fetch('../api/' + p, { method: 'DELETE' }).then((r) => r.json())
@@ -114,7 +115,7 @@
       if (ev.kind === 'todo' && ev.done) li.className = 'done'
       if (ev.time) { const t = document.createElement('time'); t.textContent = ev.time; li.appendChild(t) }
       const b = document.createElement('b'); b.textContent = ev.title; li.appendChild(b)
-      if (ev.by === 'pet') { const tag = document.createElement('span'); tag.className = 'by-pet'; tag.textContent = '桌宠记的'; li.appendChild(tag) }
+      if (ev.by === 'pet') { const tag = document.createElement('span'); tag.className = 'by-pet'; tag.textContent = petLabel + '记的'; li.appendChild(tag) }
       if (readOnly) { const tag = document.createElement('span'); tag.className = 'by-pet'; tag.textContent = ev.subName || '订阅'; li.appendChild(tag) }
       if (ev.repeat && ev.repeat !== 'none') { const r = document.createElement('span'); r.className = 'rep'; r.textContent = KIND_ICON[ev.repeat] || ''; li.appendChild(r) }
       if (!readOnly) li.addEventListener('click', () => editEvent(ev))
@@ -378,5 +379,14 @@
   })
   $('addCancel').addEventListener('click', resetAdd)
 
-  loadMonth()
+  // 桌宠名字：记的日程标签显示「<名字>记的」，跟着当前角色走
+fetch('../api/state').then((r) => r.json()).then((s) => {
+  const chars = s.characters || []
+  const cur = (s.settings && s.settings.character) || ''
+  const hit = chars.find((c) => c.id === cur)
+  petLabel = (s.settings && s.settings.partnerName) || (hit && hit.name) || '桌宠'
+  renderDay()
+}).catch(() => {})
+
+loadMonth()
 })()

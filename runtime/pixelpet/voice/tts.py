@@ -159,6 +159,17 @@ class VoiceStore:
     def list(self):
         return self.presets() + self.clones()
 
+    def emotions(self, vid):
+        """Tone table a character pack declares in voice/preset.json -> {标签: 指令}."""
+        try:
+            preset = self._preset(str(vid or ""), packed_characters(self.data_dir))
+        except Exception:  # noqa: BLE001 - a missing table must never break speaking
+            return {}
+        table = ((preset or {}).get("meta") or {}).get("emotions")
+        if not isinstance(table, dict):
+            return {}
+        return {str(k): str(v) for k, v in table.items() if isinstance(v, str) and v.strip()}
+
     def resolve(self, vid):
         """-> spec for the worker: {key, ref, text, anchor, mode, language}. Unknown ids fall back to the default preset."""
         vid = str(vid or "")
@@ -263,7 +274,7 @@ class TtsEngine:
         _prune(self.out, keep=40)
         return os.path.join(self.out, "%d-%d.wav" % (int(time.time() * 1000), self._n))
 
-    def synthesize(self, text, voice=DEFAULT_VOICE):
+    def synthesize(self, text, voice=DEFAULT_VOICE, instruct=None):
         raise NotImplementedError
 
     def warm(self):
@@ -305,7 +316,7 @@ class StubTts(TtsEngine):
     def voices(self):
         return self.store.list()
 
-    def synthesize(self, text, voice=DEFAULT_VOICE):
+    def synthesize(self, text, voice=DEFAULT_VOICE, instruct=None):
         text = str(text or "").strip()
         if not text:
             raise ValueError("没有要念的文字")
@@ -564,7 +575,7 @@ class QwenTts(TtsEngine):
         except Exception:  # noqa: BLE001 - a cache key must never break synthesis
             return ""
 
-    def synthesize(self, text, voice=DEFAULT_VOICE, seed=42):
+    def synthesize(self, text, voice=DEFAULT_VOICE, seed=42, instruct=None):
         text = str(text or "").strip()
         if not text:
             raise ValueError("没有要念的文字")
@@ -572,8 +583,11 @@ class QwenTts(TtsEngine):
         if spec.get("stateDir"):
             spec["modelRev"] = self._model_rev()
         out = self._out_path()
-        msg = self.request({"op": "synth", "text": text, "voice": spec, "out": out, "seed": seed},
-                           timeout=60 + 4 * len(text))
+        body = {"op": "synth", "text": text, "voice": spec, "out": out, "seed": seed}
+        # Only sent when the caller asked for a tone; an old worker ignores it either way.
+        if instruct:
+            body["instruct"] = str(instruct)
+        msg = self.request(body, timeout=60 + 4 * len(text))
         self.last_stats = msg
         return msg.get("wav") or out
 

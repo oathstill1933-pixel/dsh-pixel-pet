@@ -488,6 +488,214 @@
       "requires": {
         "feature": "listen"
       }
+    },
+    "searching": {
+      "label": "细看检索",
+      "frames": [
+        "sprites/searching_00.png",
+        "sprites/searching_01.png",
+        "sprites/searching_02.png",
+        "sprites/searching_03.png"
+      ],
+      "durationsMs": [
+        220,
+        220,
+        220,
+        240
+      ],
+      "loop": true
+    },
+    "reading": {
+      "label": "垂眸翻书",
+      "frames": [
+        "sprites/reading_00.png",
+        "sprites/reading_01.png",
+        "sprites/reading_02.png",
+        "sprites/reading_03.png"
+      ],
+      "durationsMs": [
+        240,
+        200,
+        180,
+        280
+      ],
+      "loop": true
+    },
+    "writing": {
+      "label": "轻笔落款",
+      "frames": [
+        "sprites/writing_00.png",
+        "sprites/writing_01.png",
+        "sprites/writing_02.png",
+        "sprites/writing_03.png"
+      ],
+      "durationsMs": [
+        220,
+        220,
+        220,
+        240
+      ],
+      "loop": true
+    },
+    "typing": {
+      "label": "指尖敲键",
+      "frames": [
+        "sprites/typing_00.png",
+        "sprites/typing_01.png",
+        "sprites/typing_02.png",
+        "sprites/typing_03.png"
+      ],
+      "durationsMs": [
+        220,
+        220,
+        220,
+        240
+      ],
+      "loop": true
+    },
+    "shooting": {
+      "label": "稳持相机",
+      "frames": [
+        "sprites/shooting_00.png",
+        "sprites/shooting_01.png",
+        "sprites/shooting_02.png",
+        "sprites/shooting_03.png"
+      ],
+      "durationsMs": [
+        180,
+        180,
+        120,
+        300
+      ],
+      "loop": true
+    },
+    "calling": {
+      "label": "颔首相邀",
+      "frames": [
+        "sprites/calling_00.png",
+        "sprites/calling_01.png",
+        "sprites/calling_02.png",
+        "sprites/calling_03.png"
+      ],
+      "durationsMs": [
+        150,
+        180,
+        400,
+        170
+      ],
+      "loop": true
+    },
+    "pleading": {
+      "label": "请您过目",
+      "frames": [
+        "sprites/pleading_00.png",
+        "sprites/pleading_01.png",
+        "sprites/pleading_02.png",
+        "sprites/pleading_03.png"
+      ],
+      "durationsMs": [
+        220,
+        220,
+        220,
+        240
+      ],
+      "loop": true
+    },
+    "asking": {
+      "label": "柔声请教",
+      "frames": [
+        "sprites/asking_00.png",
+        "sprites/asking_01.png",
+        "sprites/asking_02.png",
+        "sprites/asking_03.png"
+      ],
+      "durationsMs": [
+        220,
+        220,
+        220,
+        240
+      ],
+      "loop": true
+    },
+    "ack": {
+      "label": "颔首致意",
+      "frames": [
+        "sprites/ack_00.png",
+        "sprites/ack_01.png",
+        "sprites/ack_02.png",
+        "sprites/ack_03.png"
+      ],
+      "durationsMs": [
+        120,
+        170,
+        360,
+        250
+      ],
+      "loop": false
+    },
+    "noting": {
+      "label": "记下约定",
+      "frames": [
+        "sprites/noting_00.png",
+        "sprites/noting_01.png",
+        "sprites/noting_02.png",
+        "sprites/noting_03.png"
+      ],
+      "durationsMs": [
+        220,
+        220,
+        220,
+        240
+      ],
+      "loop": true
+    },
+    "painting": {
+      "label": "细笔轻描",
+      "frames": [
+        "sprites/painting_00.png",
+        "sprites/painting_01.png",
+        "sprites/painting_02.png",
+        "sprites/painting_03.png"
+      ],
+      "durationsMs": [
+        220,
+        220,
+        220,
+        240
+      ],
+      "loop": true
+    },
+    "longwait": {
+      "label": "端坐静候",
+      "frames": [
+        "sprites/longwait_00.png",
+        "sprites/longwait_01.png",
+        "sprites/longwait_02.png",
+        "sprites/longwait_03.png"
+      ],
+      "durationsMs": [
+        300,
+        300,
+        300,
+        300
+      ],
+      "loop": true
+    },
+    "stagger": {
+      "label": "轻顿回神",
+      "frames": [
+        "sprites/stagger_00.png",
+        "sprites/stagger_01.png",
+        "sprites/stagger_02.png",
+        "sprites/stagger_03.png"
+      ],
+      "durationsMs": [
+        180,
+        140,
+        200,
+        380
+      ],
+      "loop": false
     }
   },
   "aliases": {

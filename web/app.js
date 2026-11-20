@@ -484,6 +484,13 @@
     const fl = v.failure || { enabled: true, reply: '' }
     $('failEnabled').checked = fl.enabled
     if (document.activeElement !== $('failReply')) $('failReply').value = fl.reply
+    const ap = v.approval || { enabled: true, reply: '有个审批要你点一下。' }
+    $('apprEnabled').checked = ap.enabled
+    if (document.activeElement !== $('apprReply')) $('apprReply').value = ap.reply
+    const qs = v.question || { enabled: true, reply: '这里有个问题要问你。' }
+    $('qstEnabled').checked = qs.enabled
+    if (document.activeElement !== $('qstReply')) $('qstReply').value = qs.reply
+    $('toneEnabled').checked = (v.tone || { enabled: true }).enabled !== false
     const mode = voiceMode()
     const presets = S.voices.filter((x) => x.kind === 'preset')
     $('voiceMode').querySelector('[data-v="preset"]').textContent = presets.length > 1 ? '预设' : presets[0]?.name || '默认'
@@ -596,6 +603,11 @@
   $('interruptReply').addEventListener('change', (e) => save({ voice: { interruption: { reply: e.target.value } } }))
   $('failEnabled').addEventListener('change', (e) => save({ voice: { failure: { enabled: e.target.checked } } }))
   $('failReply').addEventListener('change', (e) => save({ voice: { failure: { reply: e.target.value } } }))
+  $('apprEnabled').addEventListener('change', (e) => save({ voice: { approval: { enabled: e.target.checked } } }))
+  $('apprReply').addEventListener('change', (e) => save({ voice: { approval: { reply: e.target.value } } }))
+  $('qstEnabled').addEventListener('change', (e) => save({ voice: { question: { enabled: e.target.checked } } }))
+  $('qstReply').addEventListener('change', (e) => save({ voice: { question: { reply: e.target.value } } }))
+  $('toneEnabled').addEventListener('change', (e) => save({ voice: { tone: { enabled: e.target.checked } } }))
 
   // ---------------------------------------------------------------- 声纹
   // settings.voiceprint 里只有 enabled / mode / strictness；人名只从 /api/voiceprint/people 取。

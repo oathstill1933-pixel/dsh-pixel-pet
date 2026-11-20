@@ -28,7 +28,16 @@ try {
     if (!ok) failed++
     const tail = String(r.stdout || '').trim().split('\n').filter(Boolean).pop() || ''
     console.log((ok ? 'ok   ' : 'FAIL ') + f + (tail ? '  ' + tail.slice(0, 100) : ''))
-    if (!ok) console.log(String(r.stderr || r.stdout || '').trim().split('\n').slice(-8).join('\n'))
+    if (!ok) {
+    // 失败的用例名在 stdout 里（> FAIL / not ok），stderr 常常只是无关的告警；两边都要给，CI 上才看得出是哪条
+    const outLines = String(r.stdout || '').split('\n')
+    const hits = []
+    outLines.forEach((line, i) => { if (/^\s*(>\s*)?FAIL\b|^not ok\b/.test(line)) hits.push(outLines.slice(i, i + 8).join('\n')) })
+    if (hits.length) console.log(hits.slice(0, 6).join('\n---\n'))
+    const err = String(r.stderr || '').trim()
+    if (err) console.log('[stderr]\n' + err.split('\n').slice(-8).join('\n'))
+    if (!hits.length && !err) console.log(outLines.slice(-8).join('\n'))
+  }
   }
 } finally {
   // safety: only ever delete the directory this run created, directly under the system temp dir

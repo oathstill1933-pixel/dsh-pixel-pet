@@ -11,6 +11,10 @@ import * as FC from '../lib/furniture-create.js'
 import * as PYR from '../lib/pyruntime.js'
 import { drawCritter, startMockImagegen } from './fixtures/mock-imagegen.mjs'
 
+// 转图器是假的（产出 256x256 的假帧），校验器也得是假的：返回 null = 「这台机器没有 Python」，走 JS 结构检查。
+// 不注入的话，机器上有 Python（比如 CI）就会用真校验器去严查假帧，测试结果随环境变。
+const noPyValidate = async () => null
+
 const walkFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((d) => d.isDirectory() ? walkFiles(join(dir, d.name)) : [join(dir, d.name)])
 const anyFileContains = (dir, needle) => walkFiles(dir).filter((p) => readFileSync(p).includes(needle))
 
@@ -37,7 +41,7 @@ export async function runCreateTests ({ t, H, fakeCtx, call }) {
     const warns = []
     g.ctx.logger = { warn: (...a) => warns.push(a.join(' ')), info: (...a) => warns.push(a.join(' ')) }
     if (creds) { const get = g.ctx.get; g.ctx.get = (n) => (n === 'credentials' ? creds : get(n)) }
-    H.apply(g.ctx, { dataDir: dir, convert })
+    H.apply(g.ctx, { dataDir: dir, convert, validate: noPyValidate })
     return { g, dir, warns, route: g.route }
   }
   const waitRun = async (route, id) => {
@@ -198,7 +202,7 @@ export async function runCreateTests ({ t, H, fakeCtx, call }) {
     mock.fail = null
     // host restart: a fresh plugin instance on the same data dir picks the job up
     const g2 = fakeCtx(); const get = g2.ctx.get; g2.ctx.get = (n) => (n === 'credentials' ? creds : get(n))
-    H.apply(g2.ctx, { dataDir: env.dir, convert })
+    H.apply(g2.ctx, { dataDir: env.dir, convert, validate: noPyValidate })
     const r2 = g2.route
     const again = await call(r2, 'POST', '/api/create/' + id + '/run', { body: { confirm: 8 } })
     assert.equal(again.status, 409); assert.equal(again.json.total, 5)
@@ -275,7 +279,7 @@ export async function runCreateTests ({ t, H, fakeCtx, call }) {
     const dir = mkdtempSync(join(tmpdir(), 'pp-fcreate-'))
     const g = fakeCtx()
     if (withKey) { const get = g.ctx.get; g.ctx.get = (n) => (n === 'credentials' ? creds : get(n)) }
-    H.apply(g.ctx, { dataDir: dir, convertFurniture: fconvert })
+    H.apply(g.ctx, { dataDir: dir, convertFurniture: fconvert, validate: noPyValidate })
     return { g, dir, route: g.route }
   }
   const fwait = async (route, fid) => {
